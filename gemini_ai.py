@@ -9,9 +9,16 @@ import io
 GEMINI_API_KEY = os.environ.get("GEMINI_API_KEY")
 genai.configure(api_key=GEMINI_API_KEY)
 
-# Default model to use (Gemini Pro is equivalent to GPT-4)
-DEFAULT_MODEL = "gemini-1.0-pro"  # Updated model name for the latest API
-DEFAULT_IMAGE_MODEL = "gemini-1.0-pro-vision"  # Updated model name for the latest API
+# List available models for debugging
+try:
+    available_models = [model.name for model in genai.list_models()]
+    print(f"Available Gemini models: {available_models}")
+except Exception as e:
+    print(f"Error listing models: {e}")
+
+# Default model to use - based on available models
+DEFAULT_MODEL = "models/gemini-1.5-pro"  # Using the available stable model from the list
+DEFAULT_IMAGE_MODEL = "models/gemini-1.5-pro-vision-latest"  # Using the available vision model
 
 def generate_text(prompt, temperature=0.7, max_tokens=1024):
     """
