@@ -36,7 +36,7 @@ login_manager.init_app(app)
 login_manager.login_view = 'login'
 
 # Import models after initializing db to avoid circular imports
-from models import User, MoodEntry, HealthTip, UserProfile, Feedback, HealthRecommendation, Medication, MedicationReminder, MedicationLog
+from models import User, MoodEntry, HealthTip, UserProfile, Feedback, HealthRecommendation
 
 @login_manager.user_loader
 def load_user(user_id):
