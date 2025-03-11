@@ -81,7 +81,8 @@
     {% set high_priority = [] %}
     {% for rec in recommendations %}
         {% if rec.priority >= 4 and rec.category != 'profile' %}
-            {% do high_priority.append(rec) %}
+            {# Using set to add to the priority list #}
+            {% set _ = high_priority.append(rec) %}
         {% endif %}
     {% endfor %}
 
