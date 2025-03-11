@@ -1,0 +1,210 @@
+{% extends 'base.html' %}
+
+{% block title %}Personalized Health Recommendations - AI Health Assistant{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row mb-4">
+        <div class="col-md-12">
+            <h1 class="display-5 mb-3">
+                <i class="fas fa-star text-warning me-2"></i>Your Personalized Health Recommendations
+            </h1>
+            <p class="lead text-muted">
+                AI-generated recommendations based on your profile, mood tracking, and health goals.
+            </p>
+
+            {% if not user_has_profile %}
+            <div class="alert alert-info">
+                <i class="fas fa-info-circle me-2"></i>
+                <strong>Complete your profile!</strong> Please <a href="{{ url_for('profile') }}" class="alert-link">complete your profile</a> to receive personalized recommendations tailored to your health data and goals.
+            </div>
+            {% endif %}
+
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <p class="mb-0">
+                    <i class="fas fa-clock text-muted me-1"></i>
+                    {% if recommendations|length > 0 %}
+                    Last updated: {{ recommendations[0].date_updated.strftime('%B %d, %Y') }}
+                    {% else %}
+                    No recommendations generated yet
+                    {% endif %}
+                </p>
+                <a href="{{ url_for('recommendations', regenerate=True) }}" class="btn btn-outline-primary">
+                    <i class="fas fa-sync-alt me-1"></i> Regenerate Recommendations
+                </a>
+            </div>
+        </div>
+    </div>
+
+    {% if recommendations|length == 0 %}
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-body text-center py-5">
+                    <i class="fas fa-star text-muted" style="font-size: 4rem;"></i>
+                    <h3 class="mt-4">No recommendations yet</h3>
+                    <p class="text-muted">Update your profile or click the regenerate button to get personalized health recommendations.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% else %}
+
+    {% if 'profile' in recommendations_by_category %}
+    <!-- Profile completion recommendation -->
+    <div class="row mb-4">
+        <div class="col-12">
+            {% for rec in recommendations_by_category['profile'] %}
+            <div class="card border-primary mb-3">
+                <div class="card-header bg-primary text-white">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <i class="fas fa-user-edit me-2"></i>
+                            <strong>{{ rec.title }}</strong>
+                        </div>
+                        <span class="badge bg-light text-primary">Action Required</span>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <p class="card-text">{{ rec.content }}</p>
+                    <a href="{{ url_for('profile') }}" class="btn btn-primary">
+                        <i class="fas fa-user-edit me-1"></i> Complete Profile
+                    </a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+
+    <!-- Priority recommendations (if not profile) -->
+    {% set high_priority = [] %}
+    {% for rec in recommendations %}
+        {% if rec.priority >= 4 and rec.category != 'profile' %}
+            {% do high_priority.append(rec) %}
+        {% endif %}
+    {% endfor %}
+
+    {% if high_priority|length > 0 %}
+    <div class="row mb-4">
+        <div class="col-12">
+            <h2 class="h4 mb-3">
+                <i class="fas fa-exclamation-circle text-danger me-2"></i>
+                Priority Recommendations
+            </h2>
+            
+            {% for rec in high_priority %}
+            <div class="card border-danger mb-3">
+                <div class="card-header bg-danger text-white">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <i class="fas fa-{{ 'heartbeat' if rec.category == 'nutrition' else 'dumbbell' if rec.category == 'exercise' else 'moon' if rec.category == 'sleep' else 'brain' if rec.category == 'mental_health' else 'check-circle' if rec.category == 'habits' else 'shield-alt' if rec.category == 'preventive_care' else 'star' }} me-2"></i>
+                            <strong>{{ rec.title }}</strong>
+                        </div>
+                        <span class="badge bg-light text-danger">Priority {{ rec.priority }}/5</span>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <p class="card-text">{{ rec.content|safe }}</p>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+
+    <!-- Categories -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <ul class="nav nav-tabs" id="recommendationTabs" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link active" id="all-tab" data-bs-toggle="tab" data-bs-target="#all" type="button" role="tab">All</button>
+                </li>
+                {% for category in recommendations_by_category %}
+                    {% if category != 'profile' %}
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="{{ category }}-tab" data-bs-toggle="tab" data-bs-target="#{{ category }}" type="button" role="tab">
+                            {{ category|capitalize }}
+                        </button>
+                    </li>
+                    {% endif %}
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+
+    <div class="tab-content" id="recommendationTabContent">
+        <!-- All recommendations -->
+        <div class="tab-pane fade show active" id="all" role="tabpanel">
+            <div class="row">
+                {% for rec in recommendations %}
+                    {% if rec.category != 'profile' and rec.priority < 4 %}
+                    <div class="col-lg-6 mb-4">
+                        <div class="card h-100 border-{{ 'primary' if rec.category == 'nutrition' else 'success' if rec.category == 'exercise' else 'info' if rec.category == 'sleep' else 'warning' if rec.category == 'mental_health' else 'secondary' if rec.category == 'habits' else 'dark' if rec.category == 'preventive_care' else 'light' }}">
+                            <div class="card-header bg-{{ 'primary' if rec.category == 'nutrition' else 'success' if rec.category == 'exercise' else 'info' if rec.category == 'sleep' else 'warning' if rec.category == 'mental_health' else 'secondary' if rec.category == 'habits' else 'dark' if rec.category == 'preventive_care' else 'light' }} text-white">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <i class="fas fa-{{ 'heartbeat' if rec.category == 'nutrition' else 'dumbbell' if rec.category == 'exercise' else 'moon' if rec.category == 'sleep' else 'brain' if rec.category == 'mental_health' else 'check-circle' if rec.category == 'habits' else 'shield-alt' if rec.category == 'preventive_care' else 'star' }} me-2"></i>
+                                        <strong>{{ rec.title }}</strong>
+                                    </div>
+                                    <span class="badge bg-light text-{{ 'primary' if rec.category == 'nutrition' else 'success' if rec.category == 'exercise' else 'info' if rec.category == 'sleep' else 'warning' if rec.category == 'mental_health' else 'secondary' if rec.category == 'habits' else 'dark' if rec.category == 'preventive_care' else 'secondary' }}">
+                                        {{ rec.category|capitalize }}
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <p class="card-text">{{ rec.content|safe }}</p>
+                            </div>
+                        </div>
+                    </div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+        
+        <!-- Category-specific tabs -->
+        {% for category, recs in recommendations_by_category.items() %}
+            {% if category != 'profile' %}
+            <div class="tab-pane fade" id="{{ category }}" role="tabpanel">
+                <div class="row">
+                    {% for rec in recs %}
+                    <div class="col-lg-6 mb-4">
+                        <div class="card h-100 border-{{ 'primary' if category == 'nutrition' else 'success' if category == 'exercise' else 'info' if category == 'sleep' else 'warning' if category == 'mental_health' else 'secondary' if category == 'habits' else 'dark' if category == 'preventive_care' else 'light' }}">
+                            <div class="card-header bg-{{ 'primary' if category == 'nutrition' else 'success' if category == 'exercise' else 'info' if category == 'sleep' else 'warning' if category == 'mental_health' else 'secondary' if category == 'habits' else 'dark' if category == 'preventive_care' else 'light' }} text-white">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <i class="fas fa-{{ 'heartbeat' if category == 'nutrition' else 'dumbbell' if category == 'exercise' else 'moon' if category == 'sleep' else 'brain' if category == 'mental_health' else 'check-circle' if category == 'habits' else 'shield-alt' if category == 'preventive_care' else 'star' }} me-2"></i>
+                                        <strong>{{ rec.title }}</strong>
+                                    </div>
+                                    <span class="badge bg-light text-{{ 'primary' if category == 'nutrition' else 'success' if category == 'exercise' else 'info' if category == 'sleep' else 'warning' if category == 'mental_health' else 'secondary' if category == 'habits' else 'dark' if category == 'preventive_care' else 'secondary' }}">
+                                        Priority {{ rec.priority }}/5
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <p class="card-text">{{ rec.content|safe }}</p>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+            {% endif %}
+        {% endfor %}
+    </div>
+    {% endif %}
+    
+    <!-- About recommendations section -->
+    <div class="row mt-5">
+        <div class="col-12">
+            <div class="card bg-dark text-light">
+                <div class="card-body">
+                    <h3 class="h5 mb-3"><i class="fas fa-info-circle me-2"></i>About Personalized Recommendations</h3>
+                    <p>These recommendations are generated using AI based on your profile data, mood tracking history, and health goals. They are designed to provide you with personalized guidance for improving your overall health and wellbeing.</p>
+                    <p class="small text-muted mb-0">Note: These recommendations are not a substitute for professional medical advice. Always consult with healthcare professionals before making significant changes to your health routine.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
