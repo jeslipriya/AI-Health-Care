@@ -36,7 +36,7 @@ login_manager.init_app(app)
 login_manager.login_view = 'login'
 
 # Import models after initializing db to avoid circular imports
-from models import User, MoodEntry, HealthTip, UserProfile, Feedback
+from models import User, MoodEntry, HealthTip, UserProfile, Feedback, HealthRecommendation
 
 @login_manager.user_loader
 def load_user(user_id):
@@ -209,6 +209,112 @@ def dietandexercise():
         exercise_plan = "Please complete your profile to receive personalized exercise recommendations."
     
     return render_template('dietandexercise.html', diet_plan=diet_plan, exercise_plan=exercise_plan)
+
+@app.route('/recommendations', methods=['GET'])
+@login_required
+def recommendations():
+    # Check if recommendations should be regenerated
+    regenerate = request.args.get('regenerate', False)
+    
+    # Get user profile for personalized recommendations
+    profile = UserProfile.query.filter_by(user_id=current_user.id).first()
+    user_has_profile = profile is not None
+    
+    # Get existing recommendations
+    user_recommendations = HealthRecommendation.query.filter_by(user_id=current_user.id).order_by(
+        HealthRecommendation.priority.desc(), 
+        HealthRecommendation.date_created.desc()
+    ).all()
+    
+    # If we need to regenerate or don't have any recommendations yet
+    if regenerate or not user_recommendations:
+        if profile:
+            try:
+                # Create user profile dictionary
+                user_profile = {
+                    'age': profile.age,
+                    'height': profile.height,
+                    'weight': profile.weight,
+                    'health_goals': profile.health_goals
+                }
+                
+                # Get recent mood entries for context
+                recent_mood_entries = []
+                mood_entries = MoodEntry.query.filter_by(user_id=current_user.id).order_by(
+                    MoodEntry.date.desc()
+                ).limit(5).all()
+                
+                for entry in mood_entries:
+                    recent_mood_entries.append({
+                        'mood_score': entry.mood_score,
+                        'notes': entry.notes,
+                        'date': entry.date.strftime('%Y-%m-%d')
+                    })
+                
+                # Generate new recommendations
+                new_recommendations = gemini_ai.generate_health_recommendations(
+                    user_profile, recent_mood_entries
+                )
+                
+                # Clear existing recommendations if regenerating
+                if regenerate:
+                    HealthRecommendation.query.filter_by(user_id=current_user.id).delete()
+                    db.session.commit()
+                
+                # Save new recommendations
+                for rec in new_recommendations:
+                    new_rec = HealthRecommendation(
+                        user_id=current_user.id,
+                        category=rec.get('category', 'general'),
+                        title=rec.get('title', 'Health Recommendation'),
+                        content=rec.get('content', 'No content provided'),
+                        priority=min(5, max(1, int(rec.get('priority', 1)))),  # Ensure priority is 1-5
+                        date_created=datetime.now(),
+                        date_updated=datetime.now()
+                    )
+                    db.session.add(new_rec)
+                
+                db.session.commit()
+                
+                # Refresh the recommendations
+                user_recommendations = HealthRecommendation.query.filter_by(user_id=current_user.id).order_by(
+                    HealthRecommendation.priority.desc(), 
+                    HealthRecommendation.date_created.desc()
+                ).all()
+                
+                flash('Your personalized health recommendations have been updated!', 'success')
+            except Exception as e:
+                logging.error(f"Error generating recommendations: {str(e)}")
+                flash('Unable to generate recommendations at this time. Please try again later.', 'danger')
+        else:
+            # If user doesn't have a profile, create a recommendation to complete it
+            if not user_recommendations:
+                profile_rec = HealthRecommendation(
+                    user_id=current_user.id,
+                    category='profile',
+                    title='Complete Your Profile',
+                    content='To receive personalized health recommendations, please complete your profile with your age, height, weight, and health goals.',
+                    priority=5,
+                    date_created=datetime.now(),
+                    date_updated=datetime.now()
+                )
+                db.session.add(profile_rec)
+                db.session.commit()
+                
+                user_recommendations = [profile_rec]
+                flash('Please complete your profile to get personalized recommendations.', 'info')
+    
+    # Group recommendations by category for display
+    recommendations_by_category = {}
+    for rec in user_recommendations:
+        if rec.category not in recommendations_by_category:
+            recommendations_by_category[rec.category] = []
+        recommendations_by_category[rec.category].append(rec)
+    
+    return render_template('recommendations.html', 
+                          recommendations=user_recommendations,
+                          recommendations_by_category=recommendations_by_category,
+                          user_has_profile=user_has_profile)
 
 @app.route('/firstaid')
 def firstaid():

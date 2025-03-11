@@ -295,3 +295,116 @@ def generate_diet_exercise_plan(user_profile):
             "diet_plan": "Sorry, there was an error generating your diet plan.",
             "exercise_plan": "Sorry, there was an error generating your exercise plan."
         }
+
+def generate_health_recommendations(user_profile, mood_entries=None, max_recommendations=4):
+    """
+    Generate personalized health recommendations based on user data
+    
+    Args:
+        user_profile (dict): User profile with age, height, weight, goals
+        mood_entries (list, optional): List of recent mood entries
+        max_recommendations (int): Maximum number of recommendations to generate
+        
+    Returns:
+        list: List of recommendation objects with categories, titles and content
+    """
+    if not user_profile:
+        return [{
+            "category": "profile",
+            "title": "Complete Your Profile",
+            "content": "To receive personalized health recommendations, please complete your profile with your age, height, weight, and health goals.",
+            "priority": 5
+        }]
+    
+    # Extract profile information
+    age = user_profile.get('age', 'unknown')
+    height = user_profile.get('height', 'unknown')
+    weight = user_profile.get('weight', 'unknown')
+    health_goals = user_profile.get('health_goals', 'general health improvement')
+    
+    # Initialize recommendations list
+    recommendations = []
+    
+    # Process mood data if available
+    mood_context = ""
+    if mood_entries and len(mood_entries) > 0:
+        # Calculate average mood
+        mood_scores = [entry.get('mood_score', 0) for entry in mood_entries if 'mood_score' in entry]
+        if mood_scores:
+            avg_mood = sum(mood_scores) / len(mood_scores)
+            mood_context = f"\nRecent mood tracking shows an average mood of {avg_mood:.1f} out of 10."
+            
+            # Add mood-specific context if low
+            if avg_mood < 5:
+                mood_context += " The user may benefit from mental health and stress management recommendations."
+            
+            # Look for patterns in notes
+            notes = [entry.get('notes', '') for entry in mood_entries if 'notes' in entry and entry.get('notes')]
+            if notes:
+                mood_context += f"\nMood tracking notes include: {' | '.join(notes[:3])}"
+    
+    # Create prompt for personalized recommendations
+    prompt = f"""
+    Generate {max_recommendations} personalized health recommendations for someone with these characteristics:
+    - Age: {age}
+    - Height: {height} cm
+    - Weight: {weight} kg
+    - Health Goals: {health_goals}
+    {mood_context}
+    
+    For each recommendation, provide:
+    1. A category (one of: nutrition, exercise, sleep, mental_health, habits, preventive_care)
+    2. A short, actionable title (maximum 8 words)
+    3. Detailed recommendation content (2-3 paragraphs with specific, evidence-based advice)
+    4. Priority level (1-5, with 5 being highest priority)
+    
+    The recommendations should be:
+    - Tailored to the user's profile and goals
+    - Evidence-based and scientifically sound
+    - Practical and actionable
+    - Varied across different health domains (don't focus only on one area)
+    
+    Important: Format as a JSON array of objects with the exact keys: "category", "title", "content", "priority"
+    """
+    
+    try:
+        # Generate recommendations as structured JSON
+        result = generate_json(prompt, temperature=0.3)
+        
+        # If we got a valid list of recommendations, return it
+        if isinstance(result, list):
+            return result[:max_recommendations]  # Limit to requested number
+        
+        # If we received a single recommendation or a dict with a different structure
+        if isinstance(result, dict):
+            # Check if it has the expected keys of a recommendation
+            if all(key in result for key in ["category", "title", "content"]):
+                return [result]  # Return as a single-item list
+            
+            # If it has recommendations as a key (common API response pattern)
+            if "recommendations" in result and isinstance(result["recommendations"], list):
+                return result["recommendations"][:max_recommendations]
+        
+        # Fallback to default recommendations if we couldn't parse the response
+        return [{
+            "category": "general",
+            "title": "Stay Hydrated",
+            "content": "Drinking adequate water is essential for overall health. Aim for 8 glasses of water daily, and more if you're physically active or in hot weather.",
+            "priority": 3
+        },
+        {
+            "category": "general",
+            "title": "Prioritize Sleep Quality",
+            "content": "Aim for 7-9 hours of quality sleep per night. Maintain a consistent sleep schedule and create a relaxing bedtime routine.",
+            "priority": 4
+        }]
+        
+    except Exception as e:
+        print(f"Error generating recommendations: {e}")
+        # Return basic recommendations if there's an error
+        return [{
+            "category": "general",
+            "title": "Balance Your Diet",
+            "content": "Focus on a balanced diet rich in fruits, vegetables, lean proteins, and whole grains. Limit processed foods and excessive sugar intake.",
+            "priority": 3
+        }]

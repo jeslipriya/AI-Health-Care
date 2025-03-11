@@ -14,6 +14,7 @@ class User(UserMixin, db.Model):
     mood_entries = db.relationship('MoodEntry', backref='user', lazy=True, cascade='all, delete-orphan')
     health_tips = db.relationship('HealthTip', backref='user', lazy=True, cascade='all, delete-orphan')
     feedback = db.relationship('Feedback', backref='user', lazy=True, cascade='all, delete-orphan')
+    recommendations = db.relationship('HealthRecommendation', backref='user', lazy=True, cascade='all, delete-orphan')
     
     def __repr__(self):
         return f'<User {self.username}>'
@@ -57,3 +58,16 @@ class Feedback(db.Model):
     
     def __repr__(self):
         return f'<Feedback {self.id} from User {self.user_id}>'
+
+class HealthRecommendation(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    category = db.Column(db.String(64), nullable=False)  # e.g., 'nutrition', 'exercise', 'sleep', 'mental_health'
+    title = db.Column(db.String(128), nullable=False)
+    content = db.Column(db.Text, nullable=False)
+    priority = db.Column(db.Integer, default=1)  # 1-5, with 5 being highest priority
+    date_created = db.Column(db.DateTime, default=datetime.now, nullable=False)
+    date_updated = db.Column(db.DateTime, default=datetime.now, onupdate=datetime.now, nullable=False)
+    
+    def __repr__(self):
+        return f'<HealthRecommendation {self.id} ({self.category}) for User {self.user_id}>'
