@@ -163,25 +163,10 @@
                 </div>
             </div>
 
-            <!-- Medication Reminders -->
-            <div class="col">
-                <div class="card h-100 stats-card border-success">
-                    <div class="card-body">
-                        <div class="d-flex align-items-center mb-3">
-                            <div class="feature-icon rounded-circle bg-success bg-opacity-10 p-3">
-                                <i class="fas fa-pills text-success"></i>
-                            </div>
-                            <h5 class="card-title mb-0 ms-3">Medication Reminders</h5>
-                        </div>
-                        <p class="card-text">Set up reminders for your medications and track your medication history.</p>
-                        <a href="{{ url_for('medications') }}" class="btn btn-sm btn-outline-success mt-2">Manage Medications</a>
-                    </div>
-                </div>
-            </div>
-            
+
             <!-- Find Hospitals -->
             <div class="col">
-                <div class="card h-100 stats-card">
+                <div class="card h-100 stats-card border-info">
                     <div class="card-body">
                         <div class="d-flex align-items-center mb-3">
                             <div class="feature-icon rounded-circle bg-info bg-opacity-10 p-3">
@@ -191,6 +176,22 @@
                         </div>
                         <p class="card-text">Find nearby hospitals and medical facilities based on your current location.</p>
                         <a href="{{ url_for('location') }}" class="btn btn-sm btn-outline-info mt-2">Find Hospitals</a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Mental Health Resources -->
+            <div class="col">
+                <div class="card h-100 stats-card border-success">
+                    <div class="card-body">
+                        <div class="d-flex align-items-center mb-3">
+                            <div class="feature-icon rounded-circle bg-success bg-opacity-10 p-3">
+                                <i class="fas fa-brain text-success"></i>
+                            </div>
+                            <h5 class="card-title mb-0 ms-3">Mental Health</h5>
+                        </div>
+                        <p class="card-text">Resources for mental wellness, stress management, and mindfulness practices.</p>
+                        <a href="{{ url_for('moodtracker') }}" class="btn btn-sm btn-outline-success mt-2">Explore Resources</a>
                     </div>
                 </div>
             </div>
