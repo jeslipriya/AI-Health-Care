@@ -1,0 +1,306 @@
+{% extends 'base.html' %}
+
+{% block title %}First Aid Guide - Health Assistant{% endblock %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col-12">
+        <h1 class="mb-3"><i class="fas fa-first-aid me-2"></i>First Aid Guide</h1>
+        <p class="lead text-muted">Essential first aid information for common emergencies and injuries.</p>
+    </div>
+</div>
+
+<!-- Emergency Banner -->
+<div class="emergency-banner mb-4">
+    <h4 class="mb-0"><i class="fas fa-exclamation-triangle me-2"></i>For life-threatening emergencies, call emergency services immediately!</h4>
+</div>
+
+<div class="row">
+    <div class="col-lg-8">
+        <!-- First Aid Categories -->
+        <div class="accordion mb-4" id="firstAidAccordion">
+            <!-- CPR -->
+            <div class="accordion-item first-aid-card">
+                <h2 class="accordion-header">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseCPR">
+                        <i class="fas fa-heartbeat me-2 text-danger"></i>CPR (Cardiopulmonary Resuscitation)
+                    </button>
+                </h2>
+                <div id="collapseCPR" class="accordion-collapse collapse" data-bs-parent="#firstAidAccordion">
+                    <div class="accordion-body">
+                        <div class="alert alert-danger">
+                            <strong>Call emergency services immediately!</strong>
+                        </div>
+                        
+                        <h5>Adult CPR:</h5>
+                        <ol>
+                            <li>Check for responsiveness by tapping and shouting.</li>
+                            <li>If unresponsive, call emergency services or have someone else call.</li>
+                            <li>Place the person on their back on a firm surface.</li>
+                            <li>Expose the chest and place the heel of one hand on the center of the chest, between the nipples.</li>
+                            <li>Place your other hand on top and interlock fingers.</li>
+                            <li>Position shoulders directly over your hands, keeping arms straight.</li>
+                            <li>Push hard and fast at a rate of 100-120 compressions per minute, allowing full chest recoil.</li>
+                            <li>Push at least 2 inches (5 cm) deep.</li>
+                            <li>Continue until help arrives or the person shows signs of life.</li>
+                        </ol>
+                        
+                        <div class="alert alert-info mt-3">
+                            <p><strong>Note:</strong> Rescue breaths are optional if you're not trained or uncomfortable. Hands-only CPR can still be effective.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Choking -->
+            <div class="accordion-item first-aid-card">
+                <h2 class="accordion-header">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseChoking">
+                        <i class="fas fa-lungs me-2 text-danger"></i>Choking
+                    </button>
+                </h2>
+                <div id="collapseChoking" class="accordion-collapse collapse" data-bs-parent="#firstAidAccordion">
+                    <div class="accordion-body">
+                        <h5>For a conscious adult or child (over 1 year):</h5>
+                        <ol>
+                            <li>Ask, "Are you choking?" If the person can't speak, cough, or breathe, they need help.</li>
+                            <li>Stand behind the person and wrap your arms around their waist.</li>
+                            <li>Make a fist with one hand and place it thumb-side against the middle of their abdomen, just above the navel.</li>
+                            <li>Grasp your fist with your other hand.</li>
+                            <li>Press into the abdomen with quick, upward thrusts (Heimlich maneuver).</li>
+                            <li>Repeat until the object is expelled or the person becomes unconscious.</li>
+                        </ol>
+                        
+                        <h5 class="mt-3">If the person becomes unconscious:</h5>
+                        <ol>
+                            <li>Carefully lower them to the ground and call emergency services.</li>
+                            <li>Begin CPR, starting with chest compressions.</li>
+                            <li>Before giving rescue breaths, look in the mouth for the object and remove it if visible.</li>
+                            <li>Continue CPR until help arrives or the person revives.</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Bleeding -->
+            <div class="accordion-item first-aid-card">
+                <h2 class="accordion-header">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseBleeding">
+                        <i class="fas fa-tint me-2 text-danger"></i>Severe Bleeding
+                    </button>
+                </h2>
+                <div id="collapseBleeding" class="accordion-collapse collapse" data-bs-parent="#firstAidAccordion">
+                    <div class="accordion-body">
+                        <ol>
+                            <li>Apply direct pressure to the wound using a clean cloth, gauze, or even your hand if nothing else is available.</li>
+                            <li>If possible, elevate the injured area above the level of the heart.</li>
+                            <li>Continue applying pressure. If blood soaks through, add more material without removing the first layer.</li>
+                            <li>Once bleeding is controlled, secure the dressing with a bandage or clean cloth.</li>
+                            <li>Seek medical attention.</li>
+                        </ol>
+                        
+                        <div class="alert alert-warning mt-3">
+                            <p><strong>For life-threatening bleeding:</strong> Call emergency services immediately. If the bleeding is from a limb and can't be controlled with direct pressure, a tourniquet might be necessary as a last resort.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Burns -->
+            <div class="accordion-item first-aid-card">
+                <h2 class="accordion-header">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseBurns">
+                        <i class="fas fa-fire me-2 text-danger"></i>Burns
+                    </button>
+                </h2>
+                <div id="collapseBurns" class="accordion-collapse collapse" data-bs-parent="#firstAidAccordion">
+                    <div class="accordion-body">
+                        <h5>First-Degree Burns (red, painful, no blisters):</h5>
+                        <ol>
+                            <li>Cool the burn under cool (not cold) running water for 10-15 minutes.</li>
+                            <li>Don't use ice, as it can damage tissue.</li>
+                            <li>After cooling, apply a gentle moisturizer or aloe vera gel.</li>
+                            <li>Take over-the-counter pain relievers if needed.</li>
+                        </ol>
+                        
+                        <h5 class="mt-3">Second-Degree Burns (blisters, very red, painful):</h5>
+                        <ol>
+                            <li>Cool the burn under cool running water for 15-20 minutes.</li>
+                            <li>Don't break blisters.</li>
+                            <li>Cover loosely with a sterile bandage or clean cloth.</li>
+                            <li>Seek medical attention if the burn is larger than 3 inches or on the face, hands, feet, genitals, or over a joint.</li>
+                        </ol>
+                        
+                        <div class="alert alert-danger mt-3">
+                            <p><strong>For Third-Degree Burns (charred or white skin, possibly painless):</strong></p>
+                            <ul>
+                                <li>Call emergency services immediately.</li>
+                                <li>Don't remove burned clothing stuck to the skin.</li>
+                                <li>Cover the area with a clean, dry cloth until help arrives.</li>
+                                <li>Don't immerse large severe burns in water.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Fractures -->
+            <div class="accordion-item first-aid-card">
+                <h2 class="accordion-header">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFractures">
+                        <i class="fas fa-bone me-2 text-warning"></i>Fractures (Broken Bones)
+                    </button>
+                </h2>
+                <div id="collapseFractures" class="accordion-collapse collapse" data-bs-parent="#firstAidAccordion">
+                    <div class="accordion-body">
+                        <p>Signs include pain, swelling, deformity, bruising, and inability to use the affected limb.</p>
+                        
+                        <ol>
+                            <li>If the injury is severe or you suspect a broken back, neck, hip, or pelvis, call emergency services. Don't move the person.</li>
+                            <li>Stop any bleeding by applying pressure with a clean cloth.</li>
+                            <li>Immobilize the injured area: Don't try to realign the bone or push a protruding bone back in.</li>
+                            <li>Apply ice packs wrapped in a towel to reduce swelling and pain. Don't apply directly to the skin.</li>
+                            <li>Treat for shock if necessary by lying the person flat with feet elevated about 12 inches (if no head, neck, or back injury is suspected).</li>
+                        </ol>
+                        
+                        <div class="alert alert-warning mt-3">
+                            <p><strong>Important:</strong> If the broken bone has punctured the skin (open fracture), it's a medical emergency. Cover the wound with a clean dressing and call emergency services immediately.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Heart Attack -->
+            <div class="accordion-item first-aid-card">
+                <h2 class="accordion-header">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseHeartAttack">
+                        <i class="fas fa-heart-broken me-2 text-danger"></i>Heart Attack
+                    </button>
+                </h2>
+                <div id="collapseHeartAttack" class="accordion-collapse collapse" data-bs-parent="#firstAidAccordion">
+                    <div class="accordion-body">
+                        <div class="alert alert-danger">
+                            <strong>Call emergency services immediately if you suspect a heart attack!</strong>
+                        </div>
+                        
+                        <h5>Signs and symptoms include:</h5>
+                        <ul>
+                            <li>Chest pain, pressure, or squeezing sensation</li>
+                            <li>Pain that radiates to the arm, jaw, neck, or back</li>
+                            <li>Shortness of breath</li>
+                            <li>Cold sweat, nausea, or lightheadedness</li>
+                            <li>Women may experience less typical symptoms: fatigue, shortness of breath, nausea, back or jaw pain</li>
+                        </ul>
+                        
+                        <h5 class="mt-3">While waiting for emergency services:</h5>
+                        <ol>
+                            <li>Have the person sit or lie down in a comfortable position.</li>
+                            <li>Loosen any tight clothing.</li>
+                            <li>If the person is not allergic to aspirin and has no recent bleeding, they may chew and swallow an aspirin (if advised by emergency services).</li>
+                            <li>If the person stops breathing or loses consciousness, begin CPR immediately.</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Stroke -->
+            <div class="accordion-item first-aid-card">
+                <h2 class="accordion-header">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseStroke">
+                        <i class="fas fa-brain me-2 text-danger"></i>Stroke
+                    </button>
+                </h2>
+                <div id="collapseStroke" class="accordion-collapse collapse" data-bs-parent="#firstAidAccordion">
+                    <div class="accordion-body">
+                        <div class="alert alert-danger">
+                            <strong>Call emergency services immediately if you suspect a stroke!</strong>
+                        </div>
+                        
+                        <h5>Remember the acronym FAST:</h5>
+                        <ul>
+                            <li><strong>F</strong>ace: Ask the person to smile. Does one side of the face droop?</li>
+                            <li><strong>A</strong>rms: Ask the person to raise both arms. Does one arm drift downward?</li>
+                            <li><strong>S</strong>peech: Ask the person to repeat a simple phrase. Is the speech slurred or strange?</li>
+                            <li><strong>T</strong>ime: If you observe any of these signs, call emergency services immediately.</li>
+                        </ul>
+                        
+                        <h5 class="mt-3">Other symptoms may include:</h5>
+                        <ul>
+                            <li>Sudden numbness or weakness, especially on one side of the body</li>
+                            <li>Sudden confusion or trouble understanding</li>
+                            <li>Sudden trouble seeing</li>
+                            <li>Sudden trouble walking, dizziness, loss of balance</li>
+                            <li>Sudden severe headache with no known cause</li>
+                        </ul>
+                        
+                        <h5 class="mt-3">While waiting for emergency services:</h5>
+                        <ol>
+                            <li>Have the person lie down with their head slightly elevated.</li>
+                            <li>Note the time when symptoms first appeared (important for treatment decisions).</li>
+                            <li>Do not give the person anything to eat or drink.</li>
+                            <li>If the person is unconscious, check for breathing and pulse. Begin CPR if necessary.</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-lg-4">
+        <!-- First Aid Kit Information -->
+        <div class="card shadow-sm mb-4">
+            <div class="card-header bg-transparent">
+                <h5 class="mb-0"><i class="fas fa-briefcase-medical me-2"></i>First Aid Kit Essentials</h5>
+            </div>
+            <div class="card-body">
+                <p>Every home and vehicle should have a well-stocked first aid kit. Here's what to include:</p>
+                
+                <div class="list-group list-group-flush">
+                    <div class="list-group-item bg-transparent"><i class="fas fa-check-circle text-success me-2"></i>Adhesive bandages (various sizes)</div>
+                    <div class="list-group-item bg-transparent"><i class="fas fa-check-circle text-success me-2"></i>Sterile gauze pads and rolls</div>
+                    <div class="list-group-item bg-transparent"><i class="fas fa-check-circle text-success me-2"></i>Adhesive tape</div>
+                    <div class="list-group-item bg-transparent"><i class="fas fa-check-circle text-success me-2"></i>Elastic bandages</div>
+                    <div class="list-group-item bg-transparent"><i class="fas fa-check-circle text-success me-2"></i>Antiseptic wipes</div>
+                    <div class="list-group-item bg-transparent"><i class="fas fa-check-circle text-success me-2"></i>Antibiotic ointment</div>
+                    <div class="list-group-item bg-transparent"><i class="fas fa-check-circle text-success me-2"></i>Hydrocortisone cream</div>
+                    <div class="list-group-item bg-transparent"><i class="fas fa-check-circle text-success me-2"></i>Pain relievers (acetaminophen, ibuprofen)</div>
+                    <div class="list-group-item bg-transparent"><i class="fas fa-check-circle text-success me-2"></i>Scissors and tweezers</div>
+                    <div class="list-group-item bg-transparent"><i class="fas fa-check-circle text-success me-2"></i>Disposable gloves</div>
+                    <div class="list-group-item bg-transparent"><i class="fas fa-check-circle text-success me-2"></i>CPR breathing barrier</div>
+                    <div class="list-group-item bg-transparent"><i class="fas fa-check-circle text-success me-2"></i>Emergency contact information</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- First Aid Training Resources -->
+        <div class="card shadow-sm mb-4">
+            <div class="card-header bg-transparent">
+                <h5 class="mb-0"><i class="fas fa-graduation-cap me-2"></i>Get Trained</h5>
+            </div>
+            <div class="card-body">
+                <p>While this guide provides basic information, proper training is invaluable in emergencies.</p>
+                
+                <div class="alert alert-info">
+                    <p class="mb-0">Consider taking a certified first aid and CPR course from organizations like:</p>
+                </div>
+                
+                <ul class="list-unstyled">
+                    <li class="mb-2"><i class="fas fa-external-link-alt me-2"></i><a href="https://www.redcross.org/take-a-class" target="_blank" rel="noopener">Red Cross</a></li>
+                    <li class="mb-2"><i class="fas fa-external-link-alt me-2"></i><a href="https://cpr.heart.org/en/course-catalog-search" target="_blank" rel="noopener">American Heart Association</a></li>
+                    <li class="mb-2"><i class="fas fa-external-link-alt me-2"></i><a href="https://www.stjohn.org.nz/first-aid/first-aid-course-overview/" target="_blank" rel="noopener">St. John Ambulance</a></li>
+                    <li><i class="fas fa-external-link-alt me-2"></i>Local hospitals and community centers</li>
+                </ul>
+            </div>
+        </div>
+        
+        <!-- Disclaimer -->
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <h5><i class="fas fa-exclamation-triangle text-warning me-2"></i>Important Disclaimer</h5>
+                <p class="small text-muted">This first aid guide is intended for informational purposes only and is not a substitute for professional medical advice, diagnosis, or treatment. Always seek the advice of a qualified healthcare provider with any questions you may have regarding a medical condition or emergency. Never disregard professional medical advice or delay seeking it because of something you have read here.</p>
+                <p class="small text-muted mb-0">In case of emergency, call your local emergency services immediately.</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

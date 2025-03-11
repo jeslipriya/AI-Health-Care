@@ -1,0 +1,92 @@
+{% extends 'base.html' %}
+
+{% block title %}Find Hospitals - Health Assistant{% endblock %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col-12">
+        <h1 class="mb-3"><i class="fas fa-hospital me-2"></i>Find Nearby Hospitals</h1>
+        <p class="lead text-muted">Locate medical facilities in your area for when you need care.</p>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-8 mb-4">
+        <!-- Map Container -->
+        <div class="card shadow-sm mb-4">
+            <div class="card-header bg-transparent">
+                <h5 class="mb-0"><i class="fas fa-map-marked-alt me-2"></i>Hospital Map</h5>
+            </div>
+            <div class="card-body p-0 map-container">
+                <div class="p-3">
+                    <div class="input-group mb-3">
+                        <input type="text" id="location-search" class="form-control" placeholder="Enter location (city, address)">
+                        <button class="btn btn-primary" type="button" id="search-location">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </div>
+                    <button id="locate-me" class="btn btn-outline-primary mb-3">
+                        <i class="fas fa-location-arrow me-2"></i>Use My Current Location
+                    </button>
+                </div>
+                <div id="map"></div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-lg-4">
+        <!-- Hospitals List -->
+        <div class="card shadow-sm mb-4">
+            <div class="card-header bg-transparent">
+                <h5 class="mb-0"><i class="fas fa-list me-2"></i>Nearby Hospitals</h5>
+            </div>
+            <div class="card-body">
+                <div id="hospitals-list">
+                    <div class="text-center py-4">
+                        <i class="fas fa-hospital fs-1 text-muted mb-3"></i>
+                        <p>Use the map to find hospitals near you.</p>
+                        <p class="text-muted">Click "Use My Current Location" or search for a specific address to get started.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Emergency Info -->
+        <div class="card shadow-sm">
+            <div class="card-header bg-danger text-white">
+                <h5 class="mb-0"><i class="fas fa-ambulance me-2"></i>Emergency Information</h5>
+            </div>
+            <div class="card-body">
+                <div class="alert alert-danger">
+                    <strong>For medical emergencies, call your local emergency number immediately:</strong>
+                </div>
+                
+                <div class="list-group mb-3">
+                    <div class="list-group-item d-flex justify-content-between align-items-center bg-transparent">
+                        <strong>United States</strong>
+                        <span class="badge bg-danger">911</span>
+                    </div>
+                    <div class="list-group-item d-flex justify-content-between align-items-center bg-transparent">
+                        <strong>Europe</strong>
+                        <span class="badge bg-danger">112</span>
+                    </div>
+                    <div class="list-group-item d-flex justify-content-between align-items-center bg-transparent">
+                        <strong>United Kingdom</strong>
+                        <span class="badge bg-danger">999</span>
+                    </div>
+                    <div class="list-group-item d-flex justify-content-between align-items-center bg-transparent">
+                        <strong>Australia</strong>
+                        <span class="badge bg-danger">000</span>
+                    </div>
+                </div>
+                
+                <p class="mb-0 small"><strong>Remember:</strong> For life-threatening situations, call emergency services before using this app to find a hospital.</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{{ url_for('static', filename='js/location.js') }}"></script>
+{% endblock %}

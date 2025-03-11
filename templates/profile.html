@@ -1,0 +1,148 @@
+{% extends 'base.html' %}
+
+{% block title %}Profile - Health Assistant{% endblock %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col-12">
+        <h1 class="mb-3"><i class="fas fa-user-circle me-2"></i>Your Health Profile</h1>
+        <p class="lead text-muted">Manage your personal information to receive more personalized health recommendations.</p>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-8">
+        <!-- Profile Form -->
+        <div class="card shadow-sm mb-4">
+            <div class="card-header bg-transparent">
+                <h5 class="mb-0"><i class="fas fa-id-card me-2"></i>Health Information</h5>
+            </div>
+            <div class="card-body">
+                <form action="{{ url_for('profile') }}" method="post">
+                    <!-- Account Information -->
+                    <div class="mb-4">
+                        <h6 class="mb-3">Account Information</h6>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="username" class="form-label">Username</label>
+                                <input type="text" class="form-control" id="username" value="{{ current_user.username }}" disabled>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="email" class="form-label">Email Address</label>
+                                <input type="email" class="form-control" id="email" value="{{ current_user.email }}" disabled>
+                            </div>
+                            <div class="col-12 mb-3">
+                                <label for="joined" class="form-label">Member Since</label>
+                                <input type="text" class="form-control" id="joined" value="{{ current_user.date_joined.strftime('%B %d, %Y') }}" disabled>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <hr class="my-4">
+                    
+                    <!-- Basic Health Information -->
+                    <div class="mb-4">
+                        <h6 class="mb-3">Basic Health Information</h6>
+                        <div class="row">
+                            <div class="col-md-4 mb-3">
+                                <label for="age" class="form-label">Age <span class="text-danger">*</span></label>
+                                <input type="number" class="form-control" id="age" name="age" min="1" max="120" value="{{ profile.age if profile else '' }}" required>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label for="height" class="form-label">Height (cm) <span class="text-danger">*</span></label>
+                                <input type="number" class="form-control" id="height" name="height" min="50" max="250" step="0.1" value="{{ profile.height if profile else '' }}" required>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label for="weight" class="form-label">Weight (kg) <span class="text-danger">*</span></label>
+                                <input type="number" class="form-control" id="weight" name="weight" min="1" max="500" step="0.1" value="{{ profile.weight if profile else '' }}" required>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Health Goals -->
+                    <div class="mb-4">
+                        <label for="health_goals" class="form-label">Health Goals <span class="text-danger">*</span></label>
+                        <textarea class="form-control" id="health_goals" name="health_goals" rows="4" placeholder="Describe your health goals. For example: lose weight, build muscle, improve cardiovascular health, manage stress, etc." required>{{ profile.health_goals if profile else '' }}</textarea>
+                        <div class="form-text">This will help us tailor recommendations to your specific needs and objectives.</div>
+                    </div>
+                    
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-save me-2"></i>Save Profile Information
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-lg-4">
+        <!-- Profile Benefits -->
+        <div class="card shadow-sm mb-4">
+            <div class="card-header bg-transparent">
+                <h5 class="mb-0"><i class="fas fa-star me-2"></i>Benefits of Complete Profile</h5>
+            </div>
+            <div class="card-body">
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item bg-transparent d-flex">
+                        <i class="fas fa-check-circle text-success me-3 mt-1"></i>
+                        <div>
+                            <strong>Personalized Health Tips</strong>
+                            <p class="mb-0 text-muted small">Receive advice tailored to your age, body type, and goals</p>
+                        </div>
+                    </li>
+                    <li class="list-group-item bg-transparent d-flex">
+                        <i class="fas fa-check-circle text-success me-3 mt-1"></i>
+                        <div>
+                            <strong>Customized Diet Plans</strong>
+                            <p class="mb-0 text-muted small">Get nutrition guidance based on your specific needs</p>
+                        </div>
+                    </li>
+                    <li class="list-group-item bg-transparent d-flex">
+                        <i class="fas fa-check-circle text-success me-3 mt-1"></i>
+                        <div>
+                            <strong>Targeted Exercise Recommendations</strong>
+                            <p class="mb-0 text-muted small">Fitness routines appropriate for your body and goals</p>
+                        </div>
+                    </li>
+                    <li class="list-group-item bg-transparent d-flex">
+                        <i class="fas fa-check-circle text-success me-3 mt-1"></i>
+                        <div>
+                            <strong>Better AI Conversations</strong>
+                            <p class="mb-0 text-muted small">Our AI can reference your profile for more relevant discussions</p>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        
+        <!-- Health Resources -->
+        <div class="card shadow-sm mb-4">
+            <div class="card-header bg-transparent">
+                <h5 class="mb-0"><i class="fas fa-link me-2"></i>Helpful Resources</h5>
+            </div>
+            <div class="card-body">
+                <div class="d-grid gap-2">
+                    <a href="{{ url_for('dietandexercise') }}" class="btn btn-outline-success btn-sm">
+                        <i class="fas fa-dumbbell me-2"></i>Diet & Exercise Plans
+                    </a>
+                    <a href="{{ url_for('healthtips') }}" class="btn btn-outline-info btn-sm">
+                        <i class="fas fa-lightbulb me-2"></i>Health Tips
+                    </a>
+                    <a href="{{ url_for('moodtracker') }}" class="btn btn-outline-primary btn-sm">
+                        <i class="fas fa-smile me-2"></i>Mood Tracker
+                    </a>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Data Privacy Notice -->
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <h5><i class="fas fa-shield-alt text-info me-2"></i>Privacy Note</h5>
+                <p class="small text-muted">Your health information is kept private and secure. We use this data only to personalize your experience and provide better health recommendations. Your information is never sold or shared with third parties.</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

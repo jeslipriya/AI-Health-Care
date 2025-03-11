@@ -1,0 +1,201 @@
+{% extends 'base.html' %}
+
+{% block title %}Mood Tracker - Health Assistant{% endblock %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col-12">
+        <h1 class="mb-3"><i class="fas fa-smile me-2"></i>Mood Tracker</h1>
+        <p class="lead text-muted">Monitor your emotional well-being and track your mood patterns over time.</p>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-4 mb-4">
+        <!-- Mood Entry Form -->
+        <div class="card shadow-sm">
+            <div class="card-header bg-transparent">
+                <h5 class="mb-0"><i class="fas fa-plus-circle me-2"></i>Record Your Mood</h5>
+            </div>
+            <div class="card-body mood-form">
+                <form action="{{ url_for('add_mood') }}" method="post">
+                    <div class="text-center mb-4">
+                        <span id="mood-emoji" class="display-1">😐</span>
+                        <h2 class="mt-2">How are you feeling today?</h2>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <label for="mood-slider" class="form-label">Your mood (1-10):</label>
+                        <div class="d-flex align-items-center">
+                            <span class="me-2">😢</span>
+                            <input type="range" class="form-range mood-slider" min="1" max="10" step="1" value="5" id="mood-slider" name="mood_score">
+                            <span class="ms-2">😄</span>
+                        </div>
+                        <div class="text-center mt-2">
+                            <span class="fs-4" id="mood-value">5</span>/10
+                        </div>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <label for="notes" class="form-label">Any notes about how you're feeling? (optional)</label>
+                        <textarea class="form-control" id="notes" name="notes" rows="3" placeholder="What's influencing your mood today?"></textarea>
+                    </div>
+                    
+                    <div class="d-grid">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-save me-2"></i>Save Mood Entry
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        
+        <!-- Mood Tips -->
+        <div class="card shadow-sm mt-4">
+            <div class="card-header bg-transparent">
+                <h5 class="mb-0"><i class="fas fa-lightbulb me-2"></i>Mood Improvement Tips</h5>
+            </div>
+            <div class="card-body">
+                <div class="accordion" id="moodTipsAccordion">
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseLowMood">
+                                For Low Mood
+                            </button>
+                        </h2>
+                        <div id="collapseLowMood" class="accordion-collapse collapse" data-bs-parent="#moodTipsAccordion">
+                            <div class="accordion-body">
+                                <ul class="list-unstyled">
+                                    <li><i class="fas fa-check-circle text-success me-2"></i>Get some physical activity</li>
+                                    <li><i class="fas fa-check-circle text-success me-2"></i>Talk to a friend or family member</li>
+                                    <li><i class="fas fa-check-circle text-success me-2"></i>Practice mindfulness or meditation</li>
+                                    <li><i class="fas fa-check-circle text-success me-2"></i>Get some sunlight</li>
+                                    <li><i class="fas fa-check-circle text-success me-2"></i>Listen to uplifting music</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseAnxiety">
+                                For Anxiety
+                            </button>
+                        </h2>
+                        <div id="collapseAnxiety" class="accordion-collapse collapse" data-bs-parent="#moodTipsAccordion">
+                            <div class="accordion-body">
+                                <ul class="list-unstyled">
+                                    <li><i class="fas fa-check-circle text-success me-2"></i>Practice deep breathing exercises</li>
+                                    <li><i class="fas fa-check-circle text-success me-2"></i>Try the 5-4-3-2-1 grounding technique</li>
+                                    <li><i class="fas fa-check-circle text-success me-2"></i>Limit caffeine and sugar intake</li>
+                                    <li><i class="fas fa-check-circle text-success me-2"></i>Go for a walk in nature</li>
+                                    <li><i class="fas fa-check-circle text-success me-2"></i>Write down your worries</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseStress">
+                                For Stress
+                            </button>
+                        </h2>
+                        <div id="collapseStress" class="accordion-collapse collapse" data-bs-parent="#moodTipsAccordion">
+                            <div class="accordion-body">
+                                <ul class="list-unstyled">
+                                    <li><i class="fas fa-check-circle text-success me-2"></i>Take short breaks throughout the day</li>
+                                    <li><i class="fas fa-check-circle text-success me-2"></i>Practice progressive muscle relaxation</li>
+                                    <li><i class="fas fa-check-circle text-success me-2"></i>Prioritize tasks and set boundaries</li>
+                                    <li><i class="fas fa-check-circle text-success me-2"></i>Get adequate sleep</li>
+                                    <li><i class="fas fa-check-circle text-success me-2"></i>Try a relaxing hobby like gardening or reading</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="alert alert-info mt-3">
+                    <i class="fas fa-info-circle me-2"></i>If you're experiencing persistent low mood or mental health concerns, please consider talking to a healthcare professional.
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-lg-8">
+        <!-- Mood Chart -->
+        <div class="card shadow-sm mb-4">
+            <div class="card-header bg-transparent">
+                <h5 class="mb-0"><i class="fas fa-chart-line me-2"></i>Your Mood History</h5>
+            </div>
+            <div class="card-body">
+                <div id="chart-container" style="height: 400px;">
+                    {% if mood_entries %}
+                        <canvas id="mood-chart"></canvas>
+                    {% else %}
+                        <div class="text-center py-5">
+                            <i class="fas fa-chart-bar fs-1 text-muted mb-3"></i>
+                            <h5>No mood data yet</h5>
+                            <p class="text-muted">Start tracking your mood using the form to view your patterns here.</p>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        
+        <!-- Mood History Table -->
+        <div class="card shadow-sm">
+            <div class="card-header bg-transparent">
+                <h5 class="mb-0"><i class="fas fa-history me-2"></i>Mood Log</h5>
+            </div>
+            <div class="card-body">
+                {% if mood_entries %}
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Mood</th>
+                                    <th>Score</th>
+                                    <th>Notes</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for entry in mood_entries %}
+                                <tr class="mood-entry" 
+                                    data-date="{{ entry.date }}" 
+                                    data-score="{{ entry.mood_score }}" 
+                                    data-notes="{{ entry.notes }}">
+                                    <td>{{ entry.date.strftime('%b %d, %Y %H:%M') }}</td>
+                                    <td>
+                                        {% if entry.mood_score <= 2 %}
+                                            😢
+                                        {% elif entry.mood_score <= 4 %}
+                                            😕
+                                        {% elif entry.mood_score <= 6 %}
+                                            😐
+                                        {% elif entry.mood_score <= 8 %}
+                                            🙂
+                                        {% else %}
+                                            😄
+                                        {% endif %}
+                                    </td>
+                                    <td>{{ entry.mood_score }}/10</td>
+                                    <td>{{ entry.notes or '-' }}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                {% else %}
+                    <div class="text-center py-4">
+                        <p>No mood entries yet. Start tracking your mood to see your history here.</p>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{{ url_for('static', filename='js/moodtracker.js') }}"></script>
+{% endblock %}

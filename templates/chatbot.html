@@ -1,0 +1,132 @@
+{% extends 'base.html' %}
+
+{% block title %}AI Chatbot - Health Assistant{% endblock %}
+
+{% block extra_css %}
+<style>
+.typing-indicator {
+    display: flex;
+    padding: 10px;
+}
+
+.typing-indicator span {
+    height: 10px;
+    width: 10px;
+    margin: 0 2px;
+    background-color: rgba(255, 255, 255, 0.5);
+    border-radius: 50%;
+    display: inline-block;
+    animation: typing 1.5s infinite ease-in-out;
+}
+
+.typing-indicator span:nth-child(1) {
+    animation-delay: 0s;
+}
+
+.typing-indicator span:nth-child(2) {
+    animation-delay: 0.2s;
+}
+
+.typing-indicator span:nth-child(3) {
+    animation-delay: 0.4s;
+}
+
+@keyframes typing {
+    0% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+    100% { transform: translateY(0); }
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col-12">
+        <h1 class="mb-3"><i class="fas fa-robot me-2"></i>AI Health Assistant</h1>
+        <p class="lead text-muted">Ask me anything related to general health, nutrition, fitness, and wellness. I'm here to help!</p>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-8">
+        <!-- Chat Container -->
+        <div class="card shadow-sm mb-4">
+            <div class="card-header bg-transparent">
+                <div class="d-flex align-items-center">
+                    <i class="fas fa-robot me-2"></i>
+                    <h5 class="mb-0">Chat with Health AI</h5>
+                    <span class="badge bg-success ms-2">Online</span>
+                </div>
+            </div>
+            <div class="card-body p-0">
+                <div id="chat-container" class="chat-container p-3"></div>
+            </div>
+            <div class="card-footer bg-transparent">
+                <div class="input-group">
+                    <input type="text" id="message-input" class="form-control" placeholder="Type your health question here...">
+                    <button id="send-message" class="btn btn-primary">
+                        <i class="fas fa-paper-plane"></i>
+                    </button>
+                </div>
+                <div id="quick-suggestions" class="mt-2"></div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-4">
+        <!-- Information Panel -->
+        <div class="card shadow-sm mb-4">
+            <div class="card-header bg-transparent">
+                <h5 class="mb-0"><i class="fas fa-info-circle me-2"></i>About Health AI</h5>
+            </div>
+            <div class="card-body">
+                <div class="alert alert-info">
+                    <i class="fas fa-exclamation-triangle me-2"></i>
+                    <strong>Medical Disclaimer:</strong> This AI provides general health information only, not medical advice.
+                </div>
+                
+                <h6 class="mt-4"><i class="fas fa-question-circle me-2"></i>What can I ask?</h6>
+                <ul class="list-group list-group-flush mb-3">
+                    <li class="list-group-item bg-transparent"><i class="fas fa-check text-success me-2"></i>General health questions</li>
+                    <li class="list-group-item bg-transparent"><i class="fas fa-check text-success me-2"></i>Nutrition and diet information</li>
+                    <li class="list-group-item bg-transparent"><i class="fas fa-check text-success me-2"></i>Exercise and fitness tips</li>
+                    <li class="list-group-item bg-transparent"><i class="fas fa-check text-success me-2"></i>Wellness and prevention</li>
+                    <li class="list-group-item bg-transparent"><i class="fas fa-check text-success me-2"></i>Understanding symptoms</li>
+                </ul>
+                
+                <h6><i class="fas fa-times-circle me-2"></i>What to avoid asking:</h6>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item bg-transparent"><i class="fas fa-times text-danger me-2"></i>Specific medical diagnoses</li>
+                    <li class="list-group-item bg-transparent"><i class="fas fa-times text-danger me-2"></i>Prescription medication advice</li>
+                    <li class="list-group-item bg-transparent"><i class="fas fa-times text-danger me-2"></i>Emergency medical situations</li>
+                    <li class="list-group-item bg-transparent"><i class="fas fa-times text-danger me-2"></i>Personal identifiable information</li>
+                </ul>
+            </div>
+        </div>
+        
+        <!-- Related Resources -->
+        <div class="card shadow-sm">
+            <div class="card-header bg-transparent">
+                <h5 class="mb-0"><i class="fas fa-link me-2"></i>Related Resources</h5>
+            </div>
+            <div class="card-body">
+                <div class="d-grid gap-2">
+                    <a href="{{ url_for('healthtips') }}" class="btn btn-outline-info">
+                        <i class="fas fa-lightbulb me-2"></i>Health Tips
+                    </a>
+                    <a href="{{ url_for('firstaid') }}" class="btn btn-outline-danger">
+                        <i class="fas fa-first-aid me-2"></i>First Aid Guide
+                    </a>
+                    <a href="{{ url_for('dietandexercise') }}" class="btn btn-outline-success">
+                        <i class="fas fa-dumbbell me-2"></i>Diet & Exercise Plans
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{{ url_for('static', filename='js/chatbot.js') }}"></script>
+{% endblock %}

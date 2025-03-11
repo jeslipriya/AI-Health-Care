@@ -1,0 +1,296 @@
+{% extends 'base.html' %}
+
+{% block title %}Dashboard - AI Virtual Health Assistant{% endblock %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col-12">
+        <h1 class="mb-3"><i class="fas fa-tachometer-alt me-2"></i>Your Health Dashboard</h1>
+        <p class="lead text-muted">Welcome back, {{ current_user.username }}! Here's your health overview.</p>
+    </div>
+</div>
+
+<div class="row mb-4">
+    <!-- Quick Actions -->
+    <div class="col-lg-4 mb-4">
+        <div class="card shadow-sm">
+            <div class="card-header bg-transparent">
+                <h5 class="card-title mb-0"><i class="fas fa-bolt me-2"></i>Quick Actions</h5>
+            </div>
+            <div class="card-body">
+                <div class="d-grid gap-2">
+                    <a href="{{ url_for('chatbot') }}" class="btn btn-outline-primary">
+                        <i class="fas fa-robot me-2"></i>Talk to AI Assistant
+                    </a>
+                    <a href="{{ url_for('moodtracker') }}" class="btn btn-outline-info">
+                        <i class="fas fa-smile me-2"></i>Track Your Mood
+                    </a>
+                    <a href="{{ url_for('healthtips') }}?generate=true" class="btn btn-outline-success">
+                        <i class="fas fa-lightbulb me-2"></i>Generate New Health Tip
+                    </a>
+                    <a href="{{ url_for('location') }}" class="btn btn-outline-danger">
+                        <i class="fas fa-hospital me-2"></i>Find Nearby Hospitals
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mood Overview -->
+    <div class="col-lg-4 mb-4">
+        <div class="card shadow-sm h-100">
+            <div class="card-header bg-transparent">
+                <h5 class="card-title mb-0"><i class="fas fa-chart-line me-2"></i>Mood Overview</h5>
+            </div>
+            <div class="card-body">
+                {% if mood_entries %}
+                    <div class="text-center mb-3">
+                        <span class="display-4">
+                            {% set latest_mood = mood_entries[0].mood_score %}
+                            {% if latest_mood <= 2 %}
+                                😢
+                            {% elif latest_mood <= 4 %}
+                                😕
+                            {% elif latest_mood <= 6 %}
+                                😐
+                            {% elif latest_mood <= 8 %}
+                                🙂
+                            {% else %}
+                                😄
+                            {% endif %}
+                        </span>
+                        <h3 class="mb-0">{{ latest_mood }}/10</h3>
+                        <p class="text-muted small">Last recorded mood</p>
+                    </div>
+                    
+                    {% if mood_entries|length > 1 %}
+                    <div style="height:150px;">
+                        <canvas id="mini-mood-chart"></canvas>
+                    </div>
+                    {% else %}
+                    <div class="alert alert-info">
+                        Track more moods to see your trend over time.
+                    </div>
+                    {% endif %}
+                {% else %}
+                    <div class="text-center py-4">
+                        <i class="fas fa-smile-beam fs-1 mb-3 text-muted"></i>
+                        <p>You haven't tracked your mood yet.</p>
+                        <a href="{{ url_for('moodtracker') }}" class="btn btn-sm btn-primary">Track Now</a>
+                    </div>
+                {% endif %}
+            </div>
+            <div class="card-footer bg-transparent">
+                <a href="{{ url_for('moodtracker') }}" class="btn btn-link text-decoration-none">View Full Mood History</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Health Tips -->
+    <div class="col-lg-4 mb-4">
+        <div class="card shadow-sm h-100">
+            <div class="card-header bg-transparent">
+                <h5 class="card-title mb-0"><i class="fas fa-lightbulb me-2"></i>Health Tips</h5>
+            </div>
+            <div class="card-body">
+                {% for tip in health_tips %}
+                <div class="health-tip mb-3">
+                    <p class="mb-1">{{ tip.content }}</p>
+                    <small class="health-tip-date">{{ tip.date.strftime('%b %d, %Y') }}</small>
+                </div>
+                {% endfor %}
+            </div>
+            <div class="card-footer bg-transparent text-end">
+                <a href="{{ url_for('healthtips') }}" class="btn btn-link text-decoration-none">More Tips</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <!-- Health Tools -->
+    <div class="col-12 mb-4">
+        <h2 class="h4 mb-3"><i class="fas fa-tools me-2"></i>Health Tools</h2>
+        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+            <!-- Diet & Exercise -->
+            <div class="col">
+                <div class="card h-100 stats-card">
+                    <div class="card-body">
+                        <div class="d-flex align-items-center mb-3">
+                            <div class="feature-icon rounded-circle bg-primary bg-opacity-10 p-3">
+                                <i class="fas fa-dumbbell text-primary"></i>
+                            </div>
+                            <h5 class="card-title mb-0 ms-3">Diet & Exercise</h5>
+                        </div>
+                        <p class="card-text">Get personalized diet plans and exercise routines based on your health profile.</p>
+                        <a href="{{ url_for('dietandexercise') }}" class="btn btn-sm btn-outline-primary mt-2">View Plans</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- First Aid Guide -->
+            <div class="col">
+                <div class="card h-100 stats-card">
+                    <div class="card-body">
+                        <div class="d-flex align-items-center mb-3">
+                            <div class="feature-icon rounded-circle bg-danger bg-opacity-10 p-3">
+                                <i class="fas fa-first-aid text-danger"></i>
+                            </div>
+                            <h5 class="card-title mb-0 ms-3">First Aid Guide</h5>
+                        </div>
+                        <p class="card-text">Access comprehensive first aid information for common emergencies and injuries.</p>
+                        <a href="{{ url_for('firstaid') }}" class="btn btn-sm btn-outline-danger mt-2">View Guide</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Find Hospitals -->
+            <div class="col">
+                <div class="card h-100 stats-card">
+                    <div class="card-body">
+                        <div class="d-flex align-items-center mb-3">
+                            <div class="feature-icon rounded-circle bg-info bg-opacity-10 p-3">
+                                <i class="fas fa-map-marker-alt text-info"></i>
+                            </div>
+                            <h5 class="card-title mb-0 ms-3">Hospital Finder</h5>
+                        </div>
+                        <p class="card-text">Find nearby hospitals and medical facilities based on your current location.</p>
+                        <a href="{{ url_for('location') }}" class="btn btn-sm btn-outline-info mt-2">Find Hospitals</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Profile Completeness -->
+    <div class="col-12">
+        <div class="card shadow-sm">
+            <div class="card-header bg-transparent">
+                <h5 class="card-title mb-0"><i class="fas fa-user-check me-2"></i>Profile Completeness</h5>
+            </div>
+            <div class="card-body">
+                <div class="row align-items-center">
+                    <div class="col-md-8">
+                        <p>Complete your health profile to get more personalized recommendations and insights.</p>
+                        <div class="progress mb-3" style="height: 20px;">
+                            {% set profile = current_user.profile %}
+                            {% set completeness = 0 %}
+                            {% if profile %}
+                                {% set completeness = (
+                                    (1 if profile.age else 0) + 
+                                    (1 if profile.height else 0) + 
+                                    (1 if profile.weight else 0) + 
+                                    (1 if profile.health_goals else 0)
+                                ) / 4 * 100 %}
+                            {% endif %}
+                            
+                            <div class="progress-bar bg-success" role="progressbar" style="width: {{ completeness }}%;" 
+                                 aria-valuenow="{{ completeness }}" aria-valuemin="0" aria-valuemax="100">
+                                {{ completeness|int }}%
+                            </div>
+                        </div>
+                        <div class="mb-2">
+                            <i class="fas fa-{% if profile and profile.age %}check-circle text-success{% else %}times-circle text-muted{% endif %} me-2"></i>
+                            Age
+                        </div>
+                        <div class="mb-2">
+                            <i class="fas fa-{% if profile and profile.height %}check-circle text-success{% else %}times-circle text-muted{% endif %} me-2"></i>
+                            Height
+                        </div>
+                        <div class="mb-2">
+                            <i class="fas fa-{% if profile and profile.weight %}check-circle text-success{% else %}times-circle text-muted{% endif %} me-2"></i>
+                            Weight
+                        </div>
+                        <div class="mb-3">
+                            <i class="fas fa-{% if profile and profile.health_goals %}check-circle text-success{% else %}times-circle text-muted{% endif %} me-2"></i>
+                            Health Goals
+                        </div>
+                        <a href="{{ url_for('profile') }}" class="btn btn-primary">Update Profile</a>
+                    </div>
+                    <div class="col-md-4 d-none d-md-block text-center">
+                        <i class="fas fa-clipboard-list fs-1 text-muted mb-2"></i>
+                        <p class="text-muted">A complete profile helps us provide better health guidance.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    {% if mood_entries and mood_entries|length > 1 %}
+    // Create mini mood chart for dashboard
+    const ctx = document.getElementById('mini-mood-chart').getContext('2d');
+    
+    // Collect mood data
+    const moodData = [];
+    const moodLabels = [];
+    const moodColors = [];
+    
+    {% for entry in mood_entries %}
+        moodData.push({{ entry.mood_score }});
+        moodLabels.push('{{ entry.date.strftime("%m/%d") }}');
+        
+        {% if entry.mood_score <= 2 %}
+            moodColors.push('#dc3545');
+        {% elif entry.mood_score <= 4 %}
+            moodColors.push('#fd7e14');
+        {% elif entry.mood_score <= 6 %}
+            moodColors.push('#ffc107');
+        {% elif entry.mood_score <= 8 %}
+            moodColors.push('#20c997');
+        {% else %}
+            moodColors.push('#28a745');
+        {% endif %}
+    {% endfor %}
+    
+    // Reverse arrays to show in chronological order
+    moodData.reverse();
+    moodLabels.reverse();
+    moodColors.reverse();
+    
+    new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: moodLabels,
+            datasets: [{
+                label: 'Mood Score',
+                data: moodData,
+                borderColor: 'rgba(0, 123, 255, 1)',
+                backgroundColor: 'rgba(0, 123, 255, 0.1)',
+                pointBackgroundColor: moodColors,
+                pointBorderColor: '#fff',
+                tension: 0.3,
+                fill: true
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                y: {
+                    beginAtZero: false,
+                    min: 1,
+                    max: 10,
+                    ticks: {
+                        stepSize: 2
+                    }
+                },
+                x: {
+                    display: true
+                }
+            },
+            plugins: {
+                legend: {
+                    display: false
+                }
+            }
+        }
+    });
+    {% endif %}
+});
+</script>
+{% endblock %}

@@ -1,0 +1,134 @@
+{% extends 'base.html' %}
+
+{% block title %}Health Tips - AI Virtual Health Assistant{% endblock %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col-12">
+        <h1 class="mb-3"><i class="fas fa-lightbulb me-2"></i>AI-Generated Health Tips</h1>
+        <p class="lead text-muted">Personalized health recommendations based on your profile and interests.</p>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-8">
+        <!-- Health Tips List -->
+        <div class="card shadow-sm mb-4">
+            <div class="card-header bg-transparent">
+                <div class="d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0">Your Health Tips</h5>
+                    <a href="{{ url_for('healthtips') }}?generate=true" id="refresh-tip" class="btn btn-sm btn-outline-primary">
+                        <i class="fas fa-sync-alt me-1"></i>Generate New Tip
+                    </a>
+                </div>
+            </div>
+            <div class="card-body">
+                {% if health_tips %}
+                    {% for tip in health_tips %}
+                        <div class="health-tip mb-4">
+                            <div class="d-flex justify-content-between">
+                                <h5 class="card-title"><i class="fas fa-star text-warning me-2"></i>Health Tip</h5>
+                                <small class="text-muted">{{ tip.date.strftime('%b %d, %Y') }}</small>
+                            </div>
+                            <p>{{ tip.content }}</p>
+                        </div>
+                        {% if not loop.last %}
+                            <hr>
+                        {% endif %}
+                    {% endfor %}
+                {% else %}
+                    <div class="text-center py-4">
+                        <i class="fas fa-lightbulb fs-1 text-muted mb-3"></i>
+                        <p>No health tips available yet. Generate your first tip!</p>
+                        <a href="{{ url_for('healthtips') }}?generate=true" class="btn btn-primary">
+                            <i class="fas fa-magic me-2"></i>Generate Health Tip
+                        </a>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-lg-4">
+        <!-- Health Categories -->
+        <div class="card shadow-sm mb-4">
+            <div class="card-header bg-transparent">
+                <h5 class="mb-0"><i class="fas fa-th-list me-2"></i>Health Topics</h5>
+            </div>
+            <div class="card-body">
+                <div class="list-group list-group-flush">
+                    <a href="#" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center bg-transparent">
+                        <span><i class="fas fa-heartbeat me-2 text-danger"></i>Heart Health</span>
+                        <span class="badge bg-danger rounded-pill">Essential</span>
+                    </a>
+                    <a href="#" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center bg-transparent">
+                        <span><i class="fas fa-brain me-2 text-info"></i>Mental Wellness</span>
+                        <span class="badge bg-info rounded-pill">Important</span>
+                    </a>
+                    <a href="#" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center bg-transparent">
+                        <span><i class="fas fa-utensils me-2 text-success"></i>Nutrition</span>
+                        <span class="badge bg-success rounded-pill">Daily</span>
+                    </a>
+                    <a href="#" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center bg-transparent">
+                        <span><i class="fas fa-running me-2 text-primary"></i>Fitness</span>
+                        <span class="badge bg-primary rounded-pill">Active</span>
+                    </a>
+                    <a href="#" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center bg-transparent">
+                        <span><i class="fas fa-bed me-2 text-warning"></i>Sleep Health</span>
+                        <span class="badge bg-warning text-dark rounded-pill">Nightly</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Profile Check -->
+        <div class="card shadow-sm mb-4">
+            <div class="card-header bg-transparent">
+                <h5 class="mb-0"><i class="fas fa-user-check me-2"></i>Personalization Status</h5>
+            </div>
+            <div class="card-body">
+                {% set profile = current_user.profile %}
+                {% if profile %}
+                    <p>Your health tips are being personalized based on:</p>
+                    <ul class="list-group list-group-flush mb-3">
+                        {% if profile.age %}
+                            <li class="list-group-item bg-transparent"><i class="fas fa-check-circle text-success me-2"></i>Age: {{ profile.age }} years</li>
+                        {% else %}
+                            <li class="list-group-item bg-transparent"><i class="fas fa-times-circle text-muted me-2"></i>Age: Not provided</li>
+                        {% endif %}
+                        
+                        {% if profile.height and profile.weight %}
+                            <li class="list-group-item bg-transparent"><i class="fas fa-check-circle text-success me-2"></i>Height/Weight: {{ profile.height }}cm / {{ profile.weight }}kg</li>
+                        {% else %}
+                            <li class="list-group-item bg-transparent"><i class="fas fa-times-circle text-muted me-2"></i>Height/Weight: Not provided</li>
+                        {% endif %}
+                        
+                        {% if profile.health_goals %}
+                            <li class="list-group-item bg-transparent"><i class="fas fa-check-circle text-success me-2"></i>Health Goals: Provided</li>
+                        {% else %}
+                            <li class="list-group-item bg-transparent"><i class="fas fa-times-circle text-muted me-2"></i>Health Goals: Not provided</li>
+                        {% endif %}
+                    </ul>
+                {% else %}
+                    <div class="alert alert-info">
+                        <i class="fas fa-info-circle me-2"></i>
+                        <strong>Improve your tips!</strong> Complete your health profile to receive more personalized health recommendations.
+                    </div>
+                {% endif %}
+                
+                <a href="{{ url_for('profile') }}" class="btn btn-outline-primary">
+                    <i class="fas fa-user-edit me-2"></i>Update Profile
+                </a>
+            </div>
+        </div>
+        
+        <!-- Disclaimer -->
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <h5><i class="fas fa-exclamation-triangle text-warning me-2"></i>Disclaimer</h5>
+                <p class="small text-muted">These health tips are generated by AI for general informational purposes only. They are not a substitute for professional medical advice, diagnosis, or treatment. Always seek the advice of your physician or other qualified health provider with any questions you may have regarding a medical condition.</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

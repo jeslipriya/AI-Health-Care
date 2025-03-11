@@ -1,0 +1,188 @@
+{% extends 'base.html' %}
+
+{% block title %}Feedback - Health Assistant{% endblock %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col-12">
+        <h1 class="mb-3"><i class="fas fa-comment-alt me-2"></i>Share Your Feedback</h1>
+        <p class="lead text-muted">Help us improve our AI Health Assistant by sharing your experience and suggestions.</p>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-8">
+        <!-- Feedback Form -->
+        <div class="card shadow-sm mb-4">
+            <div class="card-header bg-transparent">
+                <h5 class="mb-0"><i class="fas fa-paper-plane me-2"></i>Submit Feedback</h5>
+            </div>
+            <div class="card-body">
+                <form action="{{ url_for('feedback') }}" method="post">
+                    <div class="mb-4">
+                        <label class="form-label">How would you rate your overall experience?</label>
+                        <div class="rating-container d-flex flex-wrap gap-2 mb-2">
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="rating" id="rating1" value="1" required>
+                                <label class="form-check-label" for="rating1">
+                                    <i class="fas fa-star text-warning"></i>
+                                    <i class="far fa-star text-muted"></i>
+                                    <i class="far fa-star text-muted"></i>
+                                    <i class="far fa-star text-muted"></i>
+                                    <i class="far fa-star text-muted"></i>
+                                    <span class="ms-1">Poor</span>
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="rating" id="rating2" value="2">
+                                <label class="form-check-label" for="rating2">
+                                    <i class="fas fa-star text-warning"></i>
+                                    <i class="fas fa-star text-warning"></i>
+                                    <i class="far fa-star text-muted"></i>
+                                    <i class="far fa-star text-muted"></i>
+                                    <i class="far fa-star text-muted"></i>
+                                    <span class="ms-1">Fair</span>
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="rating" id="rating3" value="3">
+                                <label class="form-check-label" for="rating3">
+                                    <i class="fas fa-star text-warning"></i>
+                                    <i class="fas fa-star text-warning"></i>
+                                    <i class="fas fa-star text-warning"></i>
+                                    <i class="far fa-star text-muted"></i>
+                                    <i class="far fa-star text-muted"></i>
+                                    <span class="ms-1">Average</span>
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="rating" id="rating4" value="4">
+                                <label class="form-check-label" for="rating4">
+                                    <i class="fas fa-star text-warning"></i>
+                                    <i class="fas fa-star text-warning"></i>
+                                    <i class="fas fa-star text-warning"></i>
+                                    <i class="fas fa-star text-warning"></i>
+                                    <i class="far fa-star text-muted"></i>
+                                    <span class="ms-1">Good</span>
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="rating" id="rating5" value="5">
+                                <label class="form-check-label" for="rating5">
+                                    <i class="fas fa-star text-warning"></i>
+                                    <i class="fas fa-star text-warning"></i>
+                                    <i class="fas fa-star text-warning"></i>
+                                    <i class="fas fa-star text-warning"></i>
+                                    <i class="fas fa-star text-warning"></i>
+                                    <span class="ms-1">Excellent</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mb-4">
+                        <label for="content" class="form-label">Your Feedback <span class="text-danger">*</span></label>
+                        <textarea class="form-control" id="content" name="content" rows="5" placeholder="Tell us about your experience, what you liked, and what we could improve..." required></textarea>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <label class="form-label">Which features did you find most helpful?</label>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-check mb-2">
+                                    <input class="form-check-input" type="checkbox" id="feature1" name="features[]" value="chatbot">
+                                    <label class="form-check-label" for="feature1">AI Health Chatbot</label>
+                                </div>
+                                <div class="form-check mb-2">
+                                    <input class="form-check-input" type="checkbox" id="feature2" name="features[]" value="mood">
+                                    <label class="form-check-label" for="feature2">Mood Tracker</label>
+                                </div>
+                                <div class="form-check mb-2">
+                                    <input class="form-check-input" type="checkbox" id="feature3" name="features[]" value="tips">
+                                    <label class="form-check-label" for="feature3">Health Tips</label>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-check mb-2">
+                                    <input class="form-check-input" type="checkbox" id="feature4" name="features[]" value="location">
+                                    <label class="form-check-label" for="feature4">Hospital Finder</label>
+                                </div>
+                                <div class="form-check mb-2">
+                                    <input class="form-check-input" type="checkbox" id="feature5" name="features[]" value="diet">
+                                    <label class="form-check-label" for="feature5">Diet & Exercise</label>
+                                </div>
+                                <div class="form-check mb-2">
+                                    <input class="form-check-input" type="checkbox" id="feature6" name="features[]" value="firstaid">
+                                    <label class="form-check-label" for="feature6">First Aid Guide</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-check mb-4">
+                        <input class="form-check-input" type="checkbox" id="contactConsent" name="contact_consent">
+                        <label class="form-check-label" for="contactConsent">
+                            I'm willing to be contacted about my feedback if needed
+                        </label>
+                    </div>
+                    
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-paper-plane me-2"></i>Submit Feedback
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-lg-4">
+        <!-- Why Feedback Matters -->
+        <div class="card shadow-sm mb-4">
+            <div class="card-header bg-transparent">
+                <h5 class="mb-0"><i class="fas fa-bullhorn me-2"></i>Why Your Feedback Matters</h5>
+            </div>
+            <div class="card-body">
+                <p>Your input is invaluable to us! Here's how we use your feedback:</p>
+                
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item bg-transparent">
+                        <i class="fas fa-check-circle text-success me-2"></i>
+                        <strong>Improve AI Responses</strong>
+                        <p class="text-muted small mb-0">Help our AI provide more accurate and helpful health information</p>
+                    </li>
+                    <li class="list-group-item bg-transparent">
+                        <i class="fas fa-check-circle text-success me-2"></i>
+                        <strong>Enhance Features</strong>
+                        <p class="text-muted small mb-0">Identify which tools are most useful and what needs improvement</p>
+                    </li>
+                    <li class="list-group-item bg-transparent">
+                        <i class="fas fa-check-circle text-success me-2"></i>
+                        <strong>Develop New Tools</strong>
+                        <p class="text-muted small mb-0">Your suggestions guide our development of new health features</p>
+                    </li>
+                    <li class="list-group-item bg-transparent">
+                        <i class="fas fa-check-circle text-success me-2"></i>
+                        <strong>Create Better Experiences</strong>
+                        <p class="text-muted small mb-0">Make the platform more intuitive and user-friendly</p>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        
+        <!-- Community Improvement -->
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <h5><i class="fas fa-users text-info me-2"></i>Join Our Improvement Community</h5>
+                <p>Want to play a bigger role in shaping the future of AI Health Assistant?</p>
+                
+                <div class="alert alert-info">
+                    <p class="mb-0">Check the box in the feedback form to indicate your interest in joining our user testing group. Selected participants will get early access to new features and the opportunity to provide direct input to our development team.</p>
+                </div>
+                
+                <p class="small text-muted mb-0">We appreciate every piece of feedback, whether it's praise, criticism, or suggestions. Thank you for helping us create a better health assistant for everyone!</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

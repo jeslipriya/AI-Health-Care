@@ -1,0 +1,204 @@
+{% extends 'base.html' %}
+
+{% block title %}Diet & Exercise - Health Assistant{% endblock %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col-12">
+        <h1 class="mb-3"><i class="fas fa-dumbbell me-2"></i>Diet & Exercise Recommendations</h1>
+        <p class="lead text-muted">Personalized nutrition and fitness plans based on your health profile.</p>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-8">
+        <!-- Profile Status Check -->
+        {% if not current_user.profile %}
+        <div class="alert alert-info mb-4">
+            <div class="d-flex">
+                <div class="me-3">
+                    <i class="fas fa-info-circle fs-2"></i>
+                </div>
+                <div>
+                    <h5>Complete Your Profile</h5>
+                    <p class="mb-0">To receive personalized diet and exercise recommendations, please complete your health profile first.</p>
+                    <a href="{{ url_for('profile') }}" class="btn btn-outline-primary mt-2">
+                        <i class="fas fa-user-edit me-2"></i>Complete Profile
+                    </a>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- Diet Plan Section -->
+        <div class="card shadow-sm mb-4">
+            <div class="card-header bg-transparent">
+                <h5 class="mb-0"><i class="fas fa-utensils me-2"></i>Your Personalized Diet Plan</h5>
+            </div>
+            <div class="card-body plan-section diet-section">
+                {% if diet_plan %}
+                    {{ diet_plan|safe|replace('\n', '<br>')|replace('**', '<strong>')|replace('**', '</strong>') }}
+                {% else %}
+                    <div class="text-center py-4">
+                        <i class="fas fa-utensils fs-1 text-muted mb-3"></i>
+                        <p>No personalized diet plan available yet.</p>
+                        <p class="text-muted">Complete your profile to receive tailored nutrition recommendations.</p>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Exercise Plan Section -->
+        <div class="card shadow-sm mb-4">
+            <div class="card-header bg-transparent">
+                <h5 class="mb-0"><i class="fas fa-running me-2"></i>Your Exercise Recommendations</h5>
+            </div>
+            <div class="card-body plan-section exercise-section">
+                {% if exercise_plan %}
+                    {{ exercise_plan|safe|replace('\n', '<br>')|replace('**', '<strong>')|replace('**', '</strong>') }}
+                {% else %}
+                    <div class="text-center py-4">
+                        <i class="fas fa-running fs-1 text-muted mb-3"></i>
+                        <p>No personalized exercise plan available yet.</p>
+                        <p class="text-muted">Complete your profile to receive tailored fitness recommendations.</p>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-4">
+        <!-- Nutrition Tips -->
+        <div class="card shadow-sm mb-4">
+            <div class="card-header bg-transparent">
+                <h5 class="mb-0"><i class="fas fa-apple-alt me-2"></i>Nutrition Basics</h5>
+            </div>
+            <div class="card-body">
+                <div class="accordion" id="nutritionAccordion">
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne">
+                                Macronutrients
+                            </button>
+                        </h2>
+                        <div id="collapseOne" class="accordion-collapse collapse" data-bs-parent="#nutritionAccordion">
+                            <div class="accordion-body">
+                                <ul class="list-unstyled">
+                                    <li><i class="fas fa-check-circle text-success me-2"></i><strong>Protein:</strong> Builds and repairs tissues, supports immune function</li>
+                                    <li><i class="fas fa-check-circle text-success me-2"></i><strong>Carbohydrates:</strong> Primary energy source for body and brain</li>
+                                    <li><i class="fas fa-check-circle text-success me-2"></i><strong>Fats:</strong> Provides energy, supports cell growth, protects organs</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo">
+                                Hydration
+                            </button>
+                        </h2>
+                        <div id="collapseTwo" class="accordion-collapse collapse" data-bs-parent="#nutritionAccordion">
+                            <div class="accordion-body">
+                                <p>Water is essential for nearly every bodily function. Aim for:</p>
+                                <ul class="list-unstyled">
+                                    <li><i class="fas fa-tint text-info me-2"></i>At least 8 glasses (64 oz) of water daily</li>
+                                    <li><i class="fas fa-tint text-info me-2"></i>More if exercising or in hot weather</li>
+                                    <li><i class="fas fa-tint text-info me-2"></i>Herbal teas and water-rich foods count toward total</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree">
+                                Portion Control
+                            </button>
+                        </h2>
+                        <div id="collapseThree" class="accordion-collapse collapse" data-bs-parent="#nutritionAccordion">
+                            <div class="accordion-body">
+                                <p>Use these visual cues for portion sizes:</p>
+                                <ul class="list-unstyled">
+                                    <li><i class="fas fa-hand text-warning me-2"></i>Protein: Palm-sized portion</li>
+                                    <li><i class="fas fa-fist text-warning me-2"></i>Carbs: Fist-sized portion</li>
+                                    <li><i class="fas fa-thumbs-up text-warning me-2"></i>Fats: Thumb-sized portion</li>
+                                    <li><i class="fas fa-hand-paper text-warning me-2"></i>Veggies: Open hand-sized portion</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Exercise Tips -->
+        <div class="card shadow-sm mb-4">
+            <div class="card-header bg-transparent">
+                <h5 class="mb-0"><i class="fas fa-heartbeat me-2"></i>Exercise Basics</h5>
+            </div>
+            <div class="card-body">
+                <div class="accordion" id="exerciseAccordion">
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour">
+                                Cardio Guidelines
+                            </button>
+                        </h2>
+                        <div id="collapseFour" class="accordion-collapse collapse" data-bs-parent="#exerciseAccordion">
+                            <div class="accordion-body">
+                                <p>For cardiovascular health, aim for:</p>
+                                <ul class="list-unstyled">
+                                    <li><i class="fas fa-heart text-danger me-2"></i>150 minutes of moderate activity per week</li>
+                                    <li><i class="fas fa-heart text-danger me-2"></i>Or 75 minutes of vigorous activity</li>
+                                    <li><i class="fas fa-heart text-danger me-2"></i>Spread throughout at least 3 days</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFive">
+                                Strength Training
+                            </button>
+                        </h2>
+                        <div id="collapseFive" class="accordion-collapse collapse" data-bs-parent="#exerciseAccordion">
+                            <div class="accordion-body">
+                                <p>For muscle health and metabolism:</p>
+                                <ul class="list-unstyled">
+                                    <li><i class="fas fa-dumbbell text-primary me-2"></i>Train all major muscle groups</li>
+                                    <li><i class="fas fa-dumbbell text-primary me-2"></i>2-3 sessions per week</li>
+                                    <li><i class="fas fa-dumbbell text-primary me-2"></i>Rest each muscle group 48 hours</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSix">
+                                Flexibility & Balance
+                            </button>
+                        </h2>
+                        <div id="collapseSix" class="accordion-collapse collapse" data-bs-parent="#exerciseAccordion">
+                            <div class="accordion-body">
+                                <p>Often overlooked but essential:</p>
+                                <ul class="list-unstyled">
+                                    <li><i class="fas fa-child text-success me-2"></i>Stretching after workouts</li>
+                                    <li><i class="fas fa-child text-success me-2"></i>Yoga or Pilates 1-2 times weekly</li>
+                                    <li><i class="fas fa-child text-success me-2"></i>Balance exercises, especially for older adults</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Disclaimer -->
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <h5><i class="fas fa-exclamation-triangle text-warning me-2"></i>Important Note</h5>
+                <p class="small text-muted">The diet and exercise plans provided are general recommendations. Always consult with healthcare professionals before beginning any new diet or exercise program, especially if you have pre-existing health conditions, are pregnant, or are recovering from an injury.</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

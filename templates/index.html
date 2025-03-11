@@ -1,0 +1,200 @@
+{% extends 'base.html' %}
+
+{% block title %}AI Virtual Health Assistant - Your Personal Health Companion{% endblock %}
+
+{% block content %}
+<div class="row align-items-center py-5">
+    <div class="col-lg-6 mb-4 mb-lg-0">
+        <h1 class="display-4 fw-bold mb-3">Your AI-Powered Health Assistant</h1>
+        <p class="lead text-muted mb-4">Get personalized health guidance, track your mood, find medical facilities, and access AI-generated health tips - all in one place.</p>
+        {% if current_user.is_authenticated %}
+        <div class="d-grid gap-2 d-md-flex">
+            <a href="{{ url_for('dashboard') }}" class="btn btn-primary btn-lg me-md-2">
+                <i class="fas fa-tachometer-alt me-2"></i>Go to Dashboard
+            </a>
+            <a href="{{ url_for('chatbot') }}" class="btn btn-outline-secondary btn-lg">
+                <i class="fas fa-robot me-2"></i>Talk to AI Assistant
+            </a>
+        </div>
+        {% else %}
+        <div class="d-grid gap-2 d-md-flex">
+            <a href="{{ url_for('register') }}" class="btn btn-primary btn-lg me-md-2">
+                <i class="fas fa-user-plus me-2"></i>Get Started
+            </a>
+            <a href="{{ url_for('login') }}" class="btn btn-outline-secondary btn-lg">
+                <i class="fas fa-sign-in-alt me-2"></i>Login
+            </a>
+        </div>
+        {% endif %}
+    </div>
+    <div class="col-lg-6">
+        <div class="card bg-dark shadow-lg">
+            <div class="card-body p-4 text-center">
+                <i class="fas fa-robot text-primary display-1 mb-3"></i>
+                <h3 class="mb-3">AI-Powered Health Support</h3>
+                <p class="card-text">Our virtual assistant uses advanced AI to provide personalized health information, answer your questions, and help you manage your well-being.</p>
+                <div class="d-flex justify-content-center mt-3">
+                    <div class="bg-dark-subtle p-3 rounded-3 chat-preview">
+                        <p class="mb-2"><strong>You:</strong> What can I do to improve my sleep?</p>
+                        <p class="mb-0"><strong>AI Assistant:</strong> For better sleep, maintain a consistent schedule, create a relaxing bedtime routine, limit screen time, ensure your bedroom is cool and dark, avoid caffeine late in the day, and get regular exercise.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<hr class="my-5">
+
+<div class="row text-center mb-5">
+    <div class="col-12">
+        <h2 class="display-5 mb-4">Key Features</h2>
+        <p class="lead text-muted mb-5">Comprehensive tools for your health and wellness journey</p>
+    </div>
+</div>
+
+<div class="row mb-5 g-4">
+    <!-- Feature 1 -->
+    <div class="col-md-6 col-lg-4">
+        <div class="card h-100 feature-card">
+            <div class="card-body text-center p-4">
+                <i class="fas fa-robot feature-icon"></i>
+                <h4 class="card-title">AI Health Chatbot</h4>
+                <p class="card-text">Get instant answers to your health questions with our intelligent chatbot trained on medical knowledge.</p>
+                {% if current_user.is_authenticated %}
+                <a href="{{ url_for('chatbot') }}" class="btn btn-outline-primary mt-auto">Try Now</a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    
+    <!-- Feature 2 -->
+    <div class="col-md-6 col-lg-4">
+        <div class="card h-100 feature-card">
+            <div class="card-body text-center p-4">
+                <i class="fas fa-smile feature-icon"></i>
+                <h4 class="card-title">Mood Tracking</h4>
+                <p class="card-text">Monitor your emotional well-being over time with our simple mood tracking tool and visualizations.</p>
+                {% if current_user.is_authenticated %}
+                <a href="{{ url_for('moodtracker') }}" class="btn btn-outline-primary mt-auto">Track Mood</a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    
+    <!-- Feature 3 -->
+    <div class="col-md-6 col-lg-4">
+        <div class="card h-100 feature-card">
+            <div class="card-body text-center p-4">
+                <i class="fas fa-lightbulb feature-icon"></i>
+                <h4 class="card-title">AI Health Tips</h4>
+                <p class="card-text">Receive personalized health recommendations and tips based on your profile and needs.</p>
+                {% if current_user.is_authenticated %}
+                <a href="{{ url_for('healthtips') }}" class="btn btn-outline-primary mt-auto">Get Tips</a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    
+    <!-- Feature 4 -->
+    <div class="col-md-6 col-lg-4">
+        <div class="card h-100 feature-card">
+            <div class="card-body text-center p-4">
+                <i class="fas fa-hospital feature-icon"></i>
+                <h4 class="card-title">Hospital Finder</h4>
+                <p class="card-text">Locate the nearest hospitals and medical facilities based on your current location.</p>
+                {% if current_user.is_authenticated %}
+                <a href="{{ url_for('location') }}" class="btn btn-outline-primary mt-auto">Find Hospitals</a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    
+    <!-- Feature 5 -->
+    <div class="col-md-6 col-lg-4">
+        <div class="card h-100 feature-card">
+            <div class="card-body text-center p-4">
+                <i class="fas fa-dumbbell feature-icon"></i>
+                <h4 class="card-title">Diet & Exercise</h4>
+                <p class="card-text">Get customized diet plans and exercise routines tailored to your health goals.</p>
+                {% if current_user.is_authenticated %}
+                <a href="{{ url_for('dietandexercise') }}" class="btn btn-outline-primary mt-auto">Learn More</a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    
+    <!-- Feature 6 -->
+    <div class="col-md-6 col-lg-4">
+        <div class="card h-100 feature-card">
+            <div class="card-body text-center p-4">
+                <i class="fas fa-first-aid feature-icon"></i>
+                <h4 class="card-title">First Aid Guide</h4>
+                <p class="card-text">Access comprehensive first aid information and emergency procedures.</p>
+                {% if current_user.is_authenticated %}
+                <a href="{{ url_for('firstaid') }}" class="btn btn-outline-primary mt-auto">View Guide</a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<hr class="my-5">
+
+<div class="row align-items-center py-4">
+    <div class="col-lg-6 mb-4 mb-lg-0">
+        <h2 class="display-6 mb-3">Why Choose Our Health Assistant?</h2>
+        <ul class="list-group list-group-flush mb-4">
+            <li class="list-group-item bg-transparent"><i class="fas fa-check-circle text-success me-2"></i>Personalized health guidance based on your profile</li>
+            <li class="list-group-item bg-transparent"><i class="fas fa-check-circle text-success me-2"></i>24/7 access to AI-powered health information</li>
+            <li class="list-group-item bg-transparent"><i class="fas fa-check-circle text-success me-2"></i>Privacy-focused design to protect your health data</li>
+            <li class="list-group-item bg-transparent"><i class="fas fa-check-circle text-success me-2"></i>Comprehensive wellness tools in one platform</li>
+            <li class="list-group-item bg-transparent"><i class="fas fa-check-circle text-success me-2"></i>Regularly updated with the latest health information</li>
+        </ul>
+        {% if not current_user.is_authenticated %}
+        <div class="d-grid gap-2 d-md-flex">
+            <a href="{{ url_for('register') }}" class="btn btn-primary">Create Free Account</a>
+        </div>
+        {% endif %}
+    </div>
+    <div class="col-lg-6">
+        <div class="alert alert-info mb-4">
+            <h5><i class="fas fa-info-circle me-2"></i>Important Disclaimer</h5>
+            <p class="mb-0">This AI Health Assistant is designed to provide general health information and is not a substitute for professional medical advice, diagnosis, or treatment. Always seek the advice of your physician or other qualified health provider with any questions about a medical condition.</p>
+        </div>
+        <div class="card bg-dark border-0">
+            <div class="card-body">
+                <h5 class="card-title">What Users Are Saying</h5>
+                <div class="mb-3">
+                    <div class="d-flex align-items-center mb-2">
+                        <i class="fas fa-user-circle me-2 fs-4"></i>
+                        <span class="fw-bold">Sarah J.</span>
+                        <div class="ms-auto">
+                            <i class="fas fa-star text-warning"></i>
+                            <i class="fas fa-star text-warning"></i>
+                            <i class="fas fa-star text-warning"></i>
+                            <i class="fas fa-star text-warning"></i>
+                            <i class="fas fa-star text-warning"></i>
+                        </div>
+                    </div>
+                    <p class="card-text small">"The mood tracking feature has helped me understand my emotional patterns. The AI chatbot gives practical health advice that's easy to follow."</p>
+                </div>
+                <div>
+                    <div class="d-flex align-items-center mb-2">
+                        <i class="fas fa-user-circle me-2 fs-4"></i>
+                        <span class="fw-bold">Michael T.</span>
+                        <div class="ms-auto">
+                            <i class="fas fa-star text-warning"></i>
+                            <i class="fas fa-star text-warning"></i>
+                            <i class="fas fa-star text-warning"></i>
+                            <i class="fas fa-star text-warning"></i>
+                            <i class="fas fa-star-half-alt text-warning"></i>
+                        </div>
+                    </div>
+                    <p class="card-text small">"Finding nearby hospitals during my vacation was a lifesaver. The personalized diet suggestions have also been incredibly helpful."</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,192 @@
+/* Custom styles for Health Assistant App */
+
+/* Custom color variables */
+:root {
+  --medical-blue: #007bff;
+  --medical-green: #28a745;
+  --light-blue: #e3f2fd;
+  --calm-green: #e8f5e9;
+}
+
+/* Main Layout */
+body {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.content-wrapper {
+  flex: 1;
+}
+
+/* Header */
+.navbar-brand {
+  font-weight: bold;
+  color: var(--medical-blue) !important;
+}
+
+.nav-link:hover {
+  color: var(--medical-green) !important;
+}
+
+/* Footer */
+footer {
+  background-color: var(--bs-dark);
+  color: var(--bs-light);
+  padding: 1rem 0;
+  margin-top: 2rem;
+}
+
+/* Dashboard */
+.stats-card {
+  transition: transform 0.3s;
+}
+
+.stats-card:hover {
+  transform: translateY(-5px);
+}
+
+/* Feature cards */
+.feature-card {
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  height: 100%;
+}
+
+.feature-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+}
+
+.feature-icon {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+  color: var(--medical-blue);
+}
+
+/* Mood tracker */
+.mood-slider {
+  width: 100%;
+  margin: 20px 0;
+}
+
+.mood-form {
+  background-color: var(--light-blue);
+  padding: 20px;
+  border-radius: 10px;
+}
+
+.mood-history {
+  margin-top: 30px;
+}
+
+/* Chat interface */
+.chat-container {
+  height: 400px;
+  overflow-y: auto;
+  border: 1px solid #dee2e6;
+  border-radius: 5px;
+  padding: 10px;
+  margin-bottom: 15px;
+  background-color: var(--bs-dark);
+}
+
+.chat-message {
+  margin-bottom: 15px;
+  padding: 10px;
+  border-radius: 10px;
+  max-width: 80%;
+}
+
+.user-message {
+  background-color: var(--medical-blue);
+  color: white;
+  margin-left: auto;
+}
+
+.bot-message {
+  background-color: var(--bs-gray-dark);
+  color: white;
+}
+
+/* Health Tips */
+.health-tip {
+  padding: 15px;
+  margin-bottom: 15px;
+  border-left: 5px solid var(--medical-green);
+  background-color: var(--calm-green);
+  border-radius: 5px;
+}
+
+.health-tip-date {
+  font-size: 0.8rem;
+  color: var(--bs-gray);
+}
+
+/* Profile */
+.profile-header {
+  background-color: var(--light-blue);
+  padding: 20px;
+  border-radius: 10px;
+  margin-bottom: 20px;
+}
+
+/* First Aid */
+.emergency-banner {
+  background-color: #dc3545;
+  color: white;
+  padding: 10px;
+  text-align: center;
+  margin-bottom: 20px;
+  border-radius: 5px;
+}
+
+.first-aid-card {
+  margin-bottom: 20px;
+  border-left: 4px solid var(--medical-blue);
+}
+
+/* Diet and Exercise */
+.plan-section {
+  padding: 20px;
+  border-radius: 10px;
+  margin-bottom: 20px;
+}
+
+.diet-section {
+  background-color: var(--calm-green);
+}
+
+.exercise-section {
+  background-color: var(--light-blue);
+}
+
+/* Auth pages */
+.auth-form {
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .chat-message {
+    max-width: 90%;
+  }
+}
+
+/* Loading spinner */
+.spinner-border {
+  width: 1rem;
+  height: 1rem;
+}
+
+/* Map container */
+#map {
+  height: 400px;
+  width: 100%;
+  border-radius: 10px;
+}
