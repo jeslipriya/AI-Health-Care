@@ -10,8 +10,8 @@ GEMINI_API_KEY = os.environ.get("GEMINI_API_KEY")
 genai.configure(api_key=GEMINI_API_KEY)
 
 # Default model to use (Gemini Pro is equivalent to GPT-4)
-DEFAULT_MODEL = "gemini-pro"
-DEFAULT_IMAGE_MODEL = "gemini-pro-vision"
+DEFAULT_MODEL = "gemini-1.0-pro"  # Updated model name for the latest API
+DEFAULT_IMAGE_MODEL = "gemini-1.0-pro-vision"  # Updated model name for the latest API
 
 def generate_text(prompt, temperature=0.7, max_tokens=1024):
     """
