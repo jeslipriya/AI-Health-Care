@@ -93,6 +93,11 @@
                                     <i class="fas fa-first-aid me-1"></i> First Aid Guide
                                 </a>
                             </li>
+                            <li>
+                                <a class="dropdown-item {% if request.path.startswith('/medications') %}active{% endif %}" href="{{ url_for('medications') }}">
+                                    <i class="fas fa-pills me-1"></i> Medication Reminders
+                                </a>
+                            </li>
                         </ul>
                     </li>
                     <li class="nav-item dropdown">
