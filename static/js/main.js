@@ -50,32 +50,57 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
     
-    // Dark mode toggle (if exists)
-    const darkModeToggle = document.getElementById('dark-mode-toggle');
-    if (darkModeToggle) {
-        darkModeToggle.addEventListener('click', function() {
-            document.body.classList.toggle('dark-mode');
-            const isDarkMode = document.body.classList.contains('dark-mode');
-            localStorage.setItem('darkMode', isDarkMode);
+    // Theme toggle
+    const themeToggle = document.getElementById('theme-toggle');
+    if (themeToggle) {
+        themeToggle.addEventListener('click', function() {
+            const html = document.documentElement;
+            const currentTheme = html.getAttribute('data-bs-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
             
-            // Update icon
-            const icon = darkModeToggle.querySelector('i');
-            if (isDarkMode) {
-                icon.classList.remove('fa-moon');
-                icon.classList.add('fa-sun');
-            } else {
-                icon.classList.remove('fa-sun');
-                icon.classList.add('fa-moon');
+            // Update HTML attribute
+            html.setAttribute('data-bs-theme', newTheme);
+            
+            // Update stylesheet reference
+            const themeStyle = document.getElementById('theme-style');
+            if (themeStyle) {
+                if (newTheme === 'dark') {
+                    themeStyle.href = 'https://cdn.replit.com/agent/bootstrap-agent-dark-theme.min.css';
+                } else {
+                    themeStyle.href = 'https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css';
+                }
             }
+            
+            // Show/hide appropriate icons and text
+            const darkIcons = document.querySelectorAll('.theme-icon-dark');
+            const lightIcons = document.querySelectorAll('.theme-icon-light');
+            const darkText = document.querySelectorAll('.theme-text-dark');
+            const lightText = document.querySelectorAll('.theme-text-light');
+            
+            if (newTheme === 'dark') {
+                darkIcons.forEach(icon => icon.classList.remove('d-none'));
+                lightIcons.forEach(icon => icon.classList.add('d-none'));
+                darkText.forEach(text => text.classList.remove('d-none'));
+                lightText.forEach(text => text.classList.add('d-none'));
+            } else {
+                darkIcons.forEach(icon => icon.classList.add('d-none'));
+                lightIcons.forEach(icon => icon.classList.remove('d-none'));
+                darkText.forEach(text => text.classList.add('d-none'));
+                lightText.forEach(text => text.classList.remove('d-none'));
+            }
+            
+            // Save preference to localStorage
+            localStorage.setItem('theme', newTheme);
         });
         
-        // Check for saved dark mode preference
-        const savedDarkMode = localStorage.getItem('darkMode');
-        if (savedDarkMode === 'true') {
-            document.body.classList.add('dark-mode');
-            const icon = darkModeToggle.querySelector('i');
-            icon.classList.remove('fa-moon');
-            icon.classList.add('fa-sun');
+        // Apply saved theme preference on page load
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme) {
+            // We'll use dispatching a click event to use the same logic as the click handler
+            if ((savedTheme === 'light' && document.documentElement.getAttribute('data-bs-theme') === 'dark') ||
+                (savedTheme === 'dark' && document.documentElement.getAttribute('data-bs-theme') === 'light')) {
+                themeToggle.click();
+            }
         }
     }
     

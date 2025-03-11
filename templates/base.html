@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}AI Virtual Health Assistant{% endblock %}</title>
     
-    <!-- Bootstrap CSS from Replit CDN -->
-    <link rel="stylesheet" href="https://cdn.replit.com/agent/bootstrap-agent-dark-theme.min.css">
+    <!-- Bootstrap CSS for dark theme -->
+    <link id="theme-style" rel="stylesheet" href="https://cdn.replit.com/agent/bootstrap-agent-dark-theme.min.css">
     
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -24,7 +24,7 @@
 </head>
 <body>
     <!-- Navigation -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <nav class="navbar navbar-expand-lg bg-dark" data-bs-theme="dark">
         <div class="container">
             <a class="navbar-brand" href="{{ url_for('index') }}">
                 <i class="fas fa-heartbeat me-2"></i>AI Health Assistant
@@ -34,6 +34,14 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <button id="theme-toggle" class="btn nav-link" title="Toggle theme">
+                            <i class="fas fa-moon me-1 theme-icon-dark"></i>
+                            <i class="fas fa-sun me-1 theme-icon-light d-none"></i>
+                            <span class="d-none d-md-inline theme-text-light">Light Mode</span>
+                            <span class="d-none d-md-inline theme-text-dark">Dark Mode</span>
+                        </button>
+                    </li>
                     <li class="nav-item">
                         <a class="nav-link {% if request.path == url_for('index') %}active{% endif %}" href="{{ url_for('index') }}">
                             <i class="fas fa-home me-1"></i> Home
@@ -152,33 +160,33 @@
     </div>
 
     <!-- Footer -->
-    <footer class="bg-dark text-light py-4">
+    <footer class="bg-dark py-4">
         <div class="container">
             <div class="row">
                 <div class="col-md-4 mb-3 mb-md-0">
                     <h5><i class="fas fa-heartbeat me-2"></i>AI Health Assistant</h5>
-                    <p class="text-muted">Your personalized health and wellness companion.</p>
+                    <p class="text-secondary">Your personalized health and wellness companion.</p>
                 </div>
                 <div class="col-md-4 mb-3 mb-md-0">
                     <h5>Quick Links</h5>
                     <ul class="list-unstyled">
-                        <li><a href="{{ url_for('index') }}" class="text-decoration-none text-muted"><i class="fas fa-chevron-right me-1"></i>Home</a></li>
+                        <li><a href="{{ url_for('index') }}" class="text-decoration-none text-secondary"><i class="fas fa-chevron-right me-1"></i>Home</a></li>
                         {% if current_user.is_authenticated %}
-                        <li><a href="{{ url_for('dashboard') }}" class="text-decoration-none text-muted"><i class="fas fa-chevron-right me-1"></i>Dashboard</a></li>
-                        <li><a href="{{ url_for('chatbot') }}" class="text-decoration-none text-muted"><i class="fas fa-chevron-right me-1"></i>AI Chatbot</a></li>
+                        <li><a href="{{ url_for('dashboard') }}" class="text-decoration-none text-secondary"><i class="fas fa-chevron-right me-1"></i>Dashboard</a></li>
+                        <li><a href="{{ url_for('chatbot') }}" class="text-decoration-none text-secondary"><i class="fas fa-chevron-right me-1"></i>AI Chatbot</a></li>
                         {% else %}
-                        <li><a href="{{ url_for('about') }}" class="text-decoration-none text-muted"><i class="fas fa-chevron-right me-1"></i>About</a></li>
-                        <li><a href="{{ url_for('login') }}" class="text-decoration-none text-muted"><i class="fas fa-chevron-right me-1"></i>Login</a></li>
+                        <li><a href="{{ url_for('about') }}" class="text-decoration-none text-secondary"><i class="fas fa-chevron-right me-1"></i>About</a></li>
+                        <li><a href="{{ url_for('login') }}" class="text-decoration-none text-secondary"><i class="fas fa-chevron-right me-1"></i>Login</a></li>
                         {% endif %}
                     </ul>
                 </div>
                 <div class="col-md-4">
                     <h5>Important</h5>
-                    <p class="text-muted small">This AI assistant is not a substitute for professional medical advice, diagnosis, or treatment. Always seek the advice of your physician or other qualified health provider with any questions about a medical condition.</p>
+                    <p class="text-secondary small">This AI assistant is not a substitute for professional medical advice, diagnosis, or treatment. Always seek the advice of your physician or other qualified health provider with any questions about a medical condition.</p>
                 </div>
             </div>
             <hr class="my-4">
-            <div class="text-center text-muted">
+            <div class="text-center text-secondary">
                 <p>&copy; 2025 AI Health Assistant. All rights reserved.</p>
             </div>
         </div>

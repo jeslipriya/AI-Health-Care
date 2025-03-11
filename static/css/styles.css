@@ -8,6 +8,36 @@
   --calm-green: #e8f5e9;
 }
 
+/* Light Theme Overrides */
+html[data-bs-theme="light"] {
+  --bs-body-bg: #ffffff;
+  --bs-body-color: #212529;
+}
+
+/* Dark Theme Overrides */
+html[data-bs-theme="dark"] {
+  --bs-body-bg: #212529;
+  --bs-body-color: #f8f9fa;
+}
+
+/* Theme Toggle Button */
+#theme-toggle {
+  cursor: pointer;
+  border: none;
+  background: transparent;
+  padding: 8px 12px;
+  transition: all 0.3s ease;
+  color: inherit;
+}
+
+#theme-toggle:hover {
+  opacity: 0.8;
+}
+
+.theme-icon-dark, .theme-icon-light {
+  font-size: 1.1rem;
+}
+
 /* Main Layout */
 body {
   min-height: 100vh;
