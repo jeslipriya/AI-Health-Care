@@ -6,8 +6,8 @@ import base64
 import io
 
 # Configure the Gemini API with your key
-GEMINI_API_KEY = os.environ.get("GEMINI_API_KEY")
-genai.configure(api_key=GEMINI_API_KEY)
+GEMINI_API_KEY = os.environ.get("AIzaSyDVY7Rxr_GpwXiG5QiqIgq7tdKimGbLFoA")
+genai.configure(api_key="AIzaSyDVY7Rxr_GpwXiG5QiqIgq7tdKimGbLFoA")
 
 # List available models for debugging
 try:
