@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Health Care</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@700&family=Quicksand:wght@400;500&family=Montserrat:wght@600&display=swap" rel="stylesheet">
+  <style>
+    body {
+      background-color: #EAF2F2; /* Light Aqua */
+      font-family: 'Quicksand', sans-serif;
+      color: #05668D; /* Deep Blue */
+    }
+    h1, h2, h3, h4, h5, h6 {
+      font-family: 'Raleway', sans-serif;
+      color: #00A896; /* Sea Green */
+    }
+    .navbar {
+      background-color: #00A896; /* Sea Green */
+    }
+    .navbar-brand, .nav-link {
+      font-family: 'Montserrat', sans-serif;
+      color: white !important;
+    }
+    .nav-link:hover {
+      color: #F0F3BD !important; /* Pastel Yellow */
+    }
+    .feature-card {
+      margin: 10px;
+      padding: 20px;
+      background-color: #fff;
+      border: 1px solid #028090; /* Teal */
+      border-radius: 10px;
+      text-align: center;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .feature-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    }
+    .btn-primary {
+      background-color: #028090; /* Teal */
+      border-color: #028090;
+      font-family: 'Montserrat', sans-serif;
+      transition: background-color 0.3s ease;
+    }
+    .btn-primary:hover {
+      background-color: #00A896; /* Sea Green */
+      border-color: #00A896;
+    }
+    .btn-secondary {
+      background-color: #F0F3BD; /* Pastel Yellow */
+      border-color: #F0F3BD;
+      color: #05668D; /* Deep Blue */
+      font-family: 'Montserrat', sans-serif;
+      transition: background-color 0.3s ease;
+    }
+    .btn-secondary:hover {
+      background-color: #028090; /* Teal */
+      border-color: #028090;
+      color: white;
+    }
+    footer {
+      margin-top: 50px;
+      padding: 20px;
+      background-color: #00A896; /* Sea Green */
+      text-align: center;
+      color: white;
+    }
+    footer a {
+      margin: 0 10px;
+      color: #F0F3BD; /* Pastel Yellow */
+      text-decoration: none;
+    }
+    footer a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <!-- Navigation Menu Bar -->
+  <nav class="navbar navbar-expand-lg navbar-dark">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="/">AI Health Care</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="/about">About</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/firstaid">First Aid Guidance</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/register">Register</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/login">Login</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/feedback">Feedback</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+  <script>
+    // Remove ** from the response
+    const cleanResponse = data.answer.replace(/\*\*/g, "");
+
+    // Format AI's response into small paragraphs
+    const formattedResponse = formatResponse(cleanResponse)
+  </script>
+
+  <!-- Welcome Section -->
+  <div class="container mt-5">
+    <div class="text-center">
+      <h1>Welcome to AI Health Care</h1>
+      <p class="lead">Your personal health assistant powered by AI. Get started today to take control of your health!</p>
+      <a href="/register" class="btn btn-primary btn-lg">Get Started</a>
+      <a href="/login" class="btn btn-secondary btn-lg">Login</a>
+    </div>
+
+    <!-- Key Features Section -->
+    <div class="row mt-5">
+      <div class="col-md-4">
+        <div class="feature-card">
+          <h3>AI Health Chatbot</h3>
+          <p>Get instant answers to your health-related questions.</p>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="feature-card">
+          <h3>Mood Tracker</h3>
+          <p>Track your mood and get personalized mental health tips.</p>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="feature-card">
+          <h3>AI Health Tips</h3>
+          <p>Receive daily health tips tailored to your needs.</p>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="feature-card">
+          <h3>Hospital Finder</h3>
+          <p>Find the nearest hospitals and clinics in your area.</p>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="feature-card">
+          <h3>Diet and Exercise</h3>
+          <p>Get personalized diet and exercise plans.</p>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="feature-card">
+          <h3>First Aid Guidance</h3>
+          <p>Step-by-step guidance for emergency first aid situations.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <div>
+      <a href="/about">About</a> | 
+      <a href="/feedback">Feedback</a>
+    </div>
+    <p class="mt-3">&copy; 2025 AI Health Care. All rights reserved.</p>
+  </footer>
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

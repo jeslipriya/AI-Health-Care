@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Diet and Exercise Plan</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@700&family=Quicksand:wght@400;500&family=Montserrat:wght@700&display=swap" rel="stylesheet">
+  <style>
+    /* Custom Styles */
+    body {
+      background-color: #EAF2F2; /* Light Aqua */
+      font-family: 'Quicksand', sans-serif;
+      color: #05668D; /* Deep Blue */
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+      margin: 0;
+    }
+
+    .navbar {
+      background-color: #00A896; /* Sea Green */
+    }
+
+    .navbar-brand, .nav-link {
+      color: white !important;
+      font-family: 'Montserrat', sans-serif;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
+      flex: 1;
+    }
+
+    .form-card, .plan-card {
+      background-color: white;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      margin-bottom: 20px;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .form-card:hover, .plan-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    }
+
+    .form-card h2, .plan-card h3 {
+      font-family: 'Raleway', sans-serif;
+      color: #028090; /* Teal */
+    }
+
+    .form-card label {
+      font-family: 'Quicksand', sans-serif;
+      color: #05668D; /* Deep Blue */
+    }
+
+    .form-card input, .form-card select {
+      border: 1px solid #028090; /* Teal */
+      border-radius: 5px;
+      padding: 10px;
+      font-family: 'Quicksand', sans-serif;
+    }
+
+    .form-card button {
+      background-color: #028090; /* Teal */
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 5px;
+      font-family: 'Montserrat', sans-serif;
+      transition: background-color 0.3s ease, transform 0.3s ease;
+    }
+
+    .form-card button:hover {
+      background-color: #00A896; /* Sea Green */
+      transform: scale(1.05);
+    }
+
+    .plan-card pre {
+      background-color: #f8f9fa;
+      padding: 15px;
+      border-radius: 5px;
+      white-space: pre-wrap;
+      word-wrap: break-word;
+      font-family: 'Quicksand', sans-serif;
+    }
+
+    .btn-back {
+      background-color: #F0F3BD; /* Pastel Yellow */
+      color: #05668D; /* Deep Blue */
+      font-family: 'Montserrat', sans-serif;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 5px;
+      transition: background-color 0.3s ease, transform 0.3s ease;
+    }
+
+    .btn-back:hover {
+      background-color: #028090; /* Teal */
+      color: white;
+      transform: scale(1.05);
+    }
+
+    footer {
+      background-color: #00A896; /* Sea Green */
+      color: white;
+      text-align: center;
+      padding: 20px 0;
+      margin-top: auto;
+    }
+
+    footer a {
+      color: #F0F3BD; /* Pastel Yellow */
+      text-decoration: none;
+      margin: 0 10px;
+    }
+
+    footer a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <!-- Navigation Bar -->
+  <nav class="navbar navbar-expand-lg navbar-dark">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="/">AI Health Care</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="/dashboard">Dashboard</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/profile">Profile</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/feedback">Feedback</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link active" href="/dietandexercise">Diet & Exercise</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Main Content -->
+  <div class="container">
+    <!-- Form for User Input -->
+    <div class="form-card">
+      <h2 class="text-center mb-4">Get Your Personalized Diet and Exercise Plan</h2>
+      <form id="diet-exercise-form">
+        <div class="mb-3">
+          <label for="age" class="form-label">Age</label>
+          <input type="number" class="form-control" id="age" name="age" required>
+        </div>
+        <div class="mb-3">
+          <label for="height" class="form-label">Height (in cm)</label>
+          <input type="number" class="form-control" id="height" name="height" required>
+        </div>
+        <div class="mb-3">
+          <label for="weight" class="form-label">Weight (in kg)</label>
+          <input type="number" class="form-control" id="weight" name="weight" required>
+        </div>
+        <div class="mb-3">
+          <label for="health-goals" class="form-label">Health Goals</label>
+          <select class="form-select" id="health-goals" name="health_goals" required>
+            <option value="weight_loss">Weight Loss</option>
+            <option value="muscle_gain">Muscle Gain</option>
+            <option value="general_health">General Health</option>
+            <option value="improve_fitness">Improve Fitness</option>
+          </select>
+        </div>
+        <button type="submit" class="btn">Generate Plan</button>
+      </form>
+    </div>
+
+    <!-- Display Diet and Exercise Plan -->
+    <div id="plan-results" class="plan-card" style="display: none;">
+      <h3>Your Personalized Plan</h3>
+      <div id="diet-plan">
+        <h4>Diet Plan</h4>
+        <pre id="diet-plan-content"></pre>
+      </div>
+      <div id="exercise-plan">
+        <h4>Exercise Plan</h4>
+        <pre id="exercise-plan-content"></pre>
+      </div>
+    </div>
+
+    <!-- Back to Dashboard Button -->
+    <div class="text-center mt-4">
+      <a href="/dashboard" class="btn btn-back">Back to Dashboard</a>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <div>
+      <a href="/aichatbot">AI Chatbot</a> |
+      <a href="/healthtips">Health Tips</a> |
+      <a href="/hospitalfinder">Hospital Finder</a>
+    </div>
+    <p class="mt-3">&copy; 2025 AI Health Care. All rights reserved.</p>
+  </footer>
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+
+  <!-- Custom JavaScript -->
+  <script>
+    document.getElementById('diet-exercise-form').addEventListener('submit', function (e) {
+      e.preventDefault();
+
+      const age = document.getElementById('age').value;
+      const height = document.getElementById('height').value;
+      const weight = document.getElementById('weight').value;
+      const healthGoals = document.getElementById('health-goals').value;
+
+      const userProfile = {
+        age: age,
+        height: height,
+        weight: weight,
+        health_goals: healthGoals,
+      };
+
+      // Send user profile to the backend
+      fetch('/generate_diet_exercise_plan', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(userProfile),
+      })
+        .then(response => response.json())
+        .then(data => {
+          // Display the generated plans
+          document.getElementById('diet-plan-content').textContent = data.diet_plan;
+          document.getElementById('exercise-plan-content').textContent = data.exercise_plan;
+          document.getElementById('plan-results').style.display = 'block';
+        })
+        .catch(error => {
+          console.error('Error:', error);
+          alert('Failed to generate plan. Please try again.');
+        });
+    });
+  </script>
+</body>
+</html>

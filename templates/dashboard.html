@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@700&family=Quicksand:wght@400;500&family=Montserrat:wght@700&display=swap" rel="stylesheet">
+  <style>
+    /* Custom Styles */
+    body {
+      background-color: #EAF2F2; /* Light Aqua */
+      font-family: 'Quicksand', sans-serif;
+      color: #05668D; /* Deep Blue */
+    }
+
+    .navbar {
+      background-color: #00A896; /* Sea Green */
+    }
+
+    .navbar-brand, .nav-link {
+      color: white !important;
+      font-family: 'Montserrat', sans-serif;
+    }
+
+    .dashboard-title {
+      font-size: 24px;
+      font-weight: bold;
+      margin-left: 20px;
+      font-family: 'Raleway', sans-serif;
+      color: white;
+    }
+
+    .menu-bar .btn {
+      margin-left: 10px;
+      font-family: 'Montserrat', sans-serif;
+    }
+
+    .feature-card {
+      margin: 10px;
+      padding: 20px;
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      text-align: center;
+      transition: transform 0.2s, box-shadow 0.2s;
+      background-color: white;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .feature-card:hover {
+      transform: scale(1.05);
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    }
+
+    .feature-card h3 {
+      font-family: 'Raleway', sans-serif;
+      color: #028090; /* Teal */
+    }
+
+    .feature-card p {
+      font-family: 'Quicksand', sans-serif;
+    }
+
+    .feature-card .btn {
+      background-color: #028090; /* Teal */
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 5px;
+      font-family: 'Montserrat', sans-serif;
+      transition: background-color 0.3s ease, transform 0.3s ease;
+    }
+
+    .feature-card .btn:hover {
+      background-color: #00A896; /* Sea Green */
+      transform: scale(1.05);
+    }
+
+    .graph-card, .health-tips-card, .diet-exercise-card {
+      margin: 20px;
+      padding: 20px;
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      background-color: white;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .graph-card h3, .health-tips-card h3, .diet-exercise-card h3 {
+      font-family: 'Raleway', sans-serif;
+      color: #028090; /* Teal */
+    }
+
+    .graph-card p, .health-tips-card p, .diet-exercise-card p {
+      font-family: 'Quicksand', sans-serif;
+    }
+
+    .graph-card .btn, .health-tips-card .btn, .diet-exercise-card .btn {
+      background-color: #028090; /* Teal */
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 5px;
+      font-family: 'Montserrat', sans-serif;
+      transition: background-color 0.3s ease, transform 0.3s ease;
+    }
+
+    .graph-card .btn:hover, .health-tips-card .btn:hover, .diet-exercise-card .btn:hover {
+      background-color: #00A896; /* Sea Green */
+      transform: scale(1.05);
+    }
+
+    footer {
+      margin-top: 50px;
+      padding: 20px;
+      background-color: #00A896; /* Sea Green */
+      color: white;
+      text-align: center;
+    }
+
+    footer a {
+      color: white;
+      text-decoration: none;
+      margin: 0 10px;
+    }
+
+    footer a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <!-- Navigation Bar -->
+  <nav class="navbar navbar-expand-lg navbar-dark">
+    <div class="container-fluid">
+      <span class="dashboard-title">AI Health Assistant</span>
+      <div class="menu-bar">
+        <a href="/profile" class="btn btn-outline-light">Profile</a>
+        <a href="/feedback" class="btn btn-outline-light">Feedback</a>
+        <a href="/firstaid" class="btn btn-outline-light">First Aid Guidance</a>
+        <a href="/logout" class="btn btn-outline-danger">Logout</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Main Content -->
+  <div class="container mt-5">
+    <!-- Feature Cards -->
+    <div class="row">
+      <div class="col-md-3">
+        <div class="feature-card">
+          <h3>Chat to Assistant</h3>
+          <p>Get instant answers to your health-related questions.</p>
+          <a href="/aichatbot" class="btn">Go to Chatbot</a>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="feature-card">
+          <h3>Track Your Mood</h3>
+          <p>Track your mood and get personalized mental health tips.</p>
+          <a href="/moodtracker" class="btn">Go to Mood Tracker</a>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="feature-card">
+          <h3>Generate Health Tips</h3>
+          <p>Receive daily health tips tailored to your needs.</p>
+          <a href="/healthtips" class="btn">Go to Health Tips</a>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="feature-card">
+          <h3>Find Nearby Hospitals</h3>
+          <p>Find the nearest hospitals and clinics in your area.</p>
+          <a href="/hospitalfinder" class="btn">Go to Hospitals</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Diet and Exercise Card -->
+    <div class="row">
+      <div class="col-md-12">
+        <div class="diet-exercise-card">
+          <h3>Diet and Exercise Plans</h3>
+          <p>Get personalized diet and exercise plans to improve your health.</p>
+          <a href="/dietandexercise" class="btn">Go to Diet and Exercise</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Mood Tracked Line Graph Card -->
+    <div class="graph-card">
+      <h3>Mood Tracked Over Time</h3>
+      <p>Here is a visualization of your mood over the past few days.</p>
+      <!-- Mood Line Chart -->
+      <img id="moodChart" src="/plot_mood_chart" alt="Mood Chart" class="img-fluid">
+    </div>
+
+    <!-- Health Tips Card -->
+    <div class="health-tips-card">
+      <h3>Health Tips</h3>
+      <p>Here are some health tips for you:</p>
+      <ul>
+        <li>Drink at least 8 glasses of water daily.</li>
+        <li>Exercise for at least 30 minutes every day.</li>
+        <li>Get 7-8 hours of sleep every night.</li>
+        <li>Eat a balanced diet with fruits and vegetables.</li>
+      </ul>
+      <a href="/healthtips" class="btn">For More Health Tips, Click Here</a>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <div>
+      <a href="/about">About</a> | 
+      <a href="/feedback">Feedback</a>
+    </div>
+    <p class="mt-3">&copy; 2025 AI Health Care. All rights reserved.</p>
+  </footer>
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+
+  <!-- JavaScript to Reload Mood Chart -->
+  <script>
+    // Reload the mood chart every 5 seconds to keep it updated
+    setInterval(() => {
+      const moodChart = document.getElementById('moodChart');
+      moodChart.src = '/plot_mood_chart?' + new Date().getTime(); // Add timestamp to prevent caching
+    }, 5000);
+  </script>
+</body>
+</html>

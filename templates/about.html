@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About AI Health Care</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@700&family=Quicksand:wght@400;500&family=Montserrat:wght@700&display=swap" rel="stylesheet">
+  <style>
+    /* Custom Styles */
+    body {
+      background-color: #EAF2F2; /* Light Aqua */
+      font-family: 'Quicksand', sans-serif;
+      color: #05668D; /* Deep Blue */
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    .navbar {
+      background-color: #00A896; /* Sea Green */
+    }
+
+    .navbar-brand, .nav-link {
+      color: white !important;
+      font-family: 'Montserrat', sans-serif;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
+      flex: 1;
+    }
+
+    .footer {
+      background-color: #00A896; /* Sea Green */
+      color: white;
+      text-align: center;
+      padding: 10px 0;
+      margin-top: auto;
+    }
+
+    .feature-card {
+      background-color: white;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      margin-bottom: 20px;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .feature-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    }
+
+    .feature-card h3 {
+      color: #028090; /* Teal */
+      font-family: 'Raleway', sans-serif;
+      margin-bottom: 15px;
+    }
+
+    .feature-card ul {
+      list-style-type: disc;
+      padding-left: 20px;
+    }
+
+    .feature-card ul li {
+      margin-bottom: 10px;
+    }
+
+    .btn-back {
+      background-color: #F0F3BD; /* Pastel Yellow */
+      color: #05668D; /* Deep Blue */
+      font-family: 'Montserrat', sans-serif;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 5px;
+      transition: background-color 0.3s ease, transform 0.3s ease;
+    }
+
+    .btn-back:hover {
+      background-color: #028090; /* Teal */
+      color: white;
+      transform: scale(1.05);
+    }
+
+    .gradient-bg {
+      background: linear-gradient(to right, #00A896, #028090);
+      color: white;
+      padding: 20px;
+      border-radius: 10px;
+      margin-bottom: 20px;
+    }
+
+    h1 {
+      font-family: 'Raleway', sans-serif;
+      color: #028090; /* Teal */
+      margin-bottom: 20px;
+    }
+
+    p {
+      font-family: 'Quicksand', sans-serif;
+      font-size: 16px;
+      line-height: 1.6;
+    }
+  </style>
+</head>
+<body>
+  <!-- Navigation Bar -->
+  <nav class="navbar navbar-expand-lg navbar-dark">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="/">AI Health Care</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="/dashboard">Dashboard</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/profile">Profile</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/feedback">Feedback</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link active" href="/about">About</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Main Content -->
+  <div class="container">
+    <h1 class="text-center mb-4">About AI Health Care</h1>
+
+    <!-- Features Section -->
+    <div class="feature-card">
+      <h3>Features</h3>
+      <p>AI Health Care is designed to provide users with personalized health and wellness solutions. Here are the key features:</p>
+      <ul>
+        <li><strong>Personalized Diet Plans:</strong> Get customized diet recommendations based on your age, height, weight, and health goals.</li>
+        <li><strong>Exercise Plans:</strong> Receive tailored exercise routines to help you achieve your fitness goals.</li>
+        <li><strong>Mood Tracker:</strong> Track your mood daily and get insights into your emotional well-being.</li>
+        <li><strong>Health Tips:</strong> Access evidence-based health tips to improve your overall well-being.</li>
+        <li><strong>AI Chatbot:</strong> Ask health-related questions and get instant, accurate responses powered by AI.</li>
+        <li><strong>Hospital Finder:</strong> Locate nearby hospitals and healthcare facilities easily.</li>
+        <li><strong>First Aid Guide:</strong> Learn essential first aid techniques for emergencies.</li>
+      </ul>
+    </div>
+
+    <!-- How It Helps Section -->
+    <div class="feature-card">
+      <h3>How It Helps Users</h3>
+      <p>AI Health Care empowers users to take control of their health by providing:</p>
+      <ul>
+        <li><strong>Personalized Guidance:</strong> Tailored recommendations for diet, exercise, and mental health.</li>
+        <li><strong>Convenience:</strong> Access health resources and tools anytime, anywhere.</li>
+        <li><strong>Evidence-Based Information:</strong> Reliable and accurate health advice powered by AI.</li>
+        <li><strong>Emotional Support:</strong> Mood tracking and mental health tips to improve emotional well-being.</li>
+        <li><strong>Emergency Preparedness:</strong> First aid guides and hospital locator for critical situations.</li>
+      </ul>
+    </div>
+
+    <!-- Future Enhancements Section -->
+    <div class="feature-card">
+      <h3>Future Enhancements</h3>
+      <p>We are constantly working to improve AI Health Care. Here are some planned features:</p>
+      <ul>
+        <li><strong>Integration with Wearables:</strong> Sync data from fitness trackers and smartwatches for more accurate recommendations.</li>
+        <li><strong>Telemedicine:</strong> Connect with healthcare professionals for virtual consultations.</li>
+        <li><strong>Community Support:</strong> Join health-focused communities to share experiences and tips.</li>
+        <li><strong>Advanced AI Insights:</strong> Provide deeper insights into health trends and predictions.</li>
+        <li><strong>Multilingual Support:</strong> Make the platform accessible to users worldwide.</li>
+      </ul>
+    </div>
+
+    <!-- Back to Dashboard Button -->
+    <div class="text-center">
+      <a href="/dashboard" class="btn btn-back">Back to Dashboard</a>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <p>&copy; 2025 AI Health Care. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Register</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@700&family=Quicksand:wght@400;500&family=Montserrat:wght@600&display=swap" rel="stylesheet">
+  <style>
+    body {
+      background-color: #EAF2F2; /* Light Aqua */
+      font-family: 'Quicksand', sans-serif;
+      color: #05668D; /* Deep Blue */
+    }
+    h1, h2, h3, h4, h5, h6 {
+      font-family: 'Raleway', sans-serif;
+      color: #00A896; /* Sea Green */
+    }
+    .container {
+      max-width: 600px;
+      margin: 20px auto;
+      padding: 20px;
+      background-color: #fff;
+      border: 1px solid #028090; /* Teal */
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .container:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    }
+    .form-control {
+      border-radius: 10px;
+      border: 1px solid #028090; /* Teal */
+      transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    }
+    .form-control:focus {
+      border-color: #00A896; /* Sea Green */
+      box-shadow: 0 0 8px rgba(0, 168, 150, 0.3);
+    }
+    .btn-primary {
+      background-color: #028090; /* Teal */
+      border-color: #028090;
+      font-family: 'Montserrat', sans-serif;
+      transition: background-color 0.3s ease;
+    }
+    .btn-primary:hover {
+      background-color: #00A896; /* Sea Green */
+      border-color: #00A896;
+    }
+    footer {
+      margin-top: 50px;
+      padding: 20px;
+      background-color: #00A896; /* Sea Green */
+      text-align: center;
+      color: white;
+    }
+    footer a {
+      margin: 0 10px;
+      color: #F0F3BD; /* Pastel Yellow */
+      text-decoration: none;
+    }
+    footer a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <!-- Navigation Bar -->
+  <nav class="navbar navbar-expand-lg navbar-dark">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="/">AI Health Care</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item"><a class="nav-link" href="/about">About</a></li>
+          <li class="nav-item"><a class="nav-link" href="/firstaid">First Aid Guidance</a></li>
+          <li class="nav-item"><a class="nav-link" href="/register">Register</a></li>
+          <li class="nav-item"><a class="nav-link" href="/login">Login</a></li>
+          <li class="nav-item"><a class="nav-link" href="/feedback">Feedback</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Registration Form -->
+  <div class="container mt-5">
+    <h1>Register</h1>
+    <p>Create your account to get started with AI Health Care.</p>
+    <form action="/register" method="POST">
+      <div class="mb-3">
+        <label for="username" class="form-label">Username</label>
+        <input type="text" class="form-control" id="username" name="username" required>
+      </div>
+      <div class="mb-3">
+        <label for="email" class="form-label">Email Address</label>
+        <input type="email" class="form-control" id="email" name="email" required>
+      </div>
+      <div class="mb-3">
+        <label for="password" class="form-label">Password</label>
+        <input type="password" class="form-control" id="password" name="password" required>
+      </div>
+      <div class="mb-3">
+        <label for="confirm_password" class="form-label">Confirm Password</label>
+        <input type="password" class="form-control" id="confirm_password" name="confirm_password" required>
+      </div>
+      <button type="submit" class="btn btn-primary">Register</button>
+    </form>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <p>AI Health Care is a project designed to provide personalized health assistance using AI technologies. It includes features like an AI health chatbot, mood tracker, and more.</p>
+    <p>&copy; 2025 AI Health Care. All rights reserved.</p>
+  </footer>
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

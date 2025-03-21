@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Chatbot</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@700&family=Quicksand:wght@400;500&family=Montserrat:wght@700&display=swap" rel="stylesheet">
+  <style>
+    /* Custom Styles */
+    body {
+      background-color: #EAF2F2; /* Light Aqua */
+      font-family: 'Quicksand', sans-serif;
+      color: #05668D; /* Deep Blue */
+    }
+
+    .navbar {
+      background-color: #00A896; /* Sea Green */
+    }
+
+    .navbar-brand, .nav-link {
+      color: white !important;
+      font-family: 'Montserrat', sans-serif;
+    }
+
+    .chat-container {
+      max-width: 800px;
+      margin: 50px auto;
+      padding: 20px;
+      background-color: white;
+      border-radius: 10px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .chat-header {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .chat-header h1 {
+      font-family: 'Raleway', sans-serif;
+      color: #028090; /* Teal */
+    }
+
+    .chat-box {
+      height: 400px;
+      overflow-y: auto;
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      padding: 15px;
+      margin-bottom: 20px;
+      background-color: #f9f9f9;
+    }
+
+    .user-message, .bot-message {
+      margin-bottom: 10px;
+      padding: 10px;
+      border-radius: 10px;
+      max-width: 70%;
+    }
+
+    .user-message {
+      background-color: #028090; /* Teal */
+      color: white;
+      text-align: right;
+      margin-left: auto;
+    }
+
+    .bot-message {
+      background-color: #F0F3BD; /* Pastel Yellow */
+      color: #05668D; /* Deep Blue */
+      text-align: left;
+      position: relative;
+    }
+
+    /* Bot Emoji */
+    .bot-message::before {
+      content: "";
+      position: absolute;
+      left: -15px;
+      top: 0;
+      font-size: 1.5rem;
+    }
+
+    .bot-message p {
+      margin: 0;
+    }
+
+    .input-group {
+      margin-top: 20px;
+    }
+
+    .input-group input {
+      border: 1px solid #028090; /* Teal */
+      border-radius: 5px;
+      padding: 10px;
+      font-family: 'Quicksand', sans-serif;
+    }
+
+    .input-group button {
+      background-color: #028090; /* Teal */
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 5px;
+      font-family: 'Montserrat', sans-serif;
+      transition: background-color 0.3s ease, transform 0.3s ease;
+    }
+
+    .input-group button:hover {
+      background-color: #00A896; /* Sea Green */
+      transform: scale(1.05);
+    }
+
+    .back-btn {
+      margin-top: 20px;
+      text-align: center;
+    }
+
+    .back-btn a {
+      background-color: #F0F3BD; /* Pastel Yellow */
+      color: #05668D; /* Deep Blue */
+      font-family: 'Montserrat', sans-serif;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 5px;
+      text-decoration: none;
+      transition: background-color 0.3s ease, transform 0.3s ease;
+    }
+
+    .back-btn a:hover {
+      background-color: #028090; /* Teal */
+      color: white;
+      transform: scale(1.05);
+    }
+
+    .footer {
+      background-color: #00A896; /* Sea Green */
+      color: white;
+      text-align: center;
+      padding: 10px 0;
+      margin-top: 50px;
+    }
+
+    .footer a {
+      color: white;
+      text-decoration: none;
+      margin: 0 10px;
+    }
+
+    .footer a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <!-- Navigation Bar -->
+  <nav class="navbar navbar-expand-lg navbar-dark">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="/">AI Health Care</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="/about">About</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/firstaid">First Aid Guidance</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/register">Register</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/login">Login</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/feedback">Feedback</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Chatbot Interface -->
+  <div class="chat-container">
+    <div class="chat-header">
+      <h1>AI Health Chatbot</h1>
+      <p>Get instant answers to your health-related questions.</p>
+    </div>
+    <div class="chat-box" id="chat-box">
+      <!-- Chat messages will appear here -->
+      <div class="bot-message">
+        <p>Welcome! 🤖 Ask me any health-related questions.</p>
+      </div>
+    </div>
+    <div class="input-group">
+      <input type="text" id="user-input" class="form-control" placeholder="Ask a health-related question...">
+      <button id="send-btn" class="btn">Send</button>
+    </div>
+    <div class="back-btn">
+      <a href="/dashboard" class="btn">Back to Dashboard</a>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div>
+      <a href="/aichatbot">AI Chatbot</a> | 
+      <a href="/healthtips">Health Tips</a> | 
+      <a href="/hospitalfinder">Hospital Finder</a>
+    </div>
+    <p class="mt-3">&copy; 2025 AI Health Care. All rights reserved.</p>
+  </footer>
+
+  <!-- JavaScript for Chatbot Interaction -->
+  <script>
+    document.getElementById('send-btn').addEventListener('click', sendMessage);
+    document.getElementById('user-input').addEventListener('keypress', function (e) {
+      if (e.key === 'Enter') {
+        sendMessage();
+      }
+    });
+
+    function sendMessage() {
+      const userInput = document.getElementById('user-input').value.trim();
+      if (!userInput) return;
+
+      // Add user's message to the chat box
+      const chatBox = document.getElementById('chat-box');
+      chatBox.innerHTML += `<div class="user-message">${userInput}</div>`;
+      document.getElementById('user-input').value = '';
+
+      // Send the message to the server and get the bot's response
+      fetch('/aichatbot', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: `user_input=${encodeURIComponent(userInput)}`,
+      })
+        .then(response => response.json())
+        .then(data => {
+          // Remove ** from the response
+          const cleanResponse = data.response.replace(/\*\*/g, "");
+
+          // Format AI's response into small paragraphs
+          const formattedResponse = formatResponse(cleanResponse);
+
+          // Add bot's response to chat
+          chatBox.innerHTML += `<div class="bot-message">${formattedResponse}</div>`;
+          chatBox.scrollTop = chatBox.scrollHeight; // Scroll to the bottom
+        })
+        .catch(error => {
+          console.error('Error:', error);
+        });
+    }
+
+    // Function to format AI's response into small paragraphs
+    function formatResponse(response) {
+      // Split the response into sentences
+      const sentences = response.split(". ");
+      let formattedText = "";
+
+      // Add each sentence as a new paragraph
+      sentences.forEach((sentence) => {
+        if (sentence.trim()) {
+          formattedText += `<p>${sentence}.</p>`;
+        }
+      });
+
+      return formattedText;
+    }
+  </script>
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
