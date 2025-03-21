@@ -1,0 +1,9 @@
+Flask
+Flask-SQLAlchemy
+Flask-WTF
+Flask-Login
+Flask-Cors
+Flask-RESTful
+gunicorn
+sqlite3
+requests
