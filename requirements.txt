@@ -7,3 +7,6 @@ Flask-RESTful
 gunicorn
 sqlite3
 requests
+Werkzeug
+google-generativeai
+matplotlib
