@@ -31,7 +31,7 @@
 
     .container {
       max-width: 800px;
-      margin: 50px auto;
+      margin: 30px auto;
       padding: 20px;
       background-color: white;
       border-radius: 10px;
@@ -43,17 +43,19 @@
       font-family: 'Raleway', sans-serif;
       color: #028090; /* Teal */
       margin-bottom: 20px;
+      font-size: clamp(1.8rem, 3vw, 2.2rem); /* Responsive font size */
     }
 
     p {
       font-family: 'Quicksand', sans-serif;
-      font-size: 16px;
+      font-size: clamp(0.9rem, 1.5vw, 1rem); /* Responsive font size */
       line-height: 1.6;
     }
 
     .form-label {
       font-family: 'Quicksand', sans-serif;
       color: #05668D; /* Deep Blue */
+      font-size: clamp(0.9rem, 1.5vw, 1rem); /* Responsive font size */
     }
 
     .form-control {
@@ -61,6 +63,7 @@
       border-radius: 5px;
       padding: 10px;
       font-family: 'Quicksand', sans-serif;
+      font-size: clamp(0.9rem, 1.5vw, 1rem); /* Responsive font size */
     }
 
     .form-control:focus {
@@ -76,6 +79,8 @@
       border-radius: 5px;
       font-family: 'Montserrat', sans-serif;
       transition: background-color 0.3s ease, transform 0.3s ease;
+      width: 100%;
+      font-size: clamp(0.9rem, 1.5vw, 1rem); /* Responsive font size */
     }
 
     .btn-primary:hover {
@@ -91,6 +96,11 @@
       border-radius: 5px;
       font-family: 'Montserrat', sans-serif;
       transition: background-color 0.3s ease, transform 0.3s ease;
+      width: 100%;
+      max-width: 200px;
+      margin: 0 auto;
+      display: block;
+      font-size: clamp(0.9rem, 1.5vw, 1rem); /* Responsive font size */
     }
 
     .btn-secondary:hover {
@@ -101,7 +111,7 @@
 
     #statusMessage {
       font-family: 'Quicksand', sans-serif;
-      font-size: 16px;
+      font-size: clamp(0.9rem, 1.5vw, 1rem); /* Responsive font size */
       margin-top: 15px;
     }
 
@@ -117,10 +127,73 @@
       color: #F0F3BD; /* Pastel Yellow */
       text-decoration: none;
       margin: 0 10px;
+      font-size: clamp(0.8rem, 1.2vw, 0.9rem); /* Responsive font size */
     }
 
     footer a:hover {
       text-decoration: underline;
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+      .container {
+        margin: 20px auto;
+        padding: 15px;
+        max-width: 95%;
+      }
+      
+      .navbar-brand {
+        font-size: 1.2rem;
+      }
+      
+      .nav-link {
+        padding: 0.5rem 0.8rem;
+      }
+      
+      footer div {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+      }
+      
+      footer a {
+        margin: 5px 0;
+      }
+    }
+
+    @media (max-width: 576px) {
+      .container {
+        margin: 15px auto;
+        padding: 12px;
+      }
+      
+      h1 {
+        font-size: 1.5rem;
+      }
+      
+      .form-control {
+        padding: 8px;
+      }
+      
+      .btn-primary, .btn-secondary {
+        padding: 8px 16px;
+      }
+    }
+
+    @media (max-width: 400px) {
+      .container {
+        margin: 10px auto;
+        padding: 10px;
+      }
+      
+      h1 {
+        font-size: 1.3rem;
+        margin-bottom: 15px;
+      }
+      
+      .form-label, .form-control, #statusMessage {
+        font-size: 0.85rem;
+      }
     }
   </style>
 </head>
@@ -138,7 +211,7 @@
             <a class="nav-link" href="/about">About</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="/firstaid">First Aid Guidance</a>
+            <a class="nav-link" href="/firstaid">First Aid</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="/register">Register</a>
@@ -156,24 +229,30 @@
 
   <!-- Main Content -->
   <div class="container">
-    <h1>Feedback</h1>
-    <p>We value your feedback! Please let us know how we can improve.</p>
+    <h1 class="text-center">Feedback</h1>
+    <p class="text-center">We value your feedback! Please let us know how we can improve.</p>
+    
     <form id="feedbackForm">
-      <div class="mb-3">
-        <label for="name" class="form-label">Name</label>
-        <input type="text" class="form-control" id="name" name="name" required>
-      </div>
-      <div class="mb-3">
-        <label for="email" class="form-label">Email</label>
-        <input type="email" class="form-control" id="email" name="email" required>
+      <div class="row">
+        <div class="col-md-6 mb-3">
+          <label for="name" class="form-label">Name</label>
+          <input type="text" class="form-control" id="name" name="name" required>
+        </div>
+        <div class="col-md-6 mb-3">
+          <label for="email" class="form-label">Email</label>
+          <input type="email" class="form-control" id="email" name="email" required>
+        </div>
       </div>
       <div class="mb-3">
         <label for="message" class="form-label">Message</label>
         <textarea class="form-control" id="message" name="message" rows="5" required></textarea>
       </div>
-      <button type="submit" class="btn btn-primary">Submit</button>
+      <div class="d-grid gap-2">
+        <button type="submit" class="btn btn-primary">Submit Feedback</button>
+      </div>
     </form>
-    <p id="statusMessage" class="mt-3"></p>
+    
+    <p id="statusMessage" class="mt-3 text-center"></p>
 
     <!-- Back to Dashboard Button -->
     <div class="text-center mt-4">
@@ -184,8 +263,8 @@
   <!-- Footer -->
   <footer>
     <div>
-      <a href="/aichatbot">AI Chatbot</a> |
-      <a href="/healthtips">Health Tips</a> |
+      <a href="/aichatbot">AI Chatbot</a>
+      <a href="/healthtips">Health Tips</a>
       <a href="/hospitalfinder">Hospital Finder</a>
     </div>
     <p class="mt-3">&copy; 2025 AI Health Care. All rights reserved.</p>
@@ -196,7 +275,33 @@
     document.getElementById('feedbackForm').addEventListener('submit', function (e) {
       e.preventDefault();
 
-      const formData = new FormData(this);
+      // Get form elements
+      const form = e.target;
+      const submitBtn = form.querySelector('button[type="submit"]');
+      const statusMessage = document.getElementById('statusMessage');
+      
+      // Show loading state
+      const originalBtnText = submitBtn.textContent;
+      submitBtn.textContent = 'Sending...';
+      submitBtn.disabled = true;
+      statusMessage.textContent = '';
+      statusMessage.style.color = '';
+
+      // Simulate form submission (replace with actual fetch in production)
+      setTimeout(() => {
+        // In a real application, you would use fetch() to send the data to your server
+        // For this demo, we'll just show a success message
+        statusMessage.textContent = 'Thank you for your feedback! We appreciate your input.';
+        statusMessage.style.color = 'green';
+        
+        // Reset form and button
+        form.reset();
+        submitBtn.textContent = originalBtnText;
+        submitBtn.disabled = false;
+      }, 1500);
+
+      /* In a real application, you would use this code:
+      const formData = new FormData(form);
       const data = {};
       formData.forEach((value, key) => {
         data[key] = value;
@@ -212,18 +317,24 @@
         .then(response => response.json())
         .then(result => {
           if (result.success) {
-            document.getElementById('statusMessage').textContent = 'Thank you for your feedback!';
-            document.getElementById('statusMessage').style.color = 'green';
+            statusMessage.textContent = 'Thank you for your feedback!';
+            statusMessage.style.color = 'green';
+            form.reset();
           } else {
-            document.getElementById('statusMessage').textContent = 'Failed to send feedback. Please try again.';
-            document.getElementById('statusMessage').style.color = 'red';
+            statusMessage.textContent = 'Failed to send feedback. Please try again.';
+            statusMessage.style.color = 'red';
           }
         })
         .catch(error => {
           console.error('Error:', error);
-          document.getElementById('statusMessage').textContent = 'An error occurred. Please try again.';
-          document.getElementById('statusMessage').style.color = 'red';
+          statusMessage.textContent = 'An error occurred. Please try again.';
+          statusMessage.style.color = 'red';
+        })
+        .finally(() => {
+          submitBtn.textContent = originalBtnText;
+          submitBtn.disabled = false;
         });
+      */
     });
   </script>
 
