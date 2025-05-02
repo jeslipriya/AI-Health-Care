@@ -15,6 +15,9 @@
       background-color: #EAF2F2; /* Light Aqua */
       font-family: 'Quicksand', sans-serif;
       color: #05668D; /* Deep Blue */
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
     }
     h1, h2, h3, h4, h5, h6 {
       font-family: 'Raleway', sans-serif;
@@ -90,7 +93,7 @@
       box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     }
     footer {
-      margin-top: 50px;
+      margin-top: auto;
       padding: 20px;
       background-color: #00A896; /* Sea Green */
       text-align: center;
@@ -103,6 +106,76 @@
     }
     footer a:hover {
       text-decoration: underline;
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+      .mood-card {
+        margin: 15px auto;
+        padding: 15px;
+        width: 90%;
+      }
+      h1 {
+        font-size: 1.8rem;
+      }
+      h3 {
+        font-size: 1.4rem;
+      }
+      .navbar-brand {
+        font-size: 1.1rem;
+      }
+      .nav-link {
+        padding: 0.5rem 0.8rem;
+      }
+      .mood-table {
+        overflow-x: auto;
+      }
+      table {
+        font-size: 0.9rem;
+      }
+    }
+
+    @media (max-width: 576px) {
+      .mood-card {
+        margin: 10px auto;
+        padding: 12px;
+        width: 95%;
+      }
+      h1 {
+        font-size: 1.6rem;
+      }
+      h3 {
+        font-size: 1.3rem;
+      }
+      .form-select, .form-control {
+        font-size: 0.9rem;
+        padding: 0.5rem 0.75rem;
+      }
+      .btn {
+        width: 100%;
+        padding: 0.5rem;
+      }
+      footer a {
+        display: block;
+        margin: 5px 0;
+      }
+    }
+
+    /* Mobile menu adjustments */
+    .navbar-toggler {
+      padding: 0.25rem 0.5rem;
+      font-size: 1rem;
+    }
+
+    /* Table responsive wrapper */
+    .table-responsive-wrapper {
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    /* Mood emoji sizing */
+    .mood-option {
+      font-size: 1.2rem;
     }
   </style>
 </head>
@@ -140,17 +213,12 @@
       <div class="mb-3">
         <label for="mood" class="form-label">Select your mood:</label>
         <select id="mood" name="mood" class="form-select">
-          <option value="Happy">Happy 😊</option>
-          <option value="Sad">Sad 😞</option>
-          <option value="Stressed">Stressed 😰</option>
-          <option value="Angry">Angry 😡</option>
-          <option value="Neutral">Neutral 😐</option>
+          <option value="Happy">Happy <span class="mood-option">😊</span></option>
+          <option value="Sad">Sad <span class="mood-option">😞</span></option>
+          <option value="Stressed">Stressed <span class="mood-option">😰</span></option>
+          <option value="Angry">Angry <span class="mood-option">😡</span></option>
+          <option value="Neutral">Neutral <span class="mood-option">😐</span></option>
         </select>
-      </div>
-      <!-- Mood Note Textarea -->
-      <div class="mb-3">
-        <label for="mood-note" class="form-label">Any notes about how you're feeling? (optional)</label>
-        <textarea id="mood-note" class="form-control" rows="3" placeholder="What's influencing your mood today?"></textarea>
       </div>
       <!-- Save Button -->
       <button type="submit" class="btn btn-primary">Save Mood Entry</button>
@@ -160,18 +228,19 @@
   <!-- Mood History Table -->
   <div class="container mood-table">
     <h3>Your Mood History</h3>
-    <table class="table table-bordered">
-      <thead>
-        <tr>
-          <th>Date</th>
-          <th>Mood</th>
-          <th>Notes</th>
-        </tr>
-      </thead>
-      <tbody id="mood-history">
-        <!-- Mood history rows will be added here dynamically -->
-      </tbody>
-    </table>
+    <div class="table-responsive-wrapper">
+      <table class="table table-bordered">
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>Mood</th>
+          </tr>
+        </thead>
+        <tbody id="mood-history">
+          <!-- Mood history rows will be added here dynamically -->
+        </tbody>
+      </table>
+    </div>
   </div>
 
   <!-- Mood Line Chart Card -->
@@ -179,7 +248,9 @@
     <div class="card">
       <div class="card-body">
         <h3 class="card-title">Mood Over Time</h3>
-        <img id="moodChart" src="/plot_mood_chart" alt="Mood Chart" class="img-fluid">
+        <div class="chart-responsive-wrapper">
+          <img id="moodChart" src="/plot_mood_chart" alt="Mood Chart" class="img-fluid">
+        </div>
       </div>
     </div>
   </div>
@@ -206,14 +277,13 @@
       e.preventDefault();
 
       const mood = document.getElementById('mood').value;
-      const moodNote = document.getElementById('mood-note').value;
       const timestamp = new Date().toLocaleString();
 
       // Send mood data to the backend
       fetch('/save_mood', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ mood, mood_note: moodNote, timestamp }),
+        body: JSON.stringify({ mood, timestamp }),
       })
         .then(response => response.json())
         .then(data => {
@@ -241,7 +311,6 @@
               <tr>
                 <td>${entry.timestamp}</td>
                 <td>${entry.mood}</td>
-                <td>${entry.mood_note || '-'}</td>
               </tr>
             `
             )
