@@ -8,13 +8,14 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
   <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@700&family=Quicksand:wght@400;500&family=Montserrat:wght@600&display=swap" rel="stylesheet">
-  <link rel="icon" alt="icon" href="static/image/icon.jpg">
-
   <style>
     body {
       background-color: #EAF2F2; /* Light Aqua */
       font-family: 'Quicksand', sans-serif;
       color: #05668D; /* Deep Blue */
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
     }
     h1, h2, h3, h4, h5, h6 {
       font-family: 'Raleway', sans-serif;
@@ -38,6 +39,7 @@
       border-radius: 10px;
       text-align: center;
       transition: transform 0.3s ease, box-shadow 0.3s ease;
+      height: 100%;
     }
     .feature-card:hover {
       transform: translateY(-5px);
@@ -66,7 +68,7 @@
       color: white;
     }
     footer {
-      margin-top: 50px;
+      margin-top: auto;
       padding: 20px;
       background-color: #00A896; /* Sea Green */
       text-align: center;
@@ -79,6 +81,84 @@
     }
     footer a:hover {
       text-decoration: underline;
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 992px) {
+      .navbar-nav {
+        padding-top: 10px;
+      }
+      .nav-item {
+        margin-bottom: 5px;
+      }
+      .feature-card {
+        padding: 15px;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .container {
+        padding: 15px;
+      }
+      h1 {
+        font-size: 1.8rem;
+      }
+      .lead {
+        font-size: 1.1rem;
+      }
+      .btn-lg {
+        padding: 0.5rem 1rem;
+        font-size: 1rem;
+      }
+      .feature-card h3 {
+        font-size: 1.2rem;
+      }
+      .feature-card p {
+        font-size: 0.9rem;
+      }
+    }
+
+    @media (max-width: 576px) {
+      .container {
+        padding: 10px;
+      }
+      h1 {
+        font-size: 1.6rem;
+      }
+      .lead {
+        font-size: 1rem;
+      }
+      .btn-lg {
+        display: block;
+        width: 100%;
+        margin-bottom: 10px;
+      }
+      .feature-card {
+        margin: 5px 0;
+        padding: 12px;
+      }
+      footer a {
+        display: block;
+        margin: 5px 0;
+      }
+      .navbar-brand {
+        font-size: 1.1rem;
+      }
+    }
+
+    /* Mobile menu adjustments */
+    .navbar-toggler {
+      padding: 0.25rem 0.5rem;
+      font-size: 1rem;
+    }
+
+    /* Equal height cards in row */
+    .feature-row {
+      display: flex;
+      flex-wrap: wrap;
+    }
+    .feature-col {
+      display: flex;
     }
   </style>
 </head>
@@ -111,56 +191,51 @@
       </div>
     </div>
   </nav>
-  <script>
-    // Remove ** from the response
-    const cleanResponse = data.answer.replace(/\*\*/g, "");
-
-    // Format AI's response into small paragraphs
-    const formattedResponse = formatResponse(cleanResponse)
-  </script>
 
   <!-- Welcome Section -->
   <div class="container mt-5">
     <div class="text-center">
       <h1>Welcome to AI Health Care</h1>
       <p class="lead">Your personal health assistant powered by AI. Get started today to take control of your health!</p>
-      <a href="/register" class="btn btn-primary btn-lg">Get Started</a>
-      <a href="/login" class="btn btn-secondary btn-lg">Login</a>
+      <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
+        <a href="/register" class="btn btn-primary btn-lg px-4 gap-3">Get Started</a>
+        <a href="/login" class="btn btn-secondary btn-lg px-4">Login</a>
+      </div>
     </div>
 
     <!-- Key Features Section -->
-    <div class="row mt-5">
-      <div class="col-md-4">
+    <div class="row mt-5 feature-row">
+      <div class="col-md-4 col-sm-6 feature-col">
         <div class="feature-card">
           <h3>AI Health Chatbot</h3>
           <p>Get instant answers to your health-related questions.</p>
         </div>
       </div>
-      <div class="col-md-4">
+      <div class="col-md-4 col-sm-6 feature-col">
         <div class="feature-card">
           <h3>Mood Tracker</h3>
           <p>Track your mood and get personalized mental health tips.</p>
         </div>
       </div>
-      <div class="col-md-4">
+      <div class="col-md-4 col-sm-6 feature-col">
         <div class="feature-card">
           <h3>AI Health Tips</h3>
           <p>Receive daily health tips tailored to your needs.</p>
         </div>
       </div>
-      <div class="col-md-4">
+      <div class="col-md-4 col-sm-6 feature-col">
         <div class="feature-card">
           <h3>Hospital Finder</h3>
           <p>Find the nearest hospitals and clinics in your area.</p>
         </div>
       </div>
-      <div class="col-md-4">
+      <div class="col-md-4 col-sm-6 feature-col">
         <div class="feature-card">
           <h3>Diet and Exercise</h3>
           <p>Get personalized diet and exercise plans.</p>
         </div>
       </div>
-      <div class="col-md-4">
+      <div class="col-md-4 col-sm-6 feature-col">
         <div class="feature-card">
           <h3>First Aid Guidance</h3>
           <p>Step-by-step guidance for emergency first aid situations.</p>
