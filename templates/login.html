@@ -15,6 +15,9 @@
       background-color: #EAF2F2; /* Light Aqua */
       font-family: 'Quicksand', sans-serif;
       color: #05668D; /* Deep Blue */
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
     }
     h1, h2, h3, h4, h5, h6 {
       font-family: 'Raleway', sans-serif;
@@ -35,7 +38,9 @@
       padding: 2rem;
       border-radius: 10px;
       box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-      margin-top: 2rem;
+      margin: 2rem auto;
+      max-width: 500px;
+      flex: 1;
     }
     .btn-primary {
       background-color: #028090; /* Teal */
@@ -69,7 +74,7 @@
       box-shadow: 0 0 8px rgba(0, 168, 150, 0.3);
     }
     footer {
-      margin-top: 50px;
+      margin-top: auto;
       padding: 20px;
       background-color: #00A896; /* Sea Green */
       text-align: center;
@@ -86,6 +91,66 @@
     .alert {
       margin-top: 20px;
       border-radius: 10px;
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+      .container {
+        padding: 1.5rem;
+        margin: 1.5rem auto;
+        width: 90%;
+      }
+      h1 {
+        font-size: 1.8rem;
+      }
+      .navbar-brand {
+        font-size: 1.1rem;
+      }
+      .nav-link {
+        padding: 0.5rem 0.8rem;
+      }
+    }
+
+    @media (max-width: 576px) {
+      .container {
+        padding: 1.2rem;
+        margin: 1rem auto;
+        width: 95%;
+      }
+      h1 {
+        font-size: 1.6rem;
+      }
+      .form-control {
+        padding: 0.5rem 0.75rem;
+        font-size: 0.9rem;
+      }
+      .btn {
+        width: 100%;
+        padding: 0.5rem;
+      }
+      footer a {
+        display: block;
+        margin: 5px 0;
+      }
+    }
+
+    /* Mobile menu adjustments */
+    .navbar-toggler {
+      padding: 0.25rem 0.5rem;
+      font-size: 1rem;
+    }
+
+    /* Additional links below form */
+    .additional-links {
+      margin-top: 1rem;
+      text-align: center;
+    }
+    .additional-links a {
+      color: #028090;
+      text-decoration: none;
+    }
+    .additional-links a:hover {
+      text-decoration: underline;
     }
   </style>
 </head>
@@ -120,7 +185,7 @@
   </nav>
 
   <!-- Login Form -->
-  <div class="container mt-5">
+  <div class="container">
     <h1>Login</h1>
     <p>Welcome back! Please login to continue.</p>
 
@@ -145,6 +210,11 @@
         <input type="password" class="form-control" id="password" name="password" required>
       </div>
       <button type="submit" class="btn btn-primary">Login</button>
+      
+      <div class="additional-links mt-3">
+        <a href="#">Forgot Password?</a> | 
+        <a href="/register">Don't have an account? Register</a>
+      </div>
     </form>
   </div>
 
