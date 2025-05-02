@@ -53,11 +53,17 @@
     .form-card h2, .plan-card h3 {
       font-family: 'Raleway', sans-serif;
       color: #028090; /* Teal */
+      font-size: clamp(1.5rem, 2.5vw, 2rem); /* Responsive font size */
+    }
+
+    .form-card h4 {
+      font-size: clamp(1.2rem, 2vw, 1.5rem); /* Responsive font size */
     }
 
     .form-card label {
       font-family: 'Quicksand', sans-serif;
       color: #05668D; /* Deep Blue */
+      font-size: clamp(0.9rem, 1.5vw, 1rem); /* Responsive font size */
     }
 
     .form-card input, .form-card select {
@@ -65,6 +71,7 @@
       border-radius: 5px;
       padding: 10px;
       font-family: 'Quicksand', sans-serif;
+      font-size: clamp(0.9rem, 1.5vw, 1rem); /* Responsive font size */
     }
 
     .form-card button {
@@ -75,6 +82,8 @@
       border-radius: 5px;
       font-family: 'Montserrat', sans-serif;
       transition: background-color 0.3s ease, transform 0.3s ease;
+      width: 100%;
+      font-size: clamp(0.9rem, 1.5vw, 1rem); /* Responsive font size */
     }
 
     .form-card button:hover {
@@ -89,6 +98,8 @@
       white-space: pre-wrap;
       word-wrap: break-word;
       font-family: 'Quicksand', sans-serif;
+      font-size: clamp(0.9rem, 1.5vw, 1rem); /* Responsive font size */
+      overflow-x: auto;
     }
 
     .btn-back {
@@ -99,6 +110,11 @@
       padding: 10px 20px;
       border-radius: 5px;
       transition: background-color 0.3s ease, transform 0.3s ease;
+      font-size: clamp(0.9rem, 1.5vw, 1rem); /* Responsive font size */
+      width: 100%;
+      max-width: 200px;
+      margin: 0 auto;
+      display: block;
     }
 
     .btn-back:hover {
@@ -119,10 +135,67 @@
       color: #F0F3BD; /* Pastel Yellow */
       text-decoration: none;
       margin: 0 10px;
+      font-size: clamp(0.8rem, 1.2vw, 0.9rem); /* Responsive font size */
     }
 
     footer a:hover {
       text-decoration: underline;
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+      .container {
+        padding: 15px;
+        max-width: 95%;
+      }
+      
+      .form-card, .plan-card {
+        padding: 15px;
+      }
+      
+      .navbar-brand {
+        font-size: 1.2rem;
+      }
+      
+      .nav-link {
+        padding: 0.5rem 0.8rem;
+      }
+      
+      footer div {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+      }
+      
+      footer a {
+        margin: 5px 0;
+      }
+    }
+
+    @media (max-width: 576px) {
+      .container {
+        padding: 10px;
+      }
+      
+      .form-card, .plan-card {
+        padding: 12px;
+      }
+      
+      .form-card h2 {
+        font-size: 1.3rem;
+      }
+      
+      .plan-card h3 {
+        font-size: 1.2rem;
+      }
+      
+      .plan-card h4 {
+        font-size: 1.1rem;
+      }
+      
+      .form-card input, .form-card select {
+        padding: 8px;
+      }
     }
   </style>
 </head>
@@ -159,35 +232,41 @@
     <div class="form-card">
       <h2 class="text-center mb-4">Get Your Personalized Diet and Exercise Plan</h2>
       <form id="diet-exercise-form">
-        <div class="mb-3">
-          <label for="age" class="form-label">Age</label>
-          <input type="number" class="form-control" id="age" name="age" required>
+        <div class="row">
+          <div class="col-md-6 mb-3">
+            <label for="age" class="form-label">Age</label>
+            <input type="number" class="form-control" id="age" name="age" required>
+          </div>
+          <div class="col-md-6 mb-3">
+            <label for="height" class="form-label">Height (in cm)</label>
+            <input type="number" class="form-control" id="height" name="height" required>
+          </div>
         </div>
-        <div class="mb-3">
-          <label for="height" class="form-label">Height (in cm)</label>
-          <input type="number" class="form-control" id="height" name="height" required>
+        <div class="row">
+          <div class="col-md-6 mb-3">
+            <label for="weight" class="form-label">Weight (in kg)</label>
+            <input type="number" class="form-control" id="weight" name="weight" required>
+          </div>
+          <div class="col-md-6 mb-3">
+            <label for="health-goals" class="form-label">Health Goals</label>
+            <select class="form-select" id="health-goals" name="health_goals" required>
+              <option value="weight_loss">Weight Loss</option>
+              <option value="muscle_gain">Muscle Gain</option>
+              <option value="general_health">General Health</option>
+              <option value="improve_fitness">Improve Fitness</option>
+            </select>
+          </div>
         </div>
-        <div class="mb-3">
-          <label for="weight" class="form-label">Weight (in kg)</label>
-          <input type="number" class="form-control" id="weight" name="weight" required>
+        <div class="d-grid gap-2">
+          <button type="submit" class="btn">Generate Plan</button>
         </div>
-        <div class="mb-3">
-          <label for="health-goals" class="form-label">Health Goals</label>
-          <select class="form-select" id="health-goals" name="health_goals" required>
-            <option value="weight_loss">Weight Loss</option>
-            <option value="muscle_gain">Muscle Gain</option>
-            <option value="general_health">General Health</option>
-            <option value="improve_fitness">Improve Fitness</option>
-          </select>
-        </div>
-        <button type="submit" class="btn">Generate Plan</button>
       </form>
     </div>
 
     <!-- Display Diet and Exercise Plan -->
     <div id="plan-results" class="plan-card" style="display: none;">
-      <h3>Your Personalized Plan</h3>
-      <div id="diet-plan">
+      <h3 class="text-center mb-4">Your Personalized Plan</h3>
+      <div id="diet-plan" class="mb-4">
         <h4>Diet Plan</h4>
         <pre id="diet-plan-content"></pre>
       </div>
@@ -206,8 +285,8 @@
   <!-- Footer -->
   <footer>
     <div>
-      <a href="/aichatbot">AI Chatbot</a> |
-      <a href="/healthtips">Health Tips</a> |
+      <a href="/aichatbot">AI Chatbot</a>
+      <a href="/healthtips">Health Tips</a>
       <a href="/hospitalfinder">Hospital Finder</a>
     </div>
     <p class="mt-3">&copy; 2025 AI Health Care. All rights reserved.</p>
@@ -233,7 +312,44 @@
         health_goals: healthGoals,
       };
 
-      // Send user profile to the backend
+      // Display loading state
+      const submitBtn = document.querySelector('#diet-exercise-form button');
+      const originalBtnText = submitBtn.textContent;
+      submitBtn.textContent = 'Generating...';
+      submitBtn.disabled = true;
+
+      // Simulate API call with timeout (replace with actual fetch in production)
+      setTimeout(() => {
+        // Sample response (in a real app, this would come from your backend)
+        const sampleResponse = {
+          diet_plan: `Breakfast: Oatmeal with berries and nuts (300 cal)
+Lunch: Grilled chicken salad with olive oil dressing (400 cal)
+Dinner: Baked salmon with quinoa and steamed vegetables (500 cal)
+Snacks: Greek yogurt or a handful of almonds (200 cal)
+Hydration: Drink at least 2 liters of water daily`,
+          exercise_plan: `Monday: Cardio - 30 min brisk walking or cycling
+Tuesday: Strength training - Upper body (3 sets of 12 reps)
+Wednesday: Yoga or stretching - 30 min
+Thursday: Cardio - 30 min jogging or swimming
+Friday: Strength training - Lower body (3 sets of 12 reps)
+Saturday: Active rest - Light walking or recreational sports
+Sunday: Rest day`
+        };
+
+        // Display the generated plans
+        document.getElementById('diet-plan-content').textContent = sampleResponse.diet_plan;
+        document.getElementById('exercise-plan-content').textContent = sampleResponse.exercise_plan;
+        document.getElementById('plan-results').style.display = 'block';
+        
+        // Reset button
+        submitBtn.textContent = originalBtnText;
+        submitBtn.disabled = false;
+        
+        // Scroll to results
+        document.getElementById('plan-results').scrollIntoView({ behavior: 'smooth' });
+      }, 1500);
+
+      /* In a real application, you would use this fetch code instead:
       fetch('/generate_diet_exercise_plan', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -241,15 +357,20 @@
       })
         .then(response => response.json())
         .then(data => {
-          // Display the generated plans
           document.getElementById('diet-plan-content').textContent = data.diet_plan;
           document.getElementById('exercise-plan-content').textContent = data.exercise_plan;
           document.getElementById('plan-results').style.display = 'block';
+          submitBtn.textContent = originalBtnText;
+          submitBtn.disabled = false;
+          document.getElementById('plan-results').scrollIntoView({ behavior: 'smooth' });
         })
         .catch(error => {
           console.error('Error:', error);
           alert('Failed to generate plan. Please try again.');
+          submitBtn.textContent = originalBtnText;
+          submitBtn.disabled = false;
         });
+      */
     });
   </script>
 </body>
