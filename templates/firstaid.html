@@ -81,6 +81,49 @@
       border-color: #028090;
       color: white;
     }
+    
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+      .container {
+        padding: 15px;
+        max-width: 95%;
+      }
+      h1 {
+        font-size: 1.8rem;
+      }
+      h3 {
+        font-size: 1.4rem;
+      }
+      .first-aid-card {
+        padding: 15px;
+      }
+      .navbar-brand {
+        font-size: 1.1rem;
+      }
+      .nav-link {
+        padding: 0.5rem 0.8rem;
+      }
+    }
+    
+    @media (max-width: 576px) {
+      .container {
+        padding: 10px;
+      }
+      h1 {
+        font-size: 1.6rem;
+        margin-bottom: 1rem !important;
+      }
+      h3 {
+        font-size: 1.3rem;
+      }
+      .first-aid-card {
+        padding: 12px;
+      }
+      .btn {
+        padding: 0.375rem 0.75rem;
+        font-size: 0.9rem;
+      }
+    }
   </style>
 </head>
 <body>
@@ -157,11 +200,11 @@
         <li><strong>Nearest Hospital:</strong> Find a nearby hospital near you!</li>
       </ul>
     </div>
-  </div>
-
-  <!-- Back to Dashboard Button -->
-  <div class="text-center mt-4">
-    <a href="/dashboard" class="btn btn-secondary">Back to Dashboard</a>
+    
+    <!-- Back to Dashboard Button -->
+    <div class="text-center mt-4 mb-4">
+      <a href="/dashboard" class="btn btn-secondary">Back to Dashboard</a>
+    </div>
   </div>
 
   <!-- Footer -->
