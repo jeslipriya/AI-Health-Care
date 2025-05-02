@@ -18,6 +18,7 @@
 
     .navbar {
       background-color: #00A896; /* Sea Green */
+      padding: 10px 0;
     }
 
     .navbar-brand, .nav-link {
@@ -34,12 +35,13 @@
     }
 
     .menu-bar .btn {
-      margin-left: 10px;
+      margin: 5px;
       font-family: 'Montserrat', sans-serif;
+      white-space: nowrap;
     }
 
     .feature-card {
-      margin: 10px;
+      margin: 10px 0;
       padding: 20px;
       border: 1px solid #ddd;
       border-radius: 10px;
@@ -47,30 +49,36 @@
       transition: transform 0.2s, box-shadow 0.2s;
       background-color: white;
       box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      height: 100%;
     }
 
     .feature-card:hover {
-      transform: scale(1.05);
+      transform: scale(1.03);
       box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
     }
 
     .feature-card h3 {
       font-family: 'Raleway', sans-serif;
       color: #028090; /* Teal */
+      font-size: 1.2rem;
+      margin-bottom: 15px;
     }
 
     .feature-card p {
       font-family: 'Quicksand', sans-serif;
+      margin-bottom: 20px;
     }
 
     .feature-card .btn {
       background-color: #028090; /* Teal */
       color: white;
       border: none;
-      padding: 10px 20px;
+      padding: 8px 16px;
       border-radius: 5px;
       font-family: 'Montserrat', sans-serif;
       transition: background-color 0.3s ease, transform 0.3s ease;
+      width: 100%;
+      max-width: 200px;
     }
 
     .feature-card .btn:hover {
@@ -79,7 +87,7 @@
     }
 
     .graph-card, .health-tips-card, .diet-exercise-card {
-      margin: 20px;
+      margin: 20px 0;
       padding: 20px;
       border: 1px solid #ddd;
       border-radius: 10px;
@@ -90,17 +98,19 @@
     .graph-card h3, .health-tips-card h3, .diet-exercise-card h3 {
       font-family: 'Raleway', sans-serif;
       color: #028090; /* Teal */
+      margin-bottom: 15px;
     }
 
     .graph-card p, .health-tips-card p, .diet-exercise-card p {
       font-family: 'Quicksand', sans-serif;
+      margin-bottom: 15px;
     }
 
     .graph-card .btn, .health-tips-card .btn, .diet-exercise-card .btn {
       background-color: #028090; /* Teal */
       color: white;
       border: none;
-      padding: 10px 20px;
+      padding: 8px 16px;
       border-radius: 5px;
       font-family: 'Montserrat', sans-serif;
       transition: background-color 0.3s ease, transform 0.3s ease;
@@ -128,6 +138,117 @@
     footer a:hover {
       text-decoration: underline;
     }
+
+    /* Responsive Styles */
+    @media (max-width: 1199px) {
+      .dashboard-title {
+        font-size: 22px;
+      }
+      
+      .menu-bar .btn {
+        padding: 8px 12px;
+        font-size: 14px;
+      }
+    }
+
+    @media (max-width: 991px) {
+      .dashboard-title {
+        font-size: 20px;
+        margin-left: 10px;
+      }
+      
+      .feature-card h3 {
+        font-size: 1.1rem;
+      }
+      
+      .feature-card p {
+        font-size: 14px;
+      }
+    }
+
+    @media (max-width: 767px) {
+      .navbar {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      
+      .dashboard-title {
+        margin-bottom: 10px;
+      }
+      
+      .menu-bar {
+        width: 100%;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+      }
+      
+      .menu-bar .btn {
+        margin: 5px 0;
+        width: 48%;
+        font-size: 13px;
+        padding: 6px 10px;
+      }
+      
+      .feature-card {
+        padding: 15px;
+      }
+      
+      .feature-card h3 {
+        font-size: 1rem;
+      }
+      
+      .feature-card .btn {
+        padding: 6px 12px;
+        font-size: 13px;
+      }
+      
+      .graph-card, .health-tips-card, .diet-exercise-card {
+        padding: 15px;
+      }
+    }
+
+    @media (max-width: 575px) {
+      .dashboard-title {
+        font-size: 18px;
+      }
+      
+      .menu-bar .btn {
+        width: 100%;
+      }
+      
+      .feature-card {
+        margin: 10px 0;
+      }
+      
+      footer a {
+        display: block;
+        margin: 5px 0;
+      }
+      
+      footer div {
+        display: flex;
+        flex-direction: column;
+      }
+      
+      footer div a:not(:last-child) {
+        margin-bottom: 10px;
+      }
+    }
+
+    @media (max-width: 400px) {
+      .dashboard-title {
+        font-size: 16px;
+      }
+      
+      .feature-card h3 {
+        font-size: 0.9rem;
+      }
+      
+      .feature-card p {
+        font-size: 13px;
+      }
+    }
   </style>
 </head>
 <body>
@@ -138,42 +259,42 @@
       <div class="menu-bar">
         <a href="/profile" class="btn btn-outline-light">Profile</a>
         <a href="/feedback" class="btn btn-outline-light">Feedback</a>
-        <a href="/firstaid" class="btn btn-outline-light">First Aid Guidance</a>
+        <a href="/firstaid" class="btn btn-outline-light">First Aid</a>
         <a href="/logout" class="btn btn-outline-danger">Logout</a>
       </div>
     </div>
   </nav>
 
   <!-- Main Content -->
-  <div class="container mt-5">
+  <div class="container mt-4">
     <!-- Feature Cards -->
     <div class="row">
-      <div class="col-md-3">
+      <div class="col-md-6 col-lg-3">
         <div class="feature-card">
           <h3>Chat to Assistant</h3>
           <p>Get instant answers to your health-related questions.</p>
           <a href="/aichatbot" class="btn">Go to Chatbot</a>
         </div>
       </div>
-      <div class="col-md-3">
+      <div class="col-md-6 col-lg-3">
         <div class="feature-card">
           <h3>Track Your Mood</h3>
           <p>Track your mood and get personalized mental health tips.</p>
           <a href="/moodtracker" class="btn">Go to Mood Tracker</a>
         </div>
       </div>
-      <div class="col-md-3">
+      <div class="col-md-6 col-lg-3">
         <div class="feature-card">
-          <h3>Generate Health Tips</h3>
+          <h3>Health Tips</h3>
           <p>Receive daily health tips tailored to your needs.</p>
-          <a href="/healthtips" class="btn">Go to Health Tips</a>
+          <a href="/healthtips" class="btn">Get Health Tips</a>
         </div>
       </div>
-      <div class="col-md-3">
+      <div class="col-md-6 col-lg-3">
         <div class="feature-card">
-          <h3>Find Nearby Hospitals</h3>
+          <h3>Find Hospitals</h3>
           <p>Find the nearest hospitals and clinics in your area.</p>
-          <a href="/hospitalfinder" class="btn">Go to Hospitals</a>
+          <a href="/hospitalfinder" class="btn">Find Hospitals</a>
         </div>
       </div>
     </div>
@@ -184,37 +305,47 @@
         <div class="diet-exercise-card">
           <h3>Diet and Exercise Plans</h3>
           <p>Get personalized diet and exercise plans to improve your health.</p>
-          <a href="/dietandexercise" class="btn">Go to Diet and Exercise</a>
+          <a href="/dietandexercise" class="btn">View Plans</a>
         </div>
       </div>
     </div>
 
     <!-- Mood Tracked Line Graph Card -->
-    <div class="graph-card">
-      <h3>Mood Tracked Over Time</h3>
-      <p>Here is a visualization of your mood over the past few days.</p>
-      <!-- Mood Line Chart -->
-      <img id="moodChart" src="/plot_mood_chart" alt="Mood Chart" class="img-fluid">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="graph-card">
+          <h3>Mood Tracked Over Time</h3>
+          <p>Here is a visualization of your mood over the past few days.</p>
+          <!-- Mood Line Chart -->
+          <div style="overflow-x: auto;">
+            <img id="moodChart" src="/plot_mood_chart" alt="Mood Chart" class="img-fluid" style="min-width: 300px;">
+          </div>
+        </div>
+      </div>
     </div>
 
     <!-- Health Tips Card -->
-    <div class="health-tips-card">
-      <h3>Health Tips</h3>
-      <p>Here are some health tips for you:</p>
-      <ul>
-        <li>Drink at least 8 glasses of water daily.</li>
-        <li>Exercise for at least 30 minutes every day.</li>
-        <li>Get 7-8 hours of sleep every night.</li>
-        <li>Eat a balanced diet with fruits and vegetables.</li>
-      </ul>
-      <a href="/healthtips" class="btn">For More Health Tips, Click Here</a>
+    <div class="row">
+      <div class="col-md-12">
+        <div class="health-tips-card">
+          <h3>Health Tips</h3>
+          <p>Here are some health tips for you:</p>
+          <ul>
+            <li>Drink at least 8 glasses of water daily.</li>
+            <li>Exercise for at least 30 minutes every day.</li>
+            <li>Get 7-8 hours of sleep every night.</li>
+            <li>Eat a balanced diet with fruits and vegetables.</li>
+          </ul>
+          <a href="/healthtips" class="btn">More Health Tips</a>
+        </div>
+      </div>
     </div>
   </div>
 
   <!-- Footer -->
   <footer>
     <div>
-      <a href="/about">About</a> | 
+      <a href="/about">About</a>
       <a href="/feedback">Feedback</a>
     </div>
     <p class="mt-3">&copy; 2025 AI Health Care. All rights reserved.</p>
