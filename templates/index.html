@@ -32,18 +32,21 @@
       color: #F0F3BD !important; /* Pastel Yellow */
     }
     .feature-card {
-      margin: 10px;
-      padding: 20px;
-      background-color: #fff;
-      border: 1px solid #028090; /* Teal */
-      border-radius: 10px;
-      text-align: center;
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-      /* height: 100%;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between; */
-    }
+  flex: 1 1 calc(33.333% - 20px); /* 3 cards per row with gap */
+  margin: 10px;
+  padding: 20px;
+  background-color: #fff;
+  border: 1px solid #028090;
+  border-radius: 10px;
+  text-align: center;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  height: 150px; /* Set equal height */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-sizing: border-box;
+}
+
     .feature-card:hover {
       transform: translateY(-5px);
       box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
@@ -85,6 +88,12 @@
     footer a:hover {
       text-decoration: underline;
     }
+    .card-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+}
+
 
     /* Responsive adjustments */
     @media (max-width: 992px) {
@@ -209,6 +218,7 @@
     </div>
 
     <!-- Key Features Section -->
+    <div class="card-container">
     <div class="row mt-5 feature-row">
       <div class="col-md-4 col-sm-6 feature-col">
         <div class="feature-card">
@@ -248,12 +258,12 @@
       </div>
     </div>
   </div>
+</div>
 
   <!-- Footer -->
   <footer>
     <div>
-      <a href="/about">About</a> | 
-      <a href="/feedback">Feedback</a>
+      <a href="/about">About</a> | <a href="/feedback">Feedback</a>
     </div>
     <p class="mt-3">&copy; 2025 AI Health Care. All rights reserved.</p>
   </footer>
