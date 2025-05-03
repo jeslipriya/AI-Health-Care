@@ -110,9 +110,9 @@ def is_health_related(user_input):
     health_keywords = [
         "symptoms", "hi", "hello", "fever", "cough", "cold", "pain", "medicine", "doctor",
         "headache", "infection", "treatment", "allergy", "cancer", "diabetes",
-        "blood pressure", "flu", "virus", "injury", "mental health", "anxiety",
-        "disease", "health", "diagnosis", "therapy", "vaccine", "nutrition",
-        "exercise", "diet", "heart", "lungs", "skin", "bones", "muscles"
+        "blood pressure", "flu", "virus", "injury", "mental health", "anxiety", "thank you",
+        "disease", "health", "diagnosis", "therapy", "vaccine", "nutrition", "thanks",
+        "exercise", "diet", "heart", "lungs", "skin", "bones", "muscles","how are you"
     ]
     return any(word in user_input.lower() for word in health_keywords)
 
