@@ -119,11 +119,13 @@ def is_health_related(user_input):
 # Function to handle chatbot responses
 def get_chatbot_response(user_input):
     """Generates a response from the Gemini AI model and formats it."""
+    if not is_health_related(user_input):
+        return "<p>Sorry, I can only help with health-related questions. 🩺 Try asking about symptoms, treatments, or anything medical!</p>"
+    
     try:
         response = model.generate_content(user_input)
-        # Format the response for better readability
-        formatted_response = response.text.replace('\n', '<br>')  # Replace newlines with <br>
-        formatted_response = f"<p>{formatted_response}</p>"  # Wrap in <p> tags
+        formatted_response = response.text.replace('\n', '<br>')
+        formatted_response = f"<p>{formatted_response}</p>"
         return formatted_response
     except Exception as e:
         logger.error(f"Error generating chatbot response: {e}")
