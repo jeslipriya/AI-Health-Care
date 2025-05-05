@@ -10,8 +10,6 @@
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@700&family=Quicksand:wght@400;500&family=Montserrat:wght@600&display=swap" rel="stylesheet">
-    <link rel="icon" alt="icon" href="static/image/icon.jpg">
-
     <style>
         body {
             background-color: #EAF2F2; /* Light Aqua */
@@ -98,124 +96,6 @@
             transform: translateY(-5px);
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
         }
-
-    /* For Chrome, Edge, and Safari */
-    ::-webkit-scrollbar {
-      width: 10px;
-    }
-
-    ::-webkit-scrollbar-track {
-      background: #e0f7fa; /* Light teal */
-    }
-
-    ::-webkit-scrollbar-thumb {
-      background-color: #028090; /* Your theme teal */
-      border-radius: 10px;
-      border: 2px solid #e0f7fa; /* Optional: border for thumb */
-    }
-
-    ::-webkit-scrollbar-thumb:hover {
-      background-color: #026773;
-    }
-
-        /* Responsive adjustments */
-        @media (max-width: 992px) {
-            .navbar-nav {
-                padding-top: 10px;
-            }
-            .nav-item {
-                margin-bottom: 5px;
-            }
-        }
-
-        @media (max-width: 768px) {
-            .container {
-                padding: 15px;
-            }
-            h1 {
-                font-size: 1.8rem;
-                margin-bottom: 1rem !important;
-            }
-            h2 {
-                font-size: 1.5rem;
-            }
-            #map {
-                height: 350px;
-                margin: 15px 0;
-            }
-            .col-md-6.offset-md-3 {
-                width: 100%;
-                margin-left: 0;
-                padding: 0 10px;
-            }
-            .btn {
-                padding: 0.5rem 1rem;
-                font-size: 0.95rem;
-            }
-        }
-
-        @media (max-width: 576px) {
-            .container {
-                padding: 10px;
-            }
-            h1 {
-                font-size: 1.6rem;
-            }
-            h2 {
-                font-size: 1.3rem;
-            }
-            #map {
-                height: 300px;
-                margin: 10px 0;
-                border-radius: 8px;
-            }
-            .form-select, .form-control {
-                font-size: 0.9rem;
-                padding: 0.5rem 0.75rem;
-            }
-            .btn {
-                padding: 0.5rem;
-                font-size: 0.9rem;
-                width: 100%;
-            }
-            .footer {
-                padding: 15px 0;
-            }
-            .footer a {
-                display: block;
-                margin: 5px 0;
-            }
-            .list-group-item {
-                padding: 0.75rem 0.5rem;
-            }
-            .navbar-brand {
-                font-size: 1.1rem;
-            }
-        }
-
-        /* Mobile menu adjustments */
-        .navbar-toggler {
-            padding: 0.25rem 0.5rem;
-            font-size: 1rem;
-        }
-
-        /* Button container for mobile */
-        .button-container {
-            display: flex;
-            flex-direction: column;
-            gap: 0.5rem;
-        }
-
-        @media (min-width: 577px) {
-            .button-container {
-                flex-direction: row;
-                justify-content: center;
-                gap: 1rem;
-            }
-            .button-container .btn {
-                width: auto;
-            }
-        }
     </style>
 </head>
 <body>
@@ -267,7 +147,7 @@
                     <label for="customSpecialization" class="form-label">Enter Custom Specialization:</label>
                     <input type="text" class="form-control" id="customSpecialization">
                 </div>
-                <button class="btn btn-primary w-100 mb-2" onclick="findHospitals()">Find Hospitals</button>
+                <button class="btn btn-primary w-100" onclick="findHospitals()">Find Hospitals</button>
             </div>
         </div>
         <p id="statusMessage" class="text-center my-3"></p>
@@ -276,7 +156,7 @@
         <ul id="placesList" class="list-group"></ul>
 
         <!-- Back to Dashboard Button -->
-        <div class="text-center mt-4 button-container">
+        <div class="text-center mt-4">
             <a href="/dashboard" class="btn btn-secondary">Back to Dashboard</a>
         </div>
     </div>
@@ -313,20 +193,6 @@
                 customSpecializationContainer.style.display = "none";
             }
         });
-
-        // Initialize map (example - you'll need to implement your actual map logic)
-        function initMap() {
-            const map = L.map('map').setView([51.505, -0.09], 13);
-            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-            }).addTo(map);
-            
-            // This is just a placeholder - implement your actual hospital finding logic
-            console.log("Map initialized");
-        }
-
-        // Call initMap when the page loads
-        window.onload = initMap;
     </script>
 </body>
-</html>
+</html> 
