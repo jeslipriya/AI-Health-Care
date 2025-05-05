@@ -318,11 +318,11 @@ def plot_mood_chart():
 
     # Map mood strings to numerical values
     mood_to_number = {
-        "Happy": 1,
+        "Angry": 1,
         "Sad": 2,
         "Stressed": 3,
-        "Angry": 4,
-        "Neutral": 5,
+        "Neutral": 4,
+        "Happy": 5,
     }
     mood_values = [mood_to_number[mood] for mood in moods]
 
@@ -332,7 +332,7 @@ def plot_mood_chart():
     plt.xlabel('Date')
     plt.ylabel('Mood')
     plt.ylim(0, 6)
-    plt.yticks([1, 2, 3, 4, 5], ["Happy", "Sad", "Stressed", "Angry", "Neutral"])
+    plt.yticks([1, 2, 3, 4, 5], ["Angry", "Sad", "Stressed", "Neutral", "Happy"])
     plt.grid(True)
     plt.xticks(rotation=45)
     plt.tight_layout()
