@@ -20,12 +20,11 @@ function findHospitals() {
 
             statusMessage.innerText = `Finding nearby ${specialization} hospitals...`;
 
-            // OpenStreetMap Query
+            // Modified OpenStreetMap Query to only find hospitals with specific specialization
             const query = `
                 [out:json];
                 (
-                    node["amenity"="hospital"](around:5000, ${lat}, ${lon});
-                    node["healthcare:speciality"="${specialization.toLowerCase()}"](around:5000, ${lat}, ${lon});
+                    node["amenity"="hospital"]["healthcare:speciality"="${specialization.toLowerCase()}"](around:5000, ${lat}, ${lon});
                 );
                 out;
             `;
@@ -64,13 +63,14 @@ function displayResults(places, userLat, userLon, specialization) {
         .bindPopup("You are here").openPopup();
 
     if (places.length === 0) {
-        placesList.innerHTML = `<li>No ${specialization} hospitals found nearby.</li>`;
+        placesList.innerHTML = `<li class="list-group-item">No ${specialization} hospitals found nearby. Try a broader search.</li>`;
         return;
     }
 
     places.forEach(place => {
         if (place.lat && place.lon) {
             const listItem = document.createElement("li");
+            listItem.className = "list-group-item";
             listItem.textContent = place.tags.name || `Unnamed ${specialization} Hospital`;
             placesList.appendChild(listItem);
 
