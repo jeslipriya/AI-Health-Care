@@ -96,7 +96,7 @@ def execute_query(query, params=None, fetchone=False, fetchall=False):
         conn.close()
 
 # Set Gemini AI API Key directly in the code
-GENAI_API_KEY = 'AIzaSyDVY7Rxr_GpwXiG5QiqIgq7tdKimGbLFoA'  # Replace with your Gemini API key
+GENAI_API_KEY = 'AIzaSyC4k4pYQME5CS-3YYLAh0c_tjLsjThU3OQ'  # Replace with your Gemini API key
 
 # Configure the API
 genai.configure(api_key=GENAI_API_KEY)
