@@ -3,3 +3,6 @@ users.db
 
 # virtual environment
 venv
+
+# environment file
+.env
