@@ -1,81 +1,107 @@
-from flask import Flask, render_template, redirect, url_for,  request, flash,session, jsonify, send_file
+from flask import Flask, render_template, redirect, url_for, request, flash, session, jsonify, send_file
 from flask_mail import Mail, Message
 from werkzeug.security import generate_password_hash, check_password_hash
 import google.generativeai as genai
 from datetime import datetime
-import sqlite3
+import psycopg2
+from psycopg2 import sql, extras
 import logging
 import matplotlib
 matplotlib.use('Agg')  # Use non-GUI backend before importing pyplot
 import matplotlib.pyplot as plt
 import io
+import os
+from dotenv import load_dotenv
 
+# Load environment variables from .env file
+load_dotenv()
 
 app = Flask(__name__)
 
-# Set secret key and other configurations directly in the code
-app.secret_key = 'jesli@07K'  # Replace with your secret key
+# Set secret key and other configurations from environment variables
+app.secret_key = os.getenv('SECRET_KEY', 'jesli@07K')
 
 # Flask-Mail Configuration for Gmail
 app.config['MAIL_SERVER'] = 'smtp.gmail.com'
 app.config['MAIL_PORT'] = 587
 app.config['MAIL_USE_TLS'] = True
-app.config['MAIL_USERNAME'] = 'jeslipriya07@gmail.com'  # Replace with your email
-app.config['MAIL_PASSWORD'] = 'ourb pzuz zfqn dhhb'    # Replace with your App Password
-app.config['MAIL_DEFAULT_SENDER'] = 'jeslipriya07@gmail.com'  # Replace with your email
+app.config['MAIL_USERNAME'] = os.getenv('MAIL_USERNAME')
+app.config['MAIL_PASSWORD'] = os.getenv('MAIL_PASSWORD')
+app.config['MAIL_DEFAULT_SENDER'] = os.getenv('MAIL_USERNAME')
 
 mail = Mail(app)
 
-# Database setup
-DATABASE = 'users.db'
+# PostgreSQL configuration
+POSTGRES_CONFIG = {
+    'host': os.getenv('POSTGRES_HOST', 'localhost'),
+    'database': os.getenv('POSTGRES_DB', 'healthhub'),
+    'user': os.getenv('POSTGRES_USER', 'postgres'),
+    'password': os.getenv('POSTGRES_PASSWORD', ''),
+    'port': os.getenv('POSTGRES_PORT', '5432')
+}
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-def create_table():
+def get_db_connection():
+    """Establishes a connection to the PostgreSQL database."""
+    try:
+        conn = psycopg2.connect(**POSTGRES_CONFIG)
+        return conn
+    except psycopg2.Error as e:
+        logger.error(f"Error connecting to PostgreSQL database: {e}")
+        raise
+
+def create_tables():
     """Creates the users and mood_data tables if they don't exist."""
+    commands = (
+        """
+        CREATE TABLE IF NOT EXISTS users (
+            id SERIAL PRIMARY KEY,
+            username TEXT NOT NULL,
+            email TEXT NOT NULL UNIQUE,
+            password TEXT NOT NULL,
+            age INTEGER,
+            gender TEXT,
+            blood_group TEXT,
+            weight REAL,
+            height REAL,
+            phone TEXT,
+            additional_phone TEXT
+        )
+        """,
+        """
+        CREATE TABLE IF NOT EXISTS mood_data (
+            id SERIAL PRIMARY KEY,
+            user_id INTEGER NOT NULL,
+            timestamp TIMESTAMP NOT NULL,
+            mood TEXT NOT NULL,
+            mood_note TEXT,
+            FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE
+        )
+        """
+    )
+    
     try:
-        conn = sqlite3.connect(DATABASE)
+        conn = get_db_connection()
         cursor = conn.cursor()
-        cursor.execute('''
-            CREATE TABLE IF NOT EXISTS users (
-                id INTEGER PRIMARY KEY AUTOINCREMENT,
-                username TEXT NOT NULL,
-                email TEXT NOT NULL UNIQUE,
-                password TEXT NOT NULL,
-                age INTEGER,
-                gender TEXT,
-                blood_group TEXT,
-                weight REAL,
-                height REAL,
-                phone TEXT,
-                additional_phone TEXT
-            )
-        ''')
-        cursor.execute('''
-            CREATE TABLE IF NOT EXISTS mood_data (
-                id INTEGER PRIMARY KEY AUTOINCREMENT,
-                user_id INTEGER NOT NULL,
-                timestamp TEXT NOT NULL,
-                mood TEXT NOT NULL,
-                mood_note TEXT,
-                FOREIGN KEY (user_id) REFERENCES users (id)
-            )
-        ''')
+        for command in commands:
+            cursor.execute(command)
         conn.commit()
-    except sqlite3.Error as e:
-        logger.error(f"Error creating database tables: {e}")
-    finally:
+        cursor.close()
         conn.close()
+    except psycopg2.Error as e:
+        logger.error(f"Error creating database tables: {e}")
+        raise
 
-create_table()
-
-def execute_query(query, params=None, fetchone=False, fetchall=False):
+def execute_query(query, params=None, fetchone=False, fetchall=False, commit=False):
     """Executes a query with error handling and fetch options."""
+    conn = None
     try:
-        conn = sqlite3.connect(DATABASE)
-        cursor = conn.cursor()
+        conn = get_db_connection()
+        cursor = conn.cursor(cursor_factory=extras.DictCursor)
+        
         if params:
             cursor.execute(query, params)
         else:
@@ -87,16 +113,25 @@ def execute_query(query, params=None, fetchone=False, fetchall=False):
         elif fetchall:
             data = cursor.fetchall()
         
-        conn.commit()
+        if commit:
+            conn.commit()
+        
         return data
-    except sqlite3.Error as e:
+    except psycopg2.Error as e:
         logger.error(f"Database error: {e}")
-        return None
+        if conn:
+            conn.rollback()
+        raise
     finally:
-        conn.close()
+        if conn:
+            cursor.close()
+            conn.close()
 
-# Set Gemini AI API Key directly in the code
-GENAI_API_KEY = 'AIzaSyBOkqUQCMQHWjybckLUfov0SHMdYZvD_1g'  # Replace with your Gemini API key
+# Initialize tables
+create_tables()
+
+# Set Gemini AI API Key from environment variable
+GENAI_API_KEY = os.getenv('GENAI_API_KEY')
 
 # Configure the API
 genai.configure(api_key=GENAI_API_KEY)
@@ -151,12 +186,19 @@ def register():
         hashed_password = generate_password_hash(password)
         
         try:
-            execute_query('INSERT INTO users (username, email, password) VALUES (?, ?, ?)',
-                          (username, email, hashed_password))
+            execute_query(
+                'INSERT INTO users (username, email, password) VALUES (%s, %s, %s)',
+                (username, email, hashed_password),
+                commit=True
+            )
             flash('Registration successful! Please login.', 'success')
             return redirect(url_for('login'))
-        except sqlite3.IntegrityError:
+        except psycopg2.IntegrityError:
             flash('Email already exists!', 'error')
+            return redirect(url_for('register'))
+        except psycopg2.Error as e:
+            flash('Registration failed. Please try again.', 'error')
+            logger.error(f"Registration error: {e}")
             return redirect(url_for('register'))
 
     return render_template('register.html')
@@ -167,11 +209,11 @@ def login():
         email = request.form['email']
         password = request.form['password']
 
-        user = execute_query('SELECT * FROM users WHERE email = ?', (email,), fetchone=True)
+        user = execute_query('SELECT * FROM users WHERE email = %s', (email,), fetchone=True)
 
-        if user and check_password_hash(user[3], password):  # user[3] is password field
-            session['user_id'] = user[0]  # Store user ID in session
-            session['username'] = user[1]  # Store username in session
+        if user and check_password_hash(user['password'], password):
+            session['user_id'] = user['id']  # Store user ID in session
+            session['username'] = user['username']  # Store username in session
             flash('Login successful!', 'success')
             return redirect(url_for('dashboard'))
         else:
@@ -207,18 +249,18 @@ def get_profile_data():
 
     user_id = session['user_id']
     try:
-        user = execute_query('SELECT * FROM users WHERE id = ?', (user_id,), fetchone=True)
+        user = execute_query('SELECT * FROM users WHERE id = %s', (user_id,), fetchone=True)
         if user:
             return jsonify({
-                'username': user[1],
-                'email': user[2],
-                'age': user[4] if user[4] is not None else '',
-                'gender': user[5] if user[5] is not None else 'Male',
-                'bloodGroup': user[6] if user[6] is not None else '',
-                'weight': user[7] if user[7] is not None else '',
-                'height': user[8] if user[8] is not None else '',
-                'phone': user[9] if user[9] is not None else '',
-                'additionalPhone': user[10] if user[10] is not None else '',
+                'username': user['username'],
+                'email': user['email'],
+                'age': user['age'] if user['age'] is not None else '',
+                'gender': user['gender'] if user['gender'] is not None else 'Male',
+                'bloodGroup': user['blood_group'] if user['blood_group'] is not None else '',
+                'weight': user['weight'] if user['weight'] is not None else '',
+                'height': user['height'] if user['height'] is not None else '',
+                'phone': user['phone'] if user['phone'] is not None else '',
+                'additionalPhone': user['additional_phone'] if user['additional_phone'] is not None else '',
             })
         else:
             logger.error(f"User not found: user_id={user_id}")
@@ -238,14 +280,14 @@ def save_profile():
     try:
         execute_query('''
             UPDATE users SET
-            age = ?,
-            gender = ?,
-            blood_group = ?,
-            weight = ?,
-            height = ?,
-            phone = ?,
-            additional_phone = ?
-            WHERE id = ?
+            age = %s,
+            gender = %s,
+            blood_group = %s,
+            weight = %s,
+            height = %s,
+            phone = %s,
+            additional_phone = %s
+            WHERE id = %s
         ''', (
             data['age'],
             data['gender'],
@@ -255,7 +297,7 @@ def save_profile():
             data['phone'],
             data['additionalPhone'],
             user_id,
-        ))
+        ), commit=True)
         return jsonify({'message': 'Profile updated successfully!'})
     except Exception as e:
         logger.error(f"Error updating profile: {e}")
@@ -279,8 +321,11 @@ def save_mood():
     mood = data.get('mood')
     mood_note = data.get('moodNote', '')
 
-    execute_query('INSERT INTO mood_data (user_id, timestamp, mood, mood_note) VALUES (?, ?, ?, ?)',
-                  (user_id, timestamp, mood, mood_note))
+    execute_query(
+        'INSERT INTO mood_data (user_id, timestamp, mood, mood_note) VALUES (%s, %s, %s, %s)',
+        (user_id, timestamp, mood, mood_note),
+        commit=True
+    )
     return jsonify({'message': 'Mood saved successfully!'})
 
 @app.route('/get_mood_data', methods=['GET'])
@@ -289,11 +334,19 @@ def get_mood_data():
         return jsonify({'error': 'Unauthorized'}), 401
 
     user_id = session['user_id']
-    mood_data = execute_query('SELECT timestamp, mood, mood_note FROM mood_data WHERE user_id = ?', (user_id,), fetchall=True)
+    mood_data = execute_query(
+        'SELECT timestamp, mood, mood_note FROM mood_data WHERE user_id = %s ORDER BY timestamp',
+        (user_id,),
+        fetchall=True
+    )
 
-    dates = [entry[0] for entry in mood_data]
-    moods = [entry[1] for entry in mood_data]
-    mood_history = [{'timestamp': entry[0], 'mood': entry[1], 'mood_note': entry[2]} for entry in mood_data]
+    dates = [entry['timestamp'] for entry in mood_data]
+    moods = [entry['mood'] for entry in mood_data]
+    mood_history = [{
+        'timestamp': entry['timestamp'].strftime('%Y-%m-%d %H:%M:%S'),
+        'mood': entry['mood'],
+        'mood_note': entry['mood_note']
+    } for entry in mood_data]
 
     return jsonify({
         'dates': dates,
@@ -308,13 +361,17 @@ def plot_mood_chart():
         return jsonify({'error': 'Unauthorized'}), 401
 
     user_id = session['user_id']
-    mood_data = execute_query('SELECT timestamp, mood FROM mood_data WHERE user_id = ?', (user_id,), fetchall=True)
+    mood_data = execute_query(
+        'SELECT timestamp, mood FROM mood_data WHERE user_id = %s ORDER BY timestamp',
+        (user_id,),
+        fetchall=True
+    )
 
     if not mood_data:
         return send_file('static/no_data.png', mimetype='image/png')  # Return a placeholder image if no data
 
-    dates = [entry[0] for entry in mood_data]
-    moods = [entry[1] for entry in mood_data]
+    dates = [entry['timestamp'] for entry in mood_data]
+    moods = [entry['mood'] for entry in mood_data]
 
     # Map mood strings to numerical values
     mood_to_number = {
@@ -494,4 +551,4 @@ def send_feedback():
         return jsonify({'success': False, 'error': str(e)}), 500
 
 if __name__ == '__main__':
-    app.run()
+    app.run(debug=True)
