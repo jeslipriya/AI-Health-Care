@@ -9,6 +9,8 @@
   <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@700&family=Quicksand:wght@400;500&family=Montserrat:wght@700&display=swap" rel="stylesheet">
   <link rel="icon" alt="icon" href="static/image/icon.jpg">
+  <!-- Font Awesome for icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
   <style>
     /* Custom Styles */
@@ -174,6 +176,83 @@
     ::-webkit-scrollbar-thumb:hover {
       background-color: #026773;
     }
+
+    /* Voice input button styles */
+    .voice-btn {
+      background-color: #F0F3BD; /* Pastel Yellow */
+      color: #05668D; /* Deep Blue */
+      border: none;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      margin-left: 10px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .voice-btn:hover {
+      background-color: #028090;
+      color: white;
+      transform: scale(1.1);
+    }
+
+    .voice-btn.listening {
+      background-color: #e74c3c;
+      color: white;
+      animation: pulse 1.5s infinite;
+    }
+
+    @keyframes pulse {
+      0% {
+        transform: scale(1);
+      }
+      50% {
+        transform: scale(1.1);
+      }
+      100% {
+        transform: scale(1);
+      }
+    }
+
+    /* Listen response button */
+    .listen-btn {
+      background-color: transparent;
+      border: none;
+      color: #05668D;
+      cursor: pointer;
+      margin-left: 5px;
+      font-size: 0.8em;
+      transition: color 0.3s ease;
+    }
+
+    .listen-btn:hover {
+      color: #028090;
+    }
+
+    /* Voice input container */
+    .voice-input-container {
+      display: flex;
+      align-items: center;
+      margin-top: 10px;
+    }
+
+    /* Status message for voice input */
+    .voice-status {
+      margin-left: 10px;
+      font-size: 0.9em;
+      color: #028090;
+      display: none;
+    }
+
+    .stop-btn {
+      color: #e74c3c !important;
+      margin-left: 10px;
+    }
+
+    .voice-controls {
+      margin-top: 10px;
+      text-align: right;
+    }
   </style>
 </head>
 <body>
@@ -216,11 +295,18 @@
       <!-- Chat messages will appear here -->
       <div class="bot-message">
         <p>Welcome! 🤖 Ask me any health-related questions.</p>
+        <p>You can type your question or click the microphone button to speak.</p>
       </div>
     </div>
     <div class="input-group">
       <input type="text" id="user-input" class="form-control" placeholder="Ask a health-related question...">
       <button id="send-btn" class="btn">Send</button>
+    </div>
+    <div class="voice-input-container">
+      <button id="voice-btn" class="voice-btn" title="Click to speak">
+        <i class="fas fa-microphone"></i>
+      </button>
+      <span id="voice-status" class="voice-status"></span>
     </div>
     <div class="back-btn">
       <a href="/dashboard" class="btn">Back to Dashboard</a>
@@ -239,62 +325,254 @@
 
   <!-- JavaScript for Chatbot Interaction -->
   <script>
-    document.getElementById('send-btn').addEventListener('click', sendMessage);
-    document.getElementById('user-input').addEventListener('keypress', function (e) {
+    // DOM elements
+    const chatBox = document.getElementById('chat-box');
+    const userInput = document.getElementById('user-input');
+    const sendBtn = document.getElementById('send-btn');
+    const voiceBtn = document.getElementById('voice-btn');
+    const voiceStatus = document.getElementById('voice-status');
+
+    // Check if browser supports speech recognition
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    const SpeechSynthesis = window.speechSynthesis;
+    
+    let recognition;
+    let isListening = false;
+    let voices = [];
+    let synth = window.speechSynthesis;
+
+    if (SpeechRecognition) {
+      recognition = new SpeechRecognition();
+      recognition.continuous = false;
+      recognition.interimResults = false;
+      recognition.lang = 'en-US';
+
+      recognition.onstart = function() {
+        isListening = true;
+        voiceBtn.classList.add('listening');
+        voiceStatus.textContent = "Listening... Speak now";
+        voiceStatus.style.display = 'inline';
+      };
+
+      recognition.onresult = function(event) {
+        const transcript = event.results[0][0].transcript;
+        userInput.value = transcript;
+        voiceStatus.textContent = "Finished listening";
+        setTimeout(() => {
+          voiceStatus.style.display = 'none';
+        }, 2000);
+      };
+
+      recognition.onerror = function(event) {
+        console.error('Speech recognition error', event.error);
+        voiceStatus.textContent = `Error: ${event.error}`;
+        setTimeout(() => {
+          voiceStatus.style.display = 'none';
+        }, 3000);
+      };
+
+      recognition.onend = function() {
+        isListening = false;
+        voiceBtn.classList.remove('listening');
+        if (userInput.value.trim()) {
+          sendMessage();
+        }
+      };
+    } else {
+      voiceBtn.disabled = true;
+      voiceBtn.title = "Speech recognition not supported in your browser";
+    }
+
+    // Initialize speech synthesis voices
+    function loadVoices() {
+      voices = synth.getVoices();
+    }
+
+    if (speechSynthesis.onvoiceschanged !== undefined) {
+      speechSynthesis.onvoiceschanged = loadVoices;
+    }
+
+    // Event listeners
+    sendBtn.addEventListener('click', sendMessage);
+    userInput.addEventListener('keypress', function(e) {
       if (e.key === 'Enter') {
         sendMessage();
       }
     });
 
-    function sendMessage() {
-      const userInput = document.getElementById('user-input').value.trim();
-      if (!userInput) return;
+    voiceBtn.addEventListener('click', toggleVoiceInput);
 
-      // Add user's message to the chat box
-      const chatBox = document.getElementById('chat-box');
-      chatBox.innerHTML += `<div class="user-message">${userInput}</div>`;
-      document.getElementById('user-input').value = '';
+    // Functions
+    function toggleVoiceInput() {
+      if (!SpeechRecognition) {
+        alert("Speech recognition is not supported in your browser. Try Chrome or Edge.");
+        return;
+      }
 
-      // Send the message to the server and get the bot's response
-      fetch('/aichatbot', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/x-www-form-urlencoded',
-        },
-        body: `user_input=${encodeURIComponent(userInput)}`,
-      })
-        .then(response => response.json())
-        .then(data => {
-          // Remove ** from the response
-          const cleanResponse = data.response.replace(/\*\*/g, "");
-
-          // Format AI's response into small paragraphs
-          const formattedResponse = formatResponse(cleanResponse);
-
-          // Add bot's response to chat
-          chatBox.innerHTML += `<div class="bot-message">${formattedResponse}</div>`;
-          chatBox.scrollTop = chatBox.scrollHeight; // Scroll to the bottom
-        })
-        .catch(error => {
-          console.error('Error:', error);
-        });
+      if (isListening) {
+        recognition.stop();
+      } else {
+        try {
+          recognition.start();
+          userInput.placeholder = "Listening...";
+        } catch (error) {
+          console.error('Error starting speech recognition:', error);
+          voiceStatus.textContent = "Error starting microphone";
+          setTimeout(() => {
+            voiceStatus.style.display = 'none';
+          }, 3000);
+        }
+      }
     }
+
+    function sendMessage() {
+  const message = userInput.value.trim();
+  if (!message) return;
+
+  // Add user's message to the chat box
+  chatBox.innerHTML += `<div class="user-message">${message}</div>`;
+  userInput.value = '';
+  userInput.placeholder = "Ask a health-related question...";
+
+  // Show typing indicator
+  const typingIndicator = document.createElement('div');
+  typingIndicator.className = 'bot-message';
+  typingIndicator.innerHTML = '<p>AI is typing...</p>';
+  chatBox.appendChild(typingIndicator);
+  chatBox.scrollTop = chatBox.scrollHeight;
+
+  // Send the message to the server and get the bot's response
+  fetch('/aichatbot', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded',
+    },
+    body: `user_input=${encodeURIComponent(message)}`,
+  })
+    .then(response => response.json())
+    .then(data => {
+      // Remove typing indicator
+      chatBox.removeChild(typingIndicator);
+
+      // Remove ** from the response
+      const cleanResponse = data.response.replace(/\*\*/g, "");
+
+      // Format AI's response into small paragraphs
+      const formattedResponse = formatResponse(cleanResponse);
+
+      // Add bot's response to chat
+      const botMessageDiv = document.createElement('div');
+      botMessageDiv.className = 'bot-message';
+      botMessageDiv.innerHTML = formattedResponse;
+      
+      // Create a container for the voice controls
+      const voiceControls = document.createElement('div');
+      voiceControls.className = 'voice-controls';
+      voiceControls.style.marginTop = '10px';
+      voiceControls.style.textAlign = 'right';
+      
+      // Add listen button at the end of the message
+      const listenBtn = document.createElement('button');
+      listenBtn.className = 'listen-btn';
+      listenBtn.title = 'Listen to this response';
+      listenBtn.innerHTML = '<i class="fas fa-volume-up"></i> Listen';
+      listenBtn.addEventListener('click', () => {
+        speakText(botMessageDiv.textContent);
+        // Show stop button when playing
+        stopBtn.style.display = 'inline-block';
+        listenBtn.style.display = 'none';
+      });
+      
+      // Add stop button (hidden by default)
+      const stopBtn = document.createElement('button');
+      stopBtn.className = 'listen-btn stop-btn';
+      stopBtn.title = 'Stop playback';
+      stopBtn.innerHTML = '<i class="fas fa-stop"></i> Stop';
+      stopBtn.style.display = 'none';
+      stopBtn.style.color = '#e74c3c';
+      stopBtn.addEventListener('click', () => {
+        synth.cancel();
+        stopBtn.style.display = 'none';
+        listenBtn.style.display = 'inline-block';
+      });
+      
+      // Add event listener for when speech ends
+      synth.onend = function() {
+        stopBtn.style.display = 'none';
+        listenBtn.style.display = 'inline-block';
+      };
+      
+      voiceControls.appendChild(listenBtn);
+      voiceControls.appendChild(stopBtn);
+      botMessageDiv.appendChild(voiceControls);
+      
+      chatBox.appendChild(botMessageDiv);
+      chatBox.scrollTop = chatBox.scrollHeight;
+    })
+    .catch(error => {
+      console.error('Error:', error);
+      chatBox.removeChild(typingIndicator);
+      chatBox.innerHTML += `<div class="bot-message"><p>Sorry, there was an error processing your request.</p></div>`;
+    });
+  }
+
 
     // Function to format AI's response into small paragraphs
     function formatResponse(response) {
-      // Split the response into sentences
-      const sentences = response.split(". ");
-      let formattedText = "";
-
-      // Add each sentence as a new paragraph
-      sentences.forEach((sentence) => {
-        if (sentence.trim()) {
-          formattedText += `<p>${sentence}.</p>`;
+      // First, replace all <br> tags with actual line breaks
+      let formattedText = response.replace(/<br>/g, '\n');
+      
+      // Then split by double line breaks to get paragraphs
+      const paragraphs = formattedText.split(/\n\s*\n/);
+      
+      let result = '';
+      paragraphs.forEach(para => {
+        if (para.trim()) {
+          // Replace single line breaks within paragraphs with spaces
+          para = para.replace(/\n/g, ' ');
+          result += `<p>${para}</p>`;
         }
       });
-
-      return formattedText;
+      
+      return result;
     }
+
+    // Function to speak text
+    function speakText(text) {
+      if (!SpeechSynthesis) {
+        alert("Text-to-speech is not supported in your browser.");
+        return;
+      }
+
+      if (synth.speaking) {
+        synth.cancel();
+      }
+
+      const utterance = new SpeechSynthesisUtterance(text);
+      
+      // Set a pleasant voice if available
+      const preferredVoices = ['Google UK English Female', 'Microsoft Zira Desktop', 'Samantha'];
+      const availableVoices = synth.getVoices();
+      
+      for (const voiceName of preferredVoices) {
+        const voice = availableVoices.find(v => v.name === voiceName);
+        if (voice) {
+          utterance.voice = voice;
+          break;
+        }
+      }
+      
+      utterance.rate = 0.9; // Slightly slower than normal
+      utterance.pitch = 1; // Normal pitch
+      utterance.volume = 1; // Full volume
+      
+      synth.speak(utterance);
+    }
+
+    // Load voices when the page loads
+    window.addEventListener('load', function() {
+      loadVoices();
+    });
   </script>
 
   <!-- Bootstrap JS -->
