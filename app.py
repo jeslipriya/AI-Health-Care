@@ -137,7 +137,7 @@ GENAI_API_KEY = os.getenv('GENAI_API_KEY')
 genai.configure(api_key=GENAI_API_KEY)
 
 # Load the Gemini AI model gemini-1.5-pro
-model = genai.GenerativeModel("gemini-1.5-pro")
+model = genai.GenerativeModel("gemini-1.5-flash")
 
 # Function to filter health-related queries
 def is_health_related(user_input):
