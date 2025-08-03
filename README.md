@@ -1,7 +1,7 @@
 # Flask Web Application
 
 ## Project Overview
-This is a Flask-based web application featuring user authentication and AI-powered tools like a chatbot, mood tracker, health tips, and a nearby hospital finder—all powered by the Gemini API. It also supports voice input and response for a more interactive experience.
+This is a Flask-based web application featuring user authentication and AI-powered tools like a chatbot, mood tracker, health tips, and a nearby hospital finder-all powered by the Gemini API. It also supports voice input and response for a more interactive experience.
 
 ## Features
 - User authentication (Login/Signup)
